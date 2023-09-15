@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import LoginGuard from './contexts/VerifyLogin';
 import { RequireAuth } from './contexts/RequireAuth';
+import Products from './pages/Products';
 
 function App() {
   const location = useLocation();
@@ -13,11 +14,8 @@ function App() {
     <>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/dashboard" element={
-          <RequireAuth>
-            <Dashboard />
-          </RequireAuth>
-        } />
+        <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+        <Route path='/produtos' element={<RequireAuth><Products /></RequireAuth>} />
         <Route path="/login" element={
           <LoginGuard>
             <Login />
