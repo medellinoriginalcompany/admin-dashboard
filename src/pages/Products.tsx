@@ -8,29 +8,36 @@ import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
 import moreicon from '/icons/more.svg';
 import productplaceholder from '/images/product-placeholder.webp';
+import addicon from '/icons/add-square.svg';
+import { Link } from "react-router-dom";
 
 const Products = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="z-50 w-full">
+      <div className="z-50 w-full bg-secondary shadow-inner rounded-2xl">
         <Header placeholder="Pesquisar produtos..." />
-        <div className="p-8 space-y-5">
-          <h2 className="text-xl font-semibold text-neutral-800">
+        <div className="p-8 space-y-8">
+          <h2 className="text-2xl font-light text-neutral-800">
             Gerenciar Produtos
           </h2>
 
-          <table className="rounded border w-full">
+          <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow-lg transition-all hover:scale-105 hover:bg-neutral-900">
+            <img src={addicon} alt='add' className='mr-2 brightness-[6]' draggable='false' />
+            Adicionar Produto
+          </Link>
+
+          <table className="w-full shadow-lg">
             <thead className="">
               <tr className="bg-primary border-b text-sm text-neutral-500">
                 <HeadRow content="Informações do Produto" />
                 <HeadRow content="SKU" />
-                <HeadRow content="Tags" />
+                <HeadRow content="Categorias" />
                 <HeadRow content="Estoque" />
-                <HeadRow content="" />
+                <HeadRow content=""/>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y">
               <tr>
                 <Row content="Moletom 1" image={productplaceholder} price="299,99"/>
                 <Row content="XXXXXXXX" />
@@ -39,10 +46,10 @@ const Products = () => {
                 </td>
                 <Row content="10" />
                 <td className="space-x-4 px-4 bg-primary">
-                  <button className="bg-sky-200 p-2 rounded-full">
+                  <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
                     <img src={editicon} alt='edit' className='w-4' draggable='false' />
                   </button>
-                  <button className="bg-red-200 p-2 rounded-full">
+                  <button className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
                     <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
                   </button>
                   <button className="p-2 rounded-full">
