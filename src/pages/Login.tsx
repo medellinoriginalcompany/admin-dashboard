@@ -109,7 +109,7 @@ const Login = () => {
               <div className="flex px-1">
                 <div className="flex items-center h-5">
                   <input id="remember" aria-describedby="remember" type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-neutral-800 focus:ring-3 focus:ring-neutral-600 focus:outline-none"
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-accent focus:ring-3 focus:ring-neutral-600 focus:outline-none"
                   />
                 </div>
                 <div className="ml-2 text-sm">
@@ -120,7 +120,7 @@ const Login = () => {
               </div>
               <div className='pt-8'>
                 <button type='submit'
-                  className='w-full text-white bg-neutral-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-neutral-900 focus:ring-4 focus:outline-none focus:ring-neutral-400'>
+                  className='w-full text-white bg-accent font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-neutral-700 focus:ring-4 focus:outline-none focus:ring-neutral-400'>
                   Entrar
                 </button>
 
