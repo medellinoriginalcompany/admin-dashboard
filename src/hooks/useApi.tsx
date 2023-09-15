@@ -7,7 +7,7 @@ const api = axios.create({
 
 export const useApi = () => ({
   validateToken: async () => {
-    const response = await api.post('/validate');
+    const response = await api.post('/admin/validate');
 
     if (response.data.user) {
       return response.data;
