@@ -42,7 +42,7 @@ const Login = () => {
   return (
     <section className='bg-neutral-100'>
       <div className='flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0'>
-        <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
+        <div className='w-full bg-white rounded-lg shadow-lg md:mt-0 sm:max-w-md xl:p-0'>
           <div className='px-8 py-10 space-y-8'>
             <div className='flex items-center space-x-4'>
               <div className='border-r border-neutral-300 h-20 pr-5'>
