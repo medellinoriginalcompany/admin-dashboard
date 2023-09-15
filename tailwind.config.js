@@ -10,7 +10,10 @@ export default {
         'accent': '#262626',
         'primary': '#fafafa', 
         'secondary': '#f4f4f5',
-        'tertiary': '#3F3F3F',
+        'tertiary': '#d4d4d4',
+      },
+      boxShadow: {
+        'b': '0px 10px 15px -15px rgba(0, 0, 0, 0.3)',
       },
     },
   },
