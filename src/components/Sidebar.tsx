@@ -14,7 +14,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-primary sticky top-0 min-w-[250px] h-screen shadow-lg z-50">
+    <div className="bg-primary sticky top-0 min-w-[250px] h-screen z-50">
       <nav className='flex flex-col justify-between h-full'>
         <div className='space-y-7'>
           <div className='py-8'>
