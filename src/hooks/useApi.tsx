@@ -26,4 +26,19 @@ export const useApi = () => ({
     return response.data;
   },
 
+  getCategories: async () => {
+    const response = await api.get('/admin/categories');
+    return response.data;
+  },
+
+  getTypes: async () => {
+    const response = await api.get('/admin/types');
+    return response.data;
+  },
+
+  addProduct: async (name: string, description: string, price: string, size: string, category: string) => {
+    const response = await api.post('/admin/cadastrar-produto', { name, description, price, size, category });
+    return response.data;
+  },
+
 });
