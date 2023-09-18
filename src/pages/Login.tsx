@@ -28,15 +28,23 @@ const Login = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    // Try Catch para tratar erros de autenticação
     try {
       const response = await auth.login(email, password);
+      // Caso o login seja bem sucedido, redireciona para a dashboard
       if (response) {
-        navigate('/');
-      };
-
+        navigate('/dashboard');
+      }
     } catch (err: any) {
+      // Caso seja network error (erro de conexão), exibe mensagem de erro
+      if (err.message === 'Network Error') {
+        setErrMsg('Erro de conexão. Tente novamente mais tarde.');
+        return;
+      }
+
       setErrMsg(err.response.data.message);
     }
+    
   };
 
   return (
