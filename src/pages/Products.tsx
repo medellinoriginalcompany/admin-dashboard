@@ -45,14 +45,14 @@ const Products = () => {
                   <Category title='Categoria 1' />
                 </td>
                 <Row content="10" />
-                <td className="space-x-4 px-4 bg-primary">
+                <td className="space-x-4 bg-primary">
                   <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
                     <img src={editicon} alt='edit' className='w-4' draggable='false' />
                   </button>
                   <button className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
                     <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
                   </button>
-                  <button className="p-2 rounded-full">
+                  <button className="p-3 rounded-full hover:bg-neutral-300">
                     <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
                   </button>
                 </td>
