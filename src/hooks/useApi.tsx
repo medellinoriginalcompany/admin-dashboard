@@ -21,7 +21,7 @@ export const useApi = () => ({
     return response.data;
   },
 
-  logout: async () => { 
+  logout: async () => {
     const response = await api.post('/admin/logout');
     return response.data;
   },
@@ -36,8 +36,29 @@ export const useApi = () => ({
     return response.data;
   },
 
-  addProduct: async (name: string, description: string, price: string, size: string, category: string) => {
-    const response = await api.post('/admin/cadastrar-produto', { name, description, price, size, category });
+  getSizes: async () => {
+    const response = await api.get('/admin/sizes');
+    return response.data;
+  },
+
+  getColors: async () => {
+    const response = await api.get('/admin/colors');
+    return response.data;
+  },
+
+  addProduct: async (
+    banner: string,
+    name: string,
+    description: string,
+    price: number,
+    size: string,
+    type: string,
+    category: string,
+    color: string,
+    active: boolean,
+    sku: string) => {
+    const response = await api.post('/admin/cadastrar-produto', { banner, name, description, price, size, type, category, color, active, sku });
+
     return response.data;
   },
 

@@ -1,28 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductInput from "../components/form/ProductInput"
 import { ChangeEvent, useState, useEffect } from "react"
 import { useApi } from "../hooks/useApi";
-import { ProductCategory } from "../types/Category";
-import { ProductType } from "../types/Type";
 import erricon from '/icons/danger.svg';
 import { motion } from "framer-motion";
+import { ProductProperties } from "../types/product/Properties";
+import generateSKU from "../funcs/generateSKU";
 
 const AddProduct = () => {
 
   const api = useApi();
 
+  const banner = 'product-placeholder.webp'
   const [name, setName] = useState<string>('');
-  // * const [sku, setSku] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
-  const [price, setPrice] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
   const [size, setSize] = useState<string>('');
+  const [type, setType] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const [color, setColor] = useState<string>('');
+  const [active, setActive] = useState<boolean>(true);
+  const [sku, setSku] = useState<string>('');
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
 
-  const [categories, setCategories] = useState<ProductCategory[]>([]);
-  const [types, setTypes] = useState<ProductType[]>([]);
+  const [categories, setCategories] = useState<ProductProperties[]>([]);
+  const [types, setTypes] = useState<ProductProperties[]>([]);
+  const [sizes, setSizes] = useState<ProductProperties[]>([]);
+  const [colors, setColors] = useState<ProductProperties[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -31,11 +37,15 @@ const AddProduct = () => {
         const response = await Promise.all([
           api.getCategories(),
           api.getTypes(),
+          api.getSizes(),
+          api.getColors(),
         ]);
 
         if (response) {
           setCategories(response[0].categories);
           setTypes(response[1].types);
+          setSizes(response[2].sizes);
+          setColors(response[3].colors)
           setLoading(false);
         }
       } catch (error: any) {
@@ -47,18 +57,43 @@ const AddProduct = () => {
     getData();
   }, [])
 
+  useEffect(() => {
+    setErrMsg('');
+    setSuccessMsg('');
+    console.log(name, description, price, size, type, category, color, active)
+  }, [name, description, price, size, type, category, color, active])
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
-      const response = await api.addProduct(name, description, price, size, category);
+      const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
       if (response) {
         setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
+        setTimeout(() => {
+          navigate('/produtos');
+        }, 3000); // 3 segundos
       }
     } catch (error: any) {
       setErrMsg(error.response.data.message);
+      console.log(error.response.data.body)
     }
   }
+
+  useEffect(() => {
+    const skuManufact = 'Fabricante';
+    const skuType = type;
+    const skuColor = color;
+    const skuSize = size;
+    const skuCategory = category;
+
+    const sku = generateSKU(skuManufact, skuType, skuColor, skuSize, skuCategory);
+    setSku(sku);
+  }, [category, size, price, type, color]);
+
+  const selectCSS = "w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none";
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
@@ -102,7 +137,7 @@ const AddProduct = () => {
             </motion.div>
             : ''
         }
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-2 max-w-fit">
           <ProductInput
             label="Nome"
             name="name"
@@ -128,40 +163,56 @@ const AddProduct = () => {
               name="price"
               type="tel"
               value={price}
-              handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setPrice(e.target.value) }}
-              maxLength={6}
-              placeholder="199,99"
+              handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
+                // Certifique-se de que o valor seja uma string válido antes de convertê-lo
+                const newValue = e.target.value.replace(',', '.'); // Troca ',' por '.' para permitir números decimais
+                setPrice(newValue);
+              }}
+              maxLength={7}
+              placeholder="19.99"
             />
           </div>
 
-          <div className="flex">
+          <div className="flex gap-4">
             <div>
-              <label htmlFor="size">
+              <label htmlFor="size" className="font-medium">
                 Tamanho
                 <select
                   id="size"
                   name="size"
                   value={size}
                   onChange={(e: ChangeEvent<HTMLSelectElement>) => { setSize(e.target.value) }}
-                  className="w-full p-2 border border-neutral-300 rounded-lg focus:ring-4 focus:ring-neutral-600 focus:outline-none"
-                >
-                  <option value="PP">PP</option>
-                  <option value="P">P</option>
-                  <option value="M">M</option>
-                  <option value="G">G</option>
-                  <option value="GG">GG</option>
+                  className={selectCSS}>
+
+                  <option value="" disabled>
+                    Selecione o tamanho
+                  </option>
+
+                  {
+                    loading ? <option value="Carregando...">Carregando...</option> :
+                      sizes?.map((size) => {
+                        return (
+                          <option key={size.ID} value={size.Name}>
+                            {size.Name}
+                          </option>
+                        )
+                      })
+                  }
                 </select>
               </label>
             </div>
 
             <div>
-              <label htmlFor="type">
+              <label htmlFor="type" className="font-medium">
                 Tipo
                 <select
                   id="type"
                   name="type"
-                  className="w-full p-2 border border-neutral-300 rounded-lg focus:ring-4 focus:ring-neutral-600 focus:outline-none"
-                >
+                  className={selectCSS}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}>
+                  <option value="">
+                    Selecione um tipo
+                  </option>
                   {
                     loading ? <option value="Carregando...">Carregando...</option> :
                       types?.map((type) => {
@@ -173,20 +224,22 @@ const AddProduct = () => {
                       })
                   }
                 </select>
-
               </label>
             </div>
 
             <div>
-              <label htmlFor="category">
+              <label htmlFor="category" className="font-medium">
                 Categorias
                 <select
                   id="category"
                   name="category"
                   value={category}
                   onChange={(e: ChangeEvent<HTMLSelectElement>) => { setCategory(e.target.value) }}
-                  className="w-full p-2 border border-neutral-300 rounded-lg focus:ring-4 focus:ring-neutral-600 focus:outline-none"
-                >
+                  className={selectCSS}>
+                  <option value="" disabled>
+                    Selecione uma categoria
+                  </option>
+
                   {
                     loading ?
                       <option value="Carregando...">Carregando...</option>
@@ -205,21 +258,44 @@ const AddProduct = () => {
               </label>
             </div>
 
-
+            <div>
+              <label htmlFor="color" className="font-medium">
+                Cor
+                <select
+                  id="color"
+                  name="color"
+                  className={selectCSS}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) => { setColor(e.target.value) }}>
+                  <option value="">
+                    Selecione uma cor
+                  </option>
+                  {
+                    loading ? <option value="Carregando...">Carregando...</option> :
+                      colors?.map((color) => {
+                        return (
+                          <option key={color.ID} value={color.Name}>
+                            {color.Name}
+                          </option>
+                        )
+                      })
+                  }
+                </select>
+              </label>
+            </div>
 
           </div>
 
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
-              <input id="active" name="active" type="checkbox" defaultChecked
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-accent focus:ring-3 focus:ring-neutral-600 focus:outline-none" />
+              <input id="active" name="active" type="checkbox" defaultChecked onChange={(e: ChangeEvent<HTMLInputElement>) => { setActive(e.target.checked) }}
+                className="w-fit p-2 border border-neutral-300 rounded-sm accent-neutral-800 focus:ring-1 focus:ring-neutral-600 focus:outline-none" />
               <label htmlFor="active" className="text-neutral-600">
                 Produto ativo?
               </label>
             </div>
 
             <span>
-              SKU: {undefined!}
+              SKU: {sku}
             </span>
           </div>
 
