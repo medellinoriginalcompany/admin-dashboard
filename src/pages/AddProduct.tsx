@@ -60,7 +60,6 @@ const AddProduct = () => {
   useEffect(() => {
     setErrMsg('');
     setSuccessMsg('');
-    console.log(name, description, price, size, type, category, color, active)
   }, [name, description, price, size, type, category, color, active])
 
   const navigate = useNavigate();

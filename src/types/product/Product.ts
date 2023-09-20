@@ -4,11 +4,14 @@ export type Product = {
   Name: string,
   Description: string,
   SKU: string,
-  Price: number,
-  Stock: number,
+  Price: string,
+  Stock: string,
   Active: boolean,
   Discount?: number,
   Banner: string,
-  CategoryID: number,
-  SizeID: number,
+  Category: string,
+  Size?: string,
+  Color?: string,
+  Type?: string,
+
 }

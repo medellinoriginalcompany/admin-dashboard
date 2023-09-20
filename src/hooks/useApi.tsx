@@ -46,11 +46,16 @@ export const useApi = () => ({
     return response.data;
   },
 
+  getProducts: async () => {
+    const response = await api.get('/admin/products');
+    return response.data;
+  },
+
   addProduct: async (
     banner: string,
     name: string,
     description: string,
-    price: number,
+    price: string,
     size: string,
     type: string,
     category: string,

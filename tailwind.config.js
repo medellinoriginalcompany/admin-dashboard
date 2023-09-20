@@ -15,6 +15,7 @@ export default {
       },
       boxShadow: {
         'b': '0px 10px 15px -15px rgba(0, 0, 0, 0.3)',
+        'inner-lg': 'inset 0px 0px 10px 0px rgba(0, 0, 0, 0.2)',
       },
       fontFamily: {
         'source-sans': ["'Source Sans 3'", 'sans-serif'],

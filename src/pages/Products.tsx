@@ -2,20 +2,22 @@ import Header from "../components/Header"
 import Sidebar from "../components/Sidebar"
 import HeadRow from "../components/table/HeadRow";
 import Row from "../components/table/Row";
-import Category from "../components/table/Category";
 
-import editicon from '/icons/edit.svg';
-import deleteicon from '/icons/trash.svg';
-import moreicon from '/icons/more.svg';
-import productplaceholder from '/images/product-placeholder.webp';
+
 import addicon from '/icons/add-square.svg';
 import { Link } from "react-router-dom";
+import Loop3 from "../funcs/getProducts";
 
 const Products = () => {
+  document.title = import.meta.env.VITE_APP_TITLE + ' | Produtos'
+
+
+  
+
   return (
     <div className="flex">
       <Sidebar />
-      <div className="z-50 w-full bg-secondary shadow-inner rounded-2xl">
+      <div className="w-full shadow-inner-lg bg-secondary rounded-2xl">
         <Header placeholder="Pesquisar produtos..." />
         <div className="p-8 space-y-8">
           <h2 className="text-2xl font-light text-neutral-800">
@@ -34,29 +36,12 @@ const Products = () => {
                 <HeadRow content="SKU" />
                 <HeadRow content="Categorias" />
                 <HeadRow content="Estoque" />
-                <HeadRow content=""/>
+                <HeadRow content="" />
               </tr>
             </thead>
             <tbody className="divide-y">
-              <tr>
-                <Row content="Moletom 1" image={productplaceholder} price="299,99"/>
-                <Row content="XXXXXXXX" />
-                <td className="pl-4 pr-10 py-4 bg-primary">
-                  <Category title='Categoria 1' />
-                </td>
-                <Row content="10" />
-                <td className="space-x-4 bg-primary">
-                  <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
-                    <img src={editicon} alt='edit' className='w-4' draggable='false' />
-                  </button>
-                  <button className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
-                    <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
-                  </button>
-                  <button className="p-3 rounded-full hover:bg-neutral-300">
-                    <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
-                  </button>
-                </td>
-              </tr>
+              <Loop3 />
+                
             </tbody>
           </table>
         </div>
