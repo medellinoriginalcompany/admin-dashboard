@@ -7,11 +7,13 @@ import { motion } from "framer-motion";
 import { ProductProperties } from "../types/product/Properties";
 import generateSKU from "../funcs/generateSKU";
 
+
 const AddProduct = () => {
+
 
   const api = useApi();
 
-  const banner = 'product-placeholder.webp'
+  const [banner, setBanner] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [price, setPrice] = useState<string>('');
@@ -21,6 +23,7 @@ const AddProduct = () => {
   const [color, setColor] = useState<string>('');
   const [active, setActive] = useState<boolean>(true);
   const [sku, setSku] = useState<string>('');
+  const [file, setFile] = useState<File | undefined>();
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -64,21 +67,47 @@ const AddProduct = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  async function handleSubmit (e: React.SyntheticEvent) {
     e.preventDefault();
 
-    try {
-      const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
-      if (response) {
-        setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
-        setTimeout(() => {
-          navigate('/produtos');
-        }, 3000); // 3 segundos
-      }
-    } catch (error: any) {
-      setErrMsg(error.response.data.message);
-      console.log(error.response.data.body)
+    console.log('file:', file)
+
+    if (typeof file === 'undefined') return;
+
+    const formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('upload_preset', 'teste-react');
+    formData.append('api_key', import.meta.env.VITE_CLD_KEY)
+
+    const result = await fetch('https://api.cloudinary.com/v1_1/medellincompany/image/upload', {
+      method: 'POST',
+      body: formData,
+    }).then(r => r.json());
+
+    console.log(result)
+    console.log('daaskjdgasjkd')
+    // try {
+    //   const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
+    //   if (response) {
+    //     setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
+    //     setTimeout(() => {
+    //       navigate('/produtos');
+    //     }, 3000); // 3 segundos
+    //   }
+    // } catch (error: any) {
+    //   setErrMsg(error.response.data.message);
+    //   console.log(error.response.data.body)
+    // }
+  }
+
+  function fileUpload(e: React.FormEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
     }
+    
+    setFile(target.files[0])
+
   }
 
   useEffect(() => {
@@ -137,6 +166,24 @@ const AddProduct = () => {
             : ''
         }
         <form onSubmit={handleSubmit} className="space-y-2 max-w-fit">
+          <div>
+            <input type="file" name="banner" id="banner" className="hidden" accept="image/*" />
+            <label htmlFor="banner" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
+              <span>
+                Adicionar imagem em destaque
+              </span>
+            </label>
+          </div>
+
+          <div>
+            <input type="file" name="image" id="image" className="hidden" accept="image/*" multiple onChange={fileUpload} />
+            <label htmlFor="image" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
+              <span>
+                Adicionar mais imagens
+              </span>
+            </label>
+          </div>
+
           <ProductInput
             label="Nome"
             name="name"
