@@ -48,7 +48,11 @@ export const useApi = () => ({
 
   getProducts: async () => {
     const response = await api.get('/admin/products');
-    return response.data;
+    if (response) {
+      return response.data;
+    } else {
+      return false;
+    }
   },
 
   addProduct: async (
@@ -66,5 +70,10 @@ export const useApi = () => ({
 
     return response.data;
   },
+
+  deleteProduct: async (id: number) => {
+    const response = await api.delete(`/admin/delete-product/${id}`);
+    return response.data;
+  }
 
 });
