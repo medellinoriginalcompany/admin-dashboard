@@ -9,7 +9,11 @@ export type Product = {
   Active: boolean,
   Discount?: number,
   Banner: string,
-  Category: string,
+  Category: {
+    ID: number,
+    Name: string,
+    Description: string,
+  },
   Size?: string,
   Color?: string,
   Type?: string,
