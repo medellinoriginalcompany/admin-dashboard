@@ -6,7 +6,8 @@ import erricon from '/icons/danger.svg';
 import { motion } from "framer-motion";
 import { ProductProperties } from "../types/product/Properties";
 import generateSKU from "../funcs/generateSKU";
-
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
 
 const AddProduct = () => {
 
@@ -23,7 +24,6 @@ const AddProduct = () => {
   const [color, setColor] = useState<string>('');
   const [active, setActive] = useState<boolean>(true);
   const [sku, setSku] = useState<string>('');
-  const [file, setFile] = useState<File | undefined>();
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -33,6 +33,16 @@ const AddProduct = () => {
   const [sizes, setSizes] = useState<ProductProperties[]>([]);
   const [colors, setColors] = useState<ProductProperties[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [imageSrc, setImageSrc] = useState<File | null>();
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'medellincompany',
+    },
+  });
+
+  const image = cld.image('xvtuv78h5v404onvlhrr')
 
   useEffect(() => {
     const getData = async () => {
@@ -67,26 +77,12 @@ const AddProduct = () => {
 
   const navigate = useNavigate();
 
-  async function handleSubmit (e: React.SyntheticEvent) {
+  async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    console.log('file:', file)
+    api.uploadImage(imageSrc);
 
-    if (typeof file === 'undefined') return;
 
-    const formData = new FormData();
-
-    formData.append('file', file);
-    formData.append('upload_preset', 'teste-react');
-    formData.append('api_key', import.meta.env.VITE_CLD_KEY)
-
-    const result = await fetch('https://api.cloudinary.com/v1_1/medellincompany/image/upload', {
-      method: 'POST',
-      body: formData,
-    }).then(r => r.json());
-
-    console.log(result)
-    console.log('daaskjdgasjkd')
     // try {
     //   const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
     //   if (response) {
@@ -100,16 +96,6 @@ const AddProduct = () => {
     //   console.log(error.response.data.body)
     // }
   }
-
-  function fileUpload(e: React.FormEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    }
-    
-    setFile(target.files[0])
-
-  }
-
   useEffect(() => {
     const skuManufact = 'Fabricante';
     const skuType = type;
@@ -165,9 +151,19 @@ const AddProduct = () => {
             </motion.div>
             : ''
         }
+
+        {
+          banner ?
+            <label htmlFor="banner" className="cursor-pointer w-fit flex">
+              <div className="w-96 h-96 bg-cover bg-center bg-no-repeat rounded-lg" style={{ backgroundImage: `url(${banner})` }}></div>
+            </label>
+            : ''
+        }
+
+        <AdvancedImage cldImg={image} />
         <form onSubmit={handleSubmit} className="space-y-2 max-w-fit">
           <div>
-            <input type="file" name="banner" id="banner" className="hidden" accept="image/*" />
+            <input type="file" name="banner" id="banner" className="hidden" accept="image/*" onChange={(e) => setImageSrc(e.target.files![0])} />
             <label htmlFor="banner" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
               <span>
                 Adicionar imagem em destaque
@@ -176,7 +172,7 @@ const AddProduct = () => {
           </div>
 
           <div>
-            <input type="file" name="image" id="image" className="hidden" accept="image/*" multiple onChange={fileUpload} />
+            <input type="file" name="image" id="image" className="hidden" accept="image/*" multiple />
             <label htmlFor="image" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
               <span>
                 Adicionar mais imagens

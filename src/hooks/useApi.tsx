@@ -74,6 +74,21 @@ export const useApi = () => ({
   deleteProduct: async (id: number) => {
     const response = await api.delete(`/admin/delete-product/${id}`);
     return response.data;
+  },
+
+  uploadImage: async (file: any) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'pouhrazu');
+
+    const response = await api.post('https://api.cloudinary.com/v1_1/medellincompany/image/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      withCredentials: false
+    });
+
+    console.log(response.data);
   }
 
 });
