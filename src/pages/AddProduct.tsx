@@ -14,7 +14,6 @@ const AddProduct = () => {
 
   const api = useApi();
 
-  const [banner, setBanner] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [price, setPrice] = useState<string>('');
@@ -34,15 +33,11 @@ const AddProduct = () => {
   const [colors, setColors] = useState<ProductProperties[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [imageSrc, setImageSrc] = useState<File | null>();
+  const [banner, setBanner] = useState<File>();
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'medellincompany',
-    },
-  });
-
-  const image = cld.image('xvtuv78h5v404onvlhrr')
 
   useEffect(() => {
     const getData = async () => {
@@ -80,22 +75,23 @@ const AddProduct = () => {
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    api.uploadImage(imageSrc);
+    try {
+      const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
+      const upload = await api.uploadImage(banner);
 
-
-    // try {
-    //   const response = await api.addProduct(banner, name, description, price, size, type, category, color, active, sku);
-    //   if (response) {
-    //     setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
-    //     setTimeout(() => {
-    //       navigate('/produtos');
-    //     }, 3000); // 3 segundos
-    //   }
-    // } catch (error: any) {
-    //   setErrMsg(error.response.data.message);
-    //   console.log(error.response.data.body)
-    // }
+      if (response && upload) {
+        setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
+        setTimeout(() => {
+          navigate('/produtos');
+        }, 3000); // 3 segundos
+      }
+      
+    } catch (error: any) {
+      setErrMsg(error.response.data.message);
+      console.log(error.response.data.body)
+    }
   }
+
   useEffect(() => {
     const skuManufact = 'Fabricante';
     const skuType = type;
@@ -106,6 +102,26 @@ const AddProduct = () => {
     const sku = generateSKU(skuManufact, skuType, skuColor, skuSize, skuCategory);
     setSku(sku);
   }, [category, size, price, type, color]);
+
+  const bannerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setBanner(e.target.files[0]);
+      setImagePreview(URL.createObjectURL(e.target.files[0]));
+    }
+  }
+
+  const imagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedImages = Array.from(e.target.files);
+      setImages(selectedImages)
+
+      // Crie um array de URLs para as visualizações das imagens
+      const previews = selectedImages.map((image) => URL.createObjectURL(image));
+      setImagesPreview(previews);
+    }
+  }
+
+
 
   const selectCSS = "w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none";
 
@@ -155,15 +171,19 @@ const AddProduct = () => {
         {
           banner ?
             <label htmlFor="banner" className="cursor-pointer w-fit flex">
-              <div className="w-96 h-96 bg-cover bg-center bg-no-repeat rounded-lg" style={{ backgroundImage: `url(${banner})` }}></div>
+              <img src={imagePreview} alt="" className="w-96 h-96 " />
             </label>
             : ''
         }
 
-        <AdvancedImage cldImg={image} />
+        {/* Exibe as visualizações das imagens */}
+        {imagesPreview.map((preview, index) => (
+          <img key={index} src={preview} alt={`Imagem ${index}`} width="100" />
+        ))}
+
         <form onSubmit={handleSubmit} className="space-y-2 max-w-fit">
           <div>
-            <input type="file" name="banner" id="banner" className="hidden" accept="image/*" onChange={(e) => setImageSrc(e.target.files![0])} />
+            <input type="file" name="banner" id="banner" className="hidden" accept="image/*" onChange={bannerChange} />
             <label htmlFor="banner" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
               <span>
                 Adicionar imagem em destaque
@@ -172,7 +192,7 @@ const AddProduct = () => {
           </div>
 
           <div>
-            <input type="file" name="image" id="image" className="hidden" accept="image/*" multiple />
+            <input type="file" name="image" id="image" className="hidden" accept="image/*" multiple onChange={imagesChange} />
             <label htmlFor="image" className="bg-accent text-primary rounded w-fit px-4 py-2 font-semibold flex items-center cursor-pointer hover:bg-neutral-900">
               <span>
                 Adicionar mais imagens
