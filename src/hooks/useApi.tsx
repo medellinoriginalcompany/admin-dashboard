@@ -88,7 +88,7 @@ export const useApi = () => ({
       withCredentials: false
     });
 
-    console.log(response.data);
+    if (response) return true;
   }
 
 });
