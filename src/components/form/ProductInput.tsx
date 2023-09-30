@@ -13,21 +13,30 @@ const ProductInput: React.FC<any> = ({
   
     return (
       <div className="flex relative flex-col group">
-        <label htmlFor={name} className='block mb-2 text-sm font-medium'>
+        <label htmlFor={name} className='block text-sm font-medium'>
           {label}
         </label>
-        <input
-          className="w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none"
-          type={type}
-          id={name}
-          name={name}
-          value={value}
-          onChange={handleOnChange}
-          autoFocus={autoFocus}
-          maxLength={maxLength}
-          placeholder={placeholder}
-          autoComplete='off'
-        />
+        <div className={name === 'price' ? 'relative' : ''}>
+          {
+            name === 'price' && (
+              <label htmlFor='price' className="absolute top-1/2 left-2 transform -translate-y-1/2 text-sm text-green-600 bg-green-200 px-1 rounded">
+                R$
+              </label>
+            )
+          }
+          <input
+            className={"w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none" + (name === 'price' ? ' pl-9' : '')}
+            type={type}
+            id={name}
+            name={name}
+            value={value}
+            onChange={handleOnChange}
+            autoFocus={autoFocus}
+            maxLength={maxLength}
+            placeholder={placeholder}
+            autoComplete='off'
+          />
+        </div>
       </div>
     );
   };
