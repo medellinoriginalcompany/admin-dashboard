@@ -11,6 +11,7 @@ import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
 import moreicon from '/icons/more.svg';
 import Confirmation from "../components/Confirmation";
+import erricon from '/icons/danger.svg';
 
 
 
@@ -20,7 +21,7 @@ const Products = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [retryTimeout, setRetryTimeout] = useState<number | null>(null); // Estado para controlar o intervalo de retentativas de reqTimeout
+  const [retryTimeout, setRetryTimeout] = useState<NodeJS.Timeout | null>(null); // Estado para controlar o intervalo de retentativas de reqTimeout
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
@@ -34,9 +35,16 @@ const Products = () => {
         setProducts(response.products);
         setLoading(false);
       }
-    } catch (error) {
-      const timeoutId = setTimeout(getProducts, 10000);
-      setRetryTimeout(timeoutId);
+    } catch (error: any) {
+      console.log(error);
+      console.log("Ocorreu um erro ao obter os produtos");
+      setConfirmationMessage("Ocorreu um erro ao obter os produtos");
+      setShowConfirmation(true);
+      // Tente novamente em 5 segundos
+      const timeout = setTimeout(() => {
+        getProducts();
+      }, 5000);
+      setRetryTimeout(timeout);
     }
   }
 
@@ -120,61 +128,70 @@ const Products = () => {
               </thead>
               <tbody className="divide-y">
                 {
-                  products.slice(0, 30).map((product) => {
-                    return (
-                      <tr key={product.ID}>
-                        <td className='pl-4 py-4 text-left bg-primary flex gap-4'>
-                          <img src={'/images/'+ product.Banner} className="w-14 h-14 rounded-lg object-cover" />
-                          <div className='flex flex-col h-fit'>
-                            <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
-                              {product.Name}
+                  products.length == 0 ? (
+                    <td className="px-4 py-4">
+                      <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
+                        <img src={erricon} alt="Erro" />
+                        Nenhum produto foi encontrado.
+                      </span>
+                    </td>
+                  ) : (
+                    products.slice(0, 30).map((product) => {
+                      return (
+                        <tr key={product.ID}>
+                          <td className='pl-4 py-4 text-left bg-primary flex gap-4'>
+                            <img src={'/images/' + product.Banner} className="w-14 h-14 rounded-lg object-cover" />
+                            <div className='flex flex-col h-fit'>
+                              <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
+                                {product.Name}
+                              </span>
+                              <span className="text-xs font-semibold text-neutral-400">
+                                R$ {product.Price}
+                              </span>
+                            </div>
+                          </td>
+                          <td className='pl-4 py-4 text-left bg-primary'>
+                            <span>
+                              {product.SKU}
                             </span>
-                            <span className="text-xs font-semibold text-neutral-400">
-                              R$ {product.Price}
+                          </td>
+                          <td className='pl-4 py-4 text-left bg-primary'>
+                            <span>
+                              {product.Category.Name}
                             </span>
-                          </div>
-                        </td>
-                        <td className='pl-4 py-4 text-left bg-primary'>
-                          <span>
-                            {product.SKU}
-                          </span>
-                        </td>
-                        <td className='pl-4 py-4 text-left bg-primary'>
-                          <span>
-                            {product.Category.Name}
-                          </span>
-                        </td>
-                        <td className='pl-4 py-4 text-left bg-primary'>
-                          <span>
-                            {product.Stock}
-                          </span>
-                        </td>
-                        <td className="bg-primary relative">
-                          <div className="space-x-4 w-fit mx-auto">
-                            <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
-                              <img src={editicon} alt='edit' className='w-4' draggable='false' />
-                            </button>
-                            <button onClick={async () => { await handleDelete(product.ID); }} className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
-                              <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
-                            </button>
-                            <button className="p-3 rounded-full hover:bg-neutral-300">
-                              <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })
+                          </td>
+                          <td className='pl-4 py-4 text-left bg-primary'>
+                            <span>
+                              {product.Stock}
+                            </span>
+                          </td>
+                          <td className="bg-primary relative">
+                            <div className="space-x-4 w-fit mx-auto">
+                              <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
+                                <img src={editicon} alt='edit' className='w-4' draggable='false' />
+                              </button>
+                              <button onClick={async () => { await handleDelete(product.ID); }} className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
+                                <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
+                              </button>
+                              <button className="p-3 rounded-full hover:bg-neutral-300">
+                                <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  )
                 }
               </tbody>
             </table>
           </div>
         </div>
         {
-        showConfirmation && (
-          <Confirmation content={confirmationMessage} />
-        )
-      }
+          showConfirmation && (
+            <Confirmation content={confirmationMessage} />
+          )
+        }
       </div>
     </div>
   )
