@@ -79,7 +79,7 @@ export const useApi = () => ({
   uploadImage: async (file: any) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'pouhrazu');
+    formData.append('upload_preset', 'mdlln_default');
 
     const response = await api.post('https://api.cloudinary.com/v1_1/medellincompany/image/upload', formData, {
       headers: {
