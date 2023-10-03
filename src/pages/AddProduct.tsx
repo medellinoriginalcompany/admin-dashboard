@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProductInput from "../components/form/ProductInput"
 import { ChangeEvent, useState, useEffect } from "react"
 import { useApi } from "../hooks/useApi";
-import { motion } from "framer-motion";
+import { backIn, motion } from "framer-motion";
 import { ProductProperties } from "../types/product/Properties";
 import generateSKU from "../funcs/generateSKU";
 import Sidebar from "../components/Sidebar";
@@ -144,10 +144,10 @@ const AddProduct = () => {
 
       <div className="flex flex-col items-center justify-center mx-auto w-full shadow-inner-lg bg-secondary rounded-l-2xl md:h-screen lg:py-0">
         <div className="max-w-6xl w-full">
-        <Link to='/produtos' className="w-fit flex gap-2 my-3">
+        <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer">
           <img src={arrowicon} className="w-4" />
           Voltar
-        </Link>
+        </div>
 
         </div>
         <div className="max-w-6xl bg-white px-5 py-5 pb-28 rounded-lg shadow-lg">

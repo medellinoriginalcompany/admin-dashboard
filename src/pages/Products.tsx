@@ -99,7 +99,7 @@ const Products = () => {
             <div className="flex items-center justify-between my-5">
               <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow transition-all hover:scale-105 hover:bg-neutral-900">
                 <img src={addicon} alt='add' className='mr-2 brightness-[6]' draggable='false' />
-                Adicionar Produto
+                Cadastrar Produto
               </Link>
               <span className="text-neutral-500 px-2 py-1 float-right">
                 {products.length} produtos
@@ -129,12 +129,15 @@ const Products = () => {
               <tbody className="divide-y">
                 {
                   products.length == 0 ? (
-                    <td className="px-4 py-4">
-                      <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
-                        <img src={erricon} alt="Erro" />
-                        Nenhum produto foi encontrado.
-                      </span>
-                    </td>
+                    <tr>
+
+                      <td className="px-4 py-4">
+                        <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
+                          <img src={erricon} alt="Erro" />
+                          Nenhum produto foi encontrado.
+                        </span>
+                      </td>
+                    </tr>
                   ) : (
                     products.slice(0, 30).map((product) => {
                       return (

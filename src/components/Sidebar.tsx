@@ -24,7 +24,7 @@ const Sidebar = () => {
 
           </div>
 
-          <ul className='space-y-4 px-8'>
+          <ul className='space-y-4 px-3'>
             <li>
               <NavItem
                 icon='graph'
@@ -37,16 +37,17 @@ const Sidebar = () => {
                 icon='box-1'
                 text='Produtos'
                 link='/produtos'
+                accordion
               />
             </li>
           </ul>
         </div>
         <div className='px-8 py-10'>
           <button
-            className='flex items-center w-full space-x-4 px-8 py-2 rounded-lg group transition-all hover:shadow-lg hover:text-primary hover:bg-accent/90'
+            className='flex items-center w-full space-x-4 px-8 py-2 rounded-lg hover:bg-neutral-300'
             onClick={handleLogout}>
             <div className=''>
-              <img src={`/icons/logout.svg`} alt='logout' className='w-7 group-hover:brightness-[6] transition-all' />
+              <img src={`/icons/logout.svg`} alt='logout' className='w-7 transition-all' />
             </div>
 
             <span className='font-semibold'>
