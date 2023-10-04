@@ -97,7 +97,7 @@ const Products = () => {
 
           <div>
             <div className="flex items-center justify-between my-5">
-              <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow transition-all hover:scale-105 hover:bg-neutral-900">
+              <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center hover:bg-accent/80">
                 <img src={addicon} alt='add' className='mr-2 brightness-[6]' draggable='false' />
                 Cadastrar Produto
               </Link>
@@ -107,30 +107,30 @@ const Products = () => {
 
             </div>
 
-            <table className="w-full shadow-lg table-fixed">
-              <thead className="">
-                <tr className="bg-primary border-b text-sm text-neutral-500">
+            <table className="w-full space-y-4">
+              <thead>
+                <tr className="bg-accent rounded-lg border-b text-sm text-neutral-500">
                   {
                     loading ? (
                       <th className="p-4 flex items-center gap-3">
-                        <div className="w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
-                        <span>Carregando produtos...</span>
+                        <div className="w-4 h-4 border-2 border-green-300 border-t-transparent rounded-full animate-spin"></div>
+                        <span className="text-white font-medium">Carregando produtos...</span>
                       </th>
                     ) : (
-                      <HeadRow content="Informações do Produto" />
+                      <HeadRow content="Informações do Produto" left />
                     )
                   }
                   <HeadRow content="SKU" />
                   <HeadRow content="Categorias" />
                   <HeadRow content="Estoque" />
-                  <HeadRow content="" />
+                  <HeadRow content="Ativo" />
+                  <HeadRow content="" right />
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y space-y-5 bg-white">
                 {
                   products.length == 0 ? (
-                    <tr>
-
+                    <tr className="">
                       <td className="px-4 py-4">
                         <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
                           <img src={erricon} alt="Erro" />
@@ -142,7 +142,7 @@ const Products = () => {
                     products.slice(0, 30).map((product) => {
                       return (
                         <tr key={product.ID}>
-                          <td className='pl-4 py-4 text-left bg-primary flex gap-4'>
+                          <td className='pl-4 py-3 text-left flex gap-4'>
                             <img src={'/images/' + product.Banner} className="w-14 h-14 rounded-lg object-cover" />
                             <div className='flex flex-col h-fit'>
                               <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
@@ -153,22 +153,30 @@ const Products = () => {
                               </span>
                             </div>
                           </td>
-                          <td className='pl-4 py-4 text-left bg-primary'>
+                          <td className='pl-4 text-left '>
                             <span>
                               {product.SKU}
                             </span>
                           </td>
-                          <td className='pl-4 py-4 text-left bg-primary'>
+                          <td className='pl-4 text-left '>
                             <span>
                               {product.Category.Name}
                             </span>
                           </td>
-                          <td className='pl-4 py-4 text-left bg-primary'>
+                          <td className='pl-4 text-left '>
                             <span>
                               {product.Stock}
                             </span>
                           </td>
-                          <td className="bg-primary relative">
+                          <td className="pl-4">
+                            <form>
+                              <label className="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" className="sr-only peer" value='' />
+                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                              </label>
+                            </form>
+                          </td>
+                          <td className=" relative">
                             <div className="space-x-4 w-fit mx-auto">
                               <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
                                 <img src={editicon} alt='edit' className='w-4' draggable='false' />
