@@ -14,17 +14,16 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-primary sticky top-0 min-w-[250px] h-screen z-50">
+    <div className=" sticky top-0 lg:min-w-[280px] 2xl:min-w-[310px] h-screen z-50">
       <nav className='flex flex-col justify-between h-full'>
         <div className='space-y-7'>
-          <div className='py-8'>
+          <div className='mt-8 mb-24 w-fit'>
             <Link to='/dashboard'>
-              <img src={logo} alt="Logo" className='w-24 mx-auto' />
+              <img src={logo} alt="Logo" className='w-24 ml-10' />
             </Link>
-
           </div>
 
-          <ul className='space-y-4 px-3'>
+          <ul className='space-y-3 px-9'>
             <li>
               <NavItem
                 icon='graph'
@@ -34,23 +33,22 @@ const Sidebar = () => {
             </li>
             <li>
               <NavItem
-                icon='box-1'
+                icon='box'
                 text='Produtos'
                 link='/produtos'
-                accordion
               />
             </li>
           </ul>
         </div>
         <div className='px-8 py-10'>
           <button
-            className='flex items-center w-full space-x-4 px-8 py-2 rounded-lg hover:bg-neutral-300'
+            className='flex items-center w-full space-x-3 px-8 py-2 rounded-lg hover:bg-accent/20'
             onClick={handleLogout}>
             <div className=''>
-              <img src={`/icons/logout.svg`} alt='logout' className='w-7 transition-all' />
+              <img src={`/icons/logout-1.svg`} alt='logout' className='w-7 transition-all rotate-180 brightness-[2]' />
             </div>
 
-            <span className='font-semibold'>
+            <span className='font-semibold text-neutral-700'>
               Sair
             </span>
           </button>
