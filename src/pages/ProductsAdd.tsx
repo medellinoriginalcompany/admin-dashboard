@@ -10,8 +10,9 @@ import Sidebar from "../components/Sidebar";
 import erricon from '/icons/danger.svg';
 import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
+import Header from "../components/Header";
 
-const AddProduct = () => {
+const ProductsAdd = () => {
 
 
   const api = useApi();
@@ -50,7 +51,7 @@ const AddProduct = () => {
         setErrMsg('Selecione uma imagem de banner');
         return;
       }
-      
+
       const upload = await api.uploadImage(banner);
       setSuccessMsg('Carregando imagens...')
 
@@ -144,10 +145,11 @@ const AddProduct = () => {
 
       <div className="flex flex-col items-center justify-center mx-auto w-full shadow-inner-lg bg-secondary rounded-l-2xl md:h-screen lg:py-0">
         <div className="max-w-6xl w-full">
-        <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer">
-          <img src={arrowicon} className="w-4" />
-          Voltar
-        </div>
+          <Header />
+          <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer">
+            <img src={arrowicon} className="w-4" />
+            Voltar
+          </div>
 
         </div>
         <div className="max-w-6xl bg-white px-5 py-5 pb-28 rounded-lg shadow-lg">
@@ -406,4 +408,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default ProductsAdd
