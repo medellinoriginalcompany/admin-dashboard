@@ -87,8 +87,8 @@ const Products = () => {
     <div className="flex">
 
       <Sidebar />
-      <div className="w-full shadow-inner-lg bg-secondary rounded-l-2xl">
-        <Header placeholder="Pesquisar produtos..." />
+      <div className="w-full">
+        <Header />
         <div className="p-8 space-y-5">
           <h2 className="text-2xl font-light text-neutral-800">
             Gerenciar Produtos
