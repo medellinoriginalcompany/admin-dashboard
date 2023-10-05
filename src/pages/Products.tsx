@@ -127,7 +127,7 @@ const Products = () => {
                   <HeadRow content="" right />
                 </tr>
               </thead>
-              <tbody className="divide-y space-y-5 bg-white">
+              <tbody className="divide-y space-y-5 bg-white text-left">
                 {
                   products.length == 0 ? (
                     <tr className="">
@@ -142,7 +142,7 @@ const Products = () => {
                     products.slice(0, 30).map((product) => {
                       return (
                         <tr key={product.ID}>
-                          <td className='pl-4 py-3 text-left flex gap-4'>
+                          <td className='pl-4 py-3 flex gap-4'>
                             <img src={'/images/' + product.Banner} className="w-14 h-14 rounded-lg object-cover" />
                             <div className='flex flex-col h-fit'>
                               <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
@@ -153,17 +153,17 @@ const Products = () => {
                               </span>
                             </div>
                           </td>
-                          <td className='pl-4 text-left '>
+                          <td className='pl-4 '>
                             <span>
                               {product.SKU}
                             </span>
                           </td>
-                          <td className='pl-4 text-left '>
+                          <td className='pl-4 '>
                             <span>
                               {product.Category.Name}
                             </span>
                           </td>
-                          <td className='pl-4 text-left '>
+                          <td className='pl-4 '>
                             <span>
                               {product.Stock}
                             </span>
