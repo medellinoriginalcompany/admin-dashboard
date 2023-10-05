@@ -3,18 +3,18 @@ import { Link } from "react-router-dom"
 const MonthlyRevenue = () => {
   return (
     <div className="bg-white/60 backdrop-blur rounded-xl py-10 px-10 space-y-4 w-fit">
-      <div className="flex justify-between">
-        <h3 className="font-semibold text-neutral-700">
-          Receita Mensal
-        </h3>
+        <div className="flex justify-between">
+          <h3 className="font-semibold text-neutral-700">
+            Receita Mensal
+          </h3>
 
-        <Link to="/renda/mensal" className="w-fit flex space-x-2">
-          <span>
-            Mais detalhes
-          </span>
-          <img src="/icons/arrow-right-1.svg" alt="arrow-right" className="w-4" draggable='false' />
-        </Link>
-      </div>
+          <Link to="/renda/mensal" className="w-fit flex space-x-2">
+            <span>
+              Mais detalhes
+            </span>
+            <img src="/icons/arrow-right-1.svg" alt="arrow-right" className="w-4" draggable='false' />
+          </Link>
+        </div>
 
       <div>
         <div className="space-x-2">
