@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'gradient-primary': '#e7efff',
+        'gradient-primary': '#ecf2fe',
         'gradient-secondary': '#ebf4ff',
         'accent': '#0560FD',
         'primary': '#fff', 
