@@ -38,6 +38,13 @@ const Sidebar = () => {
                 link='/produtos'
               />
             </li>
+            <li>
+              <NavItem
+                icon='shopping-cart'
+                text='Pedidos'
+                link='/pedidos'
+              />
+            </li>
           </ul>
         </div>
         <div className='px-8 py-10'>
