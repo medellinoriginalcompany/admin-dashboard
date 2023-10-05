@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 const RecentOrders = () => {
   return (
-    <div className="bg-white/60 backdrop-blur rounded-xl w-fit overflow-y-scroll relative dashboard-card">
+    <div className="bg-white/60 backdrop-blur rounded-xl w-fit overflow-y-scroll relative card">
       <div className="p-10 space-y-4">
         <div className="flex justify-between">
           <h3 className="font-semibold text-neutral-700">

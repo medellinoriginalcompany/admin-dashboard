@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 /* width */
-::-webkit-scrollbar { 
+.card::-webkit-scrollbar { 
   width: 15px; 
 } 
 
 /* Track */
-::-webkit-scrollbar-track { 
+.card::-webkit-scrollbar-track { 
   background: transparent;
 } 
 
 /* Handle */
-.dashboard-card::-webkit-scrollbar-thumb { 
+.card::-webkit-scrollbar-thumb { 
   background-color: rgb(5 96 253);
   border-radius: 9999px;
-  border: 4px solid rgb(255 255 255);
+  border: 4px solid #F3F6FB;
 } 
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover { 
+.card::-webkit-scrollbar-thumb:hover { 
   background: rgb(9, 84, 212);
   backdrop-filter: blur(10px);
 }
