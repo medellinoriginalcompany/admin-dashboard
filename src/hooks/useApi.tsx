@@ -75,6 +75,11 @@ export const useApi = () => ({
     const response = await api.delete(`/admin/delete-product/${id}`);
     return response.data;
   },
+  
+  delete: async (type: string, id: number) => {
+    const response = await api.delete(`/admin/delete-${type}/${id}`);
+    return response.data;
+  },
 
   uploadImage: async (file: any) => {
     const formData = new FormData();
