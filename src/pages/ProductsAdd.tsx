@@ -143,7 +143,7 @@ const ProductsAdd = () => {
 
       <Sidebar />
 
-      <div className="flex flex-col items-center justify-center mx-auto w-full shadow-inner-lg bg-secondary rounded-l-2xl md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center mx-auto w-full rounded-l-2xl md:h-screen lg:py-0">
         <div className="max-w-6xl w-full">
           <Header />
           <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer">
@@ -152,7 +152,7 @@ const ProductsAdd = () => {
           </div>
 
         </div>
-        <div className="max-w-6xl bg-white px-5 py-5 pb-28 rounded-lg shadow-lg">
+        <div className="max-w-6xl bg-white px-5 py-5 pb-28 rounded-lg">
           {
             errMsg ?
               <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
