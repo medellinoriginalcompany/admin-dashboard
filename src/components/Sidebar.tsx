@@ -36,6 +36,7 @@ const Sidebar = () => {
                 icon='box'
                 text='Produtos'
                 link='/produtos'
+                more
               />
             </li>
             <li>
