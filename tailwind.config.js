@@ -9,7 +9,7 @@ export default {
     extend: {
       colors: {
         'gradient-primary': '#ecf2fe',
-        'gradient-secondary': '#ebf4ff',
+        'gradient-secondary': '#dae4f0',
         'accent': '#0560FD',
         'primary': '#fff', 
         'secondary': '#F7F7FA',
