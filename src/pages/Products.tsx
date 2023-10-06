@@ -177,16 +177,18 @@ const Products = () => {
                             </form>
                           </td>
                           <td className=" relative">
-                            <div className="space-x-4 w-fit mx-auto">
-                              <button className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
-                                <img src={editicon} alt='edit' className='w-4' draggable='false' />
-                              </button>
-                              <button onClick={async () => { await handleDelete(product.ID); }} className="bg-red-200/80 p-3 rounded-full hover:bg-red-300/80">
+                            <div className="space-x-4 w-fit mx-auto flex">
+                              <Link to={'/produtos/editar?id=' + product.ID} className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
+                                <div>
+                                  <img src={editicon} alt='edit' className='w-4' draggable='false' />
+                                </div>
+                              </Link>
+                              <div onClick={async () => { await handleDelete(product.ID); }} className="bg-red-200/80 p-3 rounded-full cursor-pointer hover:bg-red-300/80">
                                 <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
-                              </button>
-                              <button className="p-3 rounded-full hover:bg-neutral-300">
+                              </div>
+                              <div className="p-3 rounded-full hover:bg-neutral-300">
                                 <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
-                              </button>
+                              </div>
                             </div>
                           </td>
                         </tr>
