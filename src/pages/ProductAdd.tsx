@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProductInput from "../components/form/ProductInput"
 import { ChangeEvent, useState, useEffect } from "react"
 import { useApi } from "../hooks/useApi";
-import { backIn, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ProductProperty } from "../types/product/Property";
 import generateSKU from "../funcs/generateSKU";
 import Sidebar from "../components/Sidebar";
@@ -150,7 +150,7 @@ const ProductAdd = () => {
           </div>
 
         </div>
-        <div className="max-w-6xl bg-white/60 px-5 py-5 pb-28 rounded-lg">
+        <div className="max-w-6xl w-full bg-white/60 px-5 py-5 pb-28 rounded-lg">
           {
             errMsg ?
               <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'

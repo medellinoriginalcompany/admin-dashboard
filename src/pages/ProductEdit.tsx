@@ -39,7 +39,7 @@ const ProductEdit = () => {
 
   const [banner, setBanner] = useState<File>();
   const [bannerName, setBannerName] = useState<string>('');
-  const [images, setImages] = useState<File[]>([]);
+  const [_, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
@@ -165,7 +165,7 @@ const ProductEdit = () => {
           </div>
 
         </div>
-        <div className="max-w-6xl bg-white/60 px-5 py-5 pb-28 rounded-lg">
+        <div className="max-w-6xl w-full bg-white/60 px-5 py-5 pb-28 rounded-lg">
           {
             errMsg ?
               <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
