@@ -28,7 +28,7 @@ const PropertiesRow = (props: Props) => {
         setTimeout(() => {
           setConfirmationMessage('');
           window.location.reload();
-        }, 1500);
+        }, 1000);
 
       } else {
         setErrMessage(response.message);

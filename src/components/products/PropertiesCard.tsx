@@ -40,7 +40,7 @@ const PropertiesCard = (props: Props) => {
         setTimeout(() => {
           window.location.reload();
           setShowAddProperty(false);
-        }, 1500);
+        }, 700);
 
       }
     } catch (error: any) {

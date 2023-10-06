@@ -24,7 +24,7 @@ function App() {
         <Route path='/produtos/cadastrar' element={<RequireAuth><ProductAdd /></RequireAuth>} />
         <Route path='/produtos/propriedades' element={<RequireAuth><ProductProperties /></RequireAuth>} />
         <Route path='/produtos/editar' element={<RequireAuth><ProductEdit /></RequireAuth>} />
-        <Route path='/pedidos' element={<RequireAuth><Orders /></RequireAuth>} />
+        <Route path='/pedidos' element={<RequireAuth><Orders /></RequireAuth>} /> 
         <Route path="/login" element={
           <LoginGuard>
             <Login />
