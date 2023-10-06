@@ -143,6 +143,11 @@ const ProductAdd = () => {
             <img src={arrowicon} className="w-4" />
             Voltar
           </div>
+          <div className="my-3 mx-2">
+            <h2 className="text-xl font-semibold text-neutral-600">
+              Cadastrar produto
+            </h2>
+          </div>
 
         </div>
         <div className="max-w-6xl bg-white/60 px-5 py-5 pb-28 rounded-lg">
@@ -397,7 +402,6 @@ const ProductAdd = () => {
         </div>
       </div>
     </div>
-
   )
 }
 
