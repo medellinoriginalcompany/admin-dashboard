@@ -52,8 +52,8 @@ const ProductAdd = () => {
         return;
       }
 
-      const upload = await api.uploadImage(banner);
       setSuccessMsg('Carregando imagens...')
+      const upload = await api.uploadImage(banner);
 
       if (upload) {
         const response = await api.addProduct(bannerName, name, description, price, size, type, category, color, active, sku);
