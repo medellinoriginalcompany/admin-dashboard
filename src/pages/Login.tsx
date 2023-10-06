@@ -127,7 +127,7 @@ const Login = () => {
                 </div>
               </div>
               <div className='pt-8'>
-                <button type='submit' disabled={!!(email && password)}
+                <button type='submit' disabled={!(email || password)}
                   className='w-full text-white bg-accent font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-neutral-700 focus:ring-4 focus:outline-none focus:ring-neutral-400'>
                   Entrar
                 </button>
