@@ -5,7 +5,6 @@ import ProductInput from "../form/ProductInput"
 
 import closeicon from "/icons/close-circle.svg"
 import { useApi } from "../../hooks/useApi"
-import { redirect } from "react-router-dom"
 
 
 type Props = {
@@ -29,16 +28,20 @@ const PropertiesCard = (props: Props) => {
     setShowAddProperty(!showAddProperty);
   }
 
-  async function handleSubmit(e: React.SyntheticEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const response = await api.addProductProperty(props.title.toLowerCase(), name, description);
 
-      if(response) {
-        setConfirmationMessage(response.data.message);
-        setShowAddProperty(false);
-        redirect('produtos/propriedades', 2000)
+      if (response) {
+        setConfirmationMessage(response.message);
+
+        setTimeout(() => {
+          window.location.reload();
+          setShowAddProperty(false);
+        }, 1500);
+
       }
     } catch (error: any) {
       setErrMessage(error.response.data.message)
