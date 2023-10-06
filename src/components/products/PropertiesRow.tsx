@@ -23,15 +23,14 @@ const PropertiesRow = (props: Props) => {
     if (window.confirm("Tem certeza que deseja excluir a propriedade " + name + "?")) {
       const response = await api.delete(type, id);
       if (response) {
-        console.log('Deletado com sucesso');
         // Mostrar mensagem de confirmação por 3 segundos
         setConfirmationMessage(response.message);
         setTimeout(() => {
           setConfirmationMessage('');
-        }, 3000);
+          window.location.reload();
+        }, 1500);
 
       } else {
-        console.log("Ocorreu um erro ao excluir");
         setErrMessage(response.message);
         setTimeout(() => {
           setErrMessage('');
@@ -42,6 +41,24 @@ const PropertiesRow = (props: Props) => {
 
   return (
     <>
+      {
+        confirmationMessage ? (
+          <div className='sticky top-10 right-0 my-3'>
+            <div className="bg-green-100/80 backdrop-blur text-green-500 p-2 rounded-lg shadow-lg">
+              <span>{confirmationMessage}</span>
+            </div>
+          </div>
+        ) : null
+      }
+      {
+        errMessage ? (
+          <div className='sticky top-10 right-0 my-3'>
+            <div className="bg-red-100/80 text-red-500 p-2 rounded-lg shadow-lg">
+              <span>{errMessage}</span>
+            </div>
+          </div>
+        ) : null
+      }
       {
         props.loading ? (<tr><td>Carregando...</td></tr>) :
           props.property?.map((param, index) => {
@@ -66,25 +83,6 @@ const PropertiesRow = (props: Props) => {
               </tr>
             )
           })
-      }
-
-      {
-        confirmationMessage ? (
-          <div className='absolute bottom-0 right-0'>
-            <div className="bg-green-400 text-white p-2 rounded-lg shadow-lg">
-              {confirmationMessage}
-            </div>
-          </div>
-        ) : null
-      }
-      {
-        errMessage ? (
-          <div className='absolute bottom-0 right-0'>
-            <div className="bg-red-400 text-white p-2 rounded-lg shadow-lg">
-              {errMessage}
-            </div>
-          </div>
-        ) : null
       }
     </>
   )
