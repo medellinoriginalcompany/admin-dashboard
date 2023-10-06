@@ -25,7 +25,8 @@ const ProductInput: React.FC<any> = ({
             )
           }
           <input
-            className={"w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none" + (name === 'price' ? ' pl-9' : '')}
+            className={"w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none"
+            + (name === 'price' ? ' pl-9' : '')}
             type={type}
             id={name}
             name={name}

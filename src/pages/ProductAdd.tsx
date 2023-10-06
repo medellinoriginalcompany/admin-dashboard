@@ -131,7 +131,7 @@ const ProductAdd = () => {
   }, [name, description, price, size, type, category, color, active])
 
 
-  const selectCSS = "w-full p-2 border border-neutral-300 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none";
+  const selectCSS = "w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none";
 
   return (
     <div className="flex">
@@ -145,7 +145,7 @@ const ProductAdd = () => {
           </div>
 
         </div>
-        <div className="max-w-6xl bg-white px-5 py-5 pb-28 rounded-lg">
+        <div className="max-w-6xl bg-white/60 px-5 py-5 pb-28 rounded-lg">
           {
             errMsg ?
               <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
@@ -185,8 +185,8 @@ const ProductAdd = () => {
           <div className="flex h-[450px] space-x-5">
             <div className="flex flex-col">
               <label htmlFor="banner" className="cursor-pointer w-fit flex">
-                <div className="w-80 min-h-[450px] border relative">
-                  <div className="flex items-center justify-center mx-auto h-full bg-neutral-100">
+                <div className="w-80 min-h-[450px] relative">
+                  <div className="flex items-center justify-center mx-auto h-full bg-white">
                     <img src={imgicon} className="brightness-[3]" />
                   </div>
                   <img src={imagePreview} alt="" className="absolute top-0 w-fit min-h-full object-cover z-20" />
