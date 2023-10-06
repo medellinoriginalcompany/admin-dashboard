@@ -10,7 +10,7 @@ import ProductAdd from './pages/ProductAdd';
 import ProductProperties from './pages/ProductProperties';
 import Orders from './pages/Orders';
 import ProductEdit from './pages/ProductEdit';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/err/NotFound';
 
 function App() {
   const location = useLocation();
