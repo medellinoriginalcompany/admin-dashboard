@@ -26,28 +26,17 @@ export const useApi = () => ({
     return response.data;
   },
 
-  getCategories: async () => {
-    const response = await api.get('/admin/categories');
-    return response.data;
-  },
-
-  getTypes: async () => {
-    const response = await api.get('/admin/types');
-    return response.data;
-  },
-
-  getSizes: async () => {
-    const response = await api.get('/admin/sizes');
-    return response.data;
-  },
-
-  getColors: async () => {
-    const response = await api.get('/admin/colors');
-    return response.data;
-  },
-
   getProducts: async () => {
     const response = await api.get('/admin/products');
+    if (response) {
+      return response.data;
+    } else {
+      return false;
+    }
+  },
+
+  getProductProperties: async () => {
+    const response = await api.get('/admin/products/properties');
     if (response) {
       return response.data;
     } else {
@@ -71,13 +60,18 @@ export const useApi = () => ({
     return response.data;
   },
 
+  addProductProperty: async (type: string, name: string, description: string) => {
+    const response = await api.post(`/admin/products/add-property/${type}`, { type, name, description });
+    return response.data;
+  },
+
   deleteProduct: async (id: number) => {
     const response = await api.delete(`/admin/delete-product/${id}`);
     return response.data;
   },
-  
+
   delete: async (type: string, id: number) => {
-    const response = await api.delete(`/admin/delete-${type}/${id}`);
+    const response = await api.delete(`/admin/delete/${type}/${id}`);
     return response.data;
   },
 
