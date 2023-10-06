@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import ProductInput from '../components/form/ProductInput'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ProductProperty } from '../types/product/Property'
 import { useApi } from '../hooks/useApi'
 
@@ -16,6 +16,7 @@ const ProductEdit = () => {
   document.title = import.meta.env.VITE_APP_TITLE + ' | Editar produto';
 
   const api = useApi();
+  const [params] = useSearchParams(); // Obter os parâmetros da URL
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -96,13 +97,27 @@ const ProductEdit = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await api.getProductProperties();
+        // Obter as propriedades dos produtos e produto
+        const response = await Promise.all([
+          api.getProductProperties(),
+          api.editProduct(params.get('id')!),
+        ]);
 
         if (response) {
-          setCategories(response.categories);
-          setTypes(response.types);
-          setSizes(response.sizes);
-          setColors(response.colors);
+          setCategories(response[0].categories);
+          setTypes(response[0].types);
+          setSizes(response[0].sizes);
+          setColors(response[0].colors);
+
+          setName(response[1].product.Name);
+          setDescription(response[1].product.Description);
+          setPrice(response[1].product.Price);
+          setSize(response[1].product.Size.Name);
+          setType(response[1].product.Type.Name);
+          setCategory(response[1].product.Category.Name);
+          setColor(response[1].product.Color.Name);
+          setActive(response[1].product.Active);
+
           setLoading(false);
         }
       } catch (error: any) {
@@ -252,7 +267,7 @@ const ProductEdit = () => {
                       className={selectCSS}>
 
                       <option value="" disabled>
-                        Selecionar tamanho
+                        {size}
                       </option>
 
                       {
@@ -279,8 +294,8 @@ const ProductEdit = () => {
                       name="type"
                       className={selectCSS}
                       onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}>
-                      <option value="">
-                        Selecionar tipo
+                      <option value="" disabled>
+                        {type}
                       </option>
                       {
                         loading ? <option value="Carregando...">Carregando...</option> :
@@ -308,7 +323,7 @@ const ProductEdit = () => {
                       onChange={(e: ChangeEvent<HTMLSelectElement>) => { setCategory(e.target.value) }}
                       className={selectCSS}>
                       <option value="" disabled>
-                        Selecionar categoria
+                        {category}
                       </option>
 
                       {
@@ -340,7 +355,7 @@ const ProductEdit = () => {
                       className={selectCSS}
                       onChange={(e: ChangeEvent<HTMLSelectElement>) => { setColor(e.target.value) }}>
                       <option value="">
-                        Selecionar cor
+                        {color}
                       </option>
                       {
                         loading ? <option value="Carregando...">Carregando...</option> :
