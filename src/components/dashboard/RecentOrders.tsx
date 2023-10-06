@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 const RecentOrders = () => {
   return (
-    <div className="bg-white/60 backdrop-blur rounded-xl w-fit overflow-y-scroll relative card">
+    <div className="bg-white/60 rounded-xl w-fit overflow-y-scroll relative card">
       <div className="p-10 space-y-4">
         <div className="flex justify-between">
           <h3 className="font-semibold text-neutral-700">
@@ -19,18 +19,20 @@ const RecentOrders = () => {
 
         <table className="w-full">
           <thead className="text-left bg-accent backdrop-blur shadow-lg shadow-accent/10 text-white rounded-lg">
-            <th className="px-4 py-2 rounded-l-lg font-medium">
-              Pedido
-            </th>
-            <th className="px-4 font-medium">
-              Data
-            </th>
-            <th className="px-4 font-medium">
-              Total
-            </th>
-            <th className="px-4 font-medium rounded-r-lg">
-              Status
-            </th>
+            <tr>
+              <th className="px-4 py-2 rounded-l-lg font-medium">
+                Pedido
+              </th>
+              <th className="px-4 font-medium">
+                Data
+              </th>
+              <th className="px-4 font-medium">
+                Total
+              </th>
+              <th className="px-4 font-medium rounded-r-lg">
+                Status
+              </th>
+            </tr>
           </thead>
           <tbody className="text-left">
             <tr>
