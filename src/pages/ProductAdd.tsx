@@ -279,7 +279,7 @@ const ProductAdd = () => {
                       name="type"
                       className={selectCSS}
                       onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}>
-                      <option value="">
+                      <option value="" disabled>
                         Selecionar tipo
                       </option>
                       {
