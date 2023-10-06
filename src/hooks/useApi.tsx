@@ -7,7 +7,7 @@ const api = axios.create({
 
 export const useApi = () => ({
   validateToken: async () => {
-    const response = await api.post('/admin/validate');
+    const response = await api.post('/admin/validar');
 
     if (response.data.user) {
       return response.data;
@@ -27,7 +27,7 @@ export const useApi = () => ({
   },
 
   getProducts: async () => {
-    const response = await api.get('/admin/products');
+    const response = await api.get('/admin/produtos');
     if (response) {
       return response.data;
     } else {
@@ -36,7 +36,7 @@ export const useApi = () => ({
   },
 
   getProductProperties: async () => {
-    const response = await api.get('/admin/products/properties');
+    const response = await api.get('/admin/produtos/propriedades');
     if (response) {
       return response.data;
     } else {
@@ -61,17 +61,22 @@ export const useApi = () => ({
   },
 
   addProductProperty: async (type: string, name: string, description: string) => {
-    const response = await api.post(`/admin/products/add-property/${type}`, { type, name, description });
+    const response = await api.post(`/admin/produtos/adicionar-propriedade/${type}`, { type, name, description });
+    return response.data;
+  },
+
+  editProduct: async (id: string) => {
+    const response = await api.get(`/admin/produto/${id}`);
     return response.data;
   },
 
   deleteProduct: async (id: number) => {
-    const response = await api.delete(`/admin/delete-product/${id}`);
+    const response = await api.delete(`/admin/deletar-produto/${id}`);
     return response.data;
   },
 
   delete: async (type: string, id: number) => {
-    const response = await api.delete(`/admin/delete/${type}/${id}`);
+    const response = await api.delete(`/admin/deletar/${type}/${id}`);
     return response.data;
   },
 
