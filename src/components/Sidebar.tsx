@@ -46,6 +46,13 @@ const Sidebar = () => {
                 link='/pedidos'
               />
             </li>
+            <li>
+              <NavItem
+                icon='profile-circle'
+                text='Usuários'
+                link='/usuarios'
+              />
+            </li>
           </ul>
         </div>
         <div className='px-8 py-10'>
