@@ -52,8 +52,8 @@ const PropertiesCard = (props: Props) => {
   return (
     <>
       <div className="flex space-x-5 justify-between h-96">
-        <div className="bg-white/60 backdrop-blur rounded-xl py-7 px-10 space-y-5 overflow-y-scroll card w-full">
-          <div className="flex justify-between sticky top-0 backdrop-blur bg-[#F3F6FB]/90 px-3 py-1 rounded-lg z-20">
+        <div className="bg-white/60 rounded-xl py-7 px-10 space-y-5 overflow-y-scroll card w-full">
+          <div className="flex justify-between sticky top-0 bg-[#F3F6FB]/90 px-3 py-1 rounded-lg z-20">
             <h3 className="font-semibold text-neutral-700">
               {props.title}
             </h3>
@@ -68,7 +68,7 @@ const PropertiesCard = (props: Props) => {
 
           <div>
             <table className="w-full">
-              <thead className="text-left bg-accent backdrop-blur shadow-lg shadow-accent/10 text-white rounded-lg">
+              <thead className="text-left bg-accent shadow-lg shadow-accent/10 text-white rounded-lg">
                 <tr>
                   <th className="pl-4 px-10  font-medium py-1 rounded-l-lg">
                     #
