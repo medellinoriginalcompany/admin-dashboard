@@ -68,6 +68,13 @@ const NavItem = (props: Props) => {
                 </span>
               </div>
             </Link>
+            <Link to='/produtos/lixeira'>
+              <div className="pl-5 py-2 rounded group hover:bg-accent/30">
+                <span className="text-neutral-700 font-medium group-hover:text-blue-950">
+                  Lixeira
+                </span>
+              </div>
+            </Link>
           </div>
         )
       }
