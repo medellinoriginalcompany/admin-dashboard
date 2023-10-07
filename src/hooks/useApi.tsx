@@ -80,10 +80,11 @@ export const useApi = () => ({
     return response.data;
   },
 
-  uploadImage: async (file: any) => {
+  uploadImage: async (file: any, filename: string) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'mdlln_default');
+    formData.append('public_id', filename);
 
     const response = await api.post('https://api.cloudinary.com/v1_1/medellincompany/image/upload', formData, {
       headers: {
