@@ -14,6 +14,8 @@ import Confirmation from "../components/Confirmation";
 import erricon from '/icons/danger.svg';
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
+import { quality } from "@cloudinary/url-gen/actions/delivery";
+import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 
 
 
@@ -146,12 +148,12 @@ const Products = () => {
                         }
                       });
 
-                      const url = cld.image(product.Banner);
+                      const url = cld.image(product.Banner).delivery(quality(auto())).format(auto());
 
                       return (
                         <tr key={product.ID}>
                           <td className='pl-4 py-3 flex gap-4'>
-                            <AdvancedImage cldImg={url} className="w-14 h-14 rounded-lg object-cover" alt={'Imagem ' + product.Name} />
+                            <AdvancedImage cldImg={url} className="w-14 h-14 rounded-lg object-cover" alt={'Imagem ' + product.Name} loading="lazy" />
                             <div className='flex flex-col h-fit'>
                               <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
                                 {product.Name}
