@@ -154,7 +154,7 @@ const Products = () => {
                       }
                     });
 
-                    const url = cld.image(product.Banner).delivery(quality(auto())).format(auto());
+                    const url = cld.image(product.Banner).format(auto());
 
                     return (
                       <li key={product.ID} className="grid grid-cols-7 items-center">
