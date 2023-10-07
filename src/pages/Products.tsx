@@ -12,6 +12,8 @@ import deleteicon from '/icons/trash.svg';
 import moreicon from '/icons/more.svg';
 import Confirmation from "../components/Confirmation";
 import erricon from '/icons/danger.svg';
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { AdvancedImage } from "@cloudinary/react";
 
 
 
@@ -48,19 +50,6 @@ const Products = () => {
     }
   }
 
-  useEffect(() => {
-    getProducts();
-
-    // Certifique-se de limpar o intervalo ao desmontar o componente
-    return () => {
-      if (retryTimeout) {
-        clearTimeout(retryTimeout);
-      }
-    };
-  }, []);
-
-
-
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir este produto?")) {
       const response = await api.deleteProduct(id);
@@ -82,6 +71,17 @@ const Products = () => {
 
     }
   }
+
+  useEffect(() => {
+    getProducts();
+
+    // Certifique-se de limpar o intervalo ao desmontar o componente
+    return () => {
+      if (retryTimeout) {
+        clearTimeout(retryTimeout);
+      }
+    };
+  }, []);
 
   return (
     <div className="flex">
@@ -140,10 +140,18 @@ const Products = () => {
                     </tr>
                   ) : (
                     products.slice(0, 30).map((product) => {
+                      const cld = new Cloudinary({
+                        cloud: {
+                          cloudName: 'medellincompany',
+                        }
+                      });
+
+                      const url = cld.image(product.Banner);
+
                       return (
                         <tr key={product.ID}>
                           <td className='pl-4 py-3 flex gap-4'>
-                            <img src={'/images/' + product.Banner} className="w-14 h-14 rounded-lg object-cover" />
+                            <AdvancedImage cldImg={url} className="w-14 h-14 rounded-lg object-cover" alt={'Imagem ' + product.Name} />
                             <div className='flex flex-col h-fit'>
                               <span className='font-semibold whitespace-nowrap w-60 overflow-hidden overflow-ellipsis'>
                                 {product.Name}
