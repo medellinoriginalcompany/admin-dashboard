@@ -36,8 +36,8 @@ const ProductAdd = () => {
   const [colors, setColors] = useState<ProductProperty[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [banner, setBanner] = useState<File>();
-  const [bannerName, setBannerName] = useState<string>('');
+  const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
@@ -47,16 +47,16 @@ const ProductAdd = () => {
     e.preventDefault();
 
     try {
-      if (!banner) {
-        setErrMsg('Selecione uma imagem de banner');
+      if (!file) {
+        setErrMsg('Selecione uma imagem para o banner');
         return;
       }
 
       setSuccessMsg('Carregando imagens...')
-      const upload = await api.uploadImage(banner);
+      const upload = await api.uploadImage(file, fileName);
 
       if (upload) {
-        const response = await api.addProduct(bannerName, name, description, price, size, type, category, color, active, sku);
+        const response = await api.addProduct(fileName, name, description, price, size, type, category, color, active, sku);
         if (response) {
           setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
           setTimeout(() => {
@@ -75,8 +75,17 @@ const ProductAdd = () => {
 
   const bannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setBanner(e.target.files[0]);
-      setBannerName(e.target.files[0].name);
+      // Gerar nome para a imagem 20231006-SKU.extensão
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // +1 porque os meses começam em 0
+      const day = date.getDate();
+
+      const fileName = `${year}${month}${day}-${sku}`;
+      console.log(fileName)
+      setFileName(fileName);
+
+      setFile(e.target.files[0]);
       setImagePreview(URL.createObjectURL(e.target.files[0]));
     }
   }
@@ -123,6 +132,19 @@ const ProductAdd = () => {
 
     const sku = generateSKU(skuManufact, skuType, skuColor, skuSize, skuCategory);
     setSku(sku);
+
+    if (file && sku) {
+      // Gerar nome para a imagem 20231006-SKU.extensão
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // +1 porque os meses começam em 0
+      const day = date.getDate();
+  
+      const fileName = `${year}${month}${day}-${sku}`;
+      console.log(fileName)
+      setFileName(fileName);
+    }
+
   }, [category, size, price, type, color]);
 
   useEffect(() => {
