@@ -6,6 +6,7 @@ import ProductInput from '../components/form/ProductInput'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ProductProperty } from '../types/product/Property'
 import { useApi } from '../hooks/useApi'
+import { Cloudinary } from '@cloudinary/url-gen/index'
 
 import arrowicon from '/icons/arrow-left.svg'
 import imgicon from '/icons/gallery-add.svg'
@@ -53,7 +54,7 @@ const ProductEdit = () => {
         return;
       }
 
-      const upload = await api.uploadImage(banner);
+      const upload = await api.uploadImage(banner, bannerName);
       setSuccessMsg('Carregando imagens...')
 
       if (upload) {
@@ -93,7 +94,6 @@ const ProductEdit = () => {
     }
   }
 
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -104,6 +104,12 @@ const ProductEdit = () => {
         ]);
 
         if (response) {
+          const cld = new  Cloudinary({
+            cloud: {
+              cloudName: 'medellincompany',
+            }
+          });
+ 
           setCategories(response[0].categories);
           setTypes(response[0].types);
           setSizes(response[0].sizes);
@@ -117,6 +123,7 @@ const ProductEdit = () => {
           setCategory(response[1].product.Category.Name);
           setColor(response[1].product.Color.Name);
           setActive(response[1].product.Active);
+          setImagePreview(cld.image(response[1].product.Banner).toURL());
 
           setLoading(false);
         }
