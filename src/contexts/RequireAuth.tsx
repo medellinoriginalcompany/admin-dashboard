@@ -10,8 +10,9 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
   const auth = useContext(AuthContext);
 
   // Se o usuário não estiver logado, redireciona para a página de login
-  if(!auth.user){
+  if (!auth.user) {
     return <Login />
   }
+  
   return children;
 }
