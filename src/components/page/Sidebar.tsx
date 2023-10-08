@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import NavItem from './NavItem'
 import { useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
 
 import logo from '/images/medellin-black.png'
 
