@@ -44,6 +44,11 @@ export const useApi = () => ({
     }
   },
 
+  getTrash: async () => {
+    const response = await api.get('/admin/produtos/lixeira');
+    return response.data;
+  },
+
   addProduct: async (
     banner: string,
     name: string,
