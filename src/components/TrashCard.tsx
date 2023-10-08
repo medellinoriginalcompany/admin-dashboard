@@ -9,15 +9,28 @@ type Props = {
 }
 
 const TrashCard = (props: Props) => {
-  const [showOptions, setShowOptions] = useState<boolean>(false); // Estado para controlar a exibição das opções de restaurar e excluir
-  const trashCardRef = useRef<HTMLDivElement>(null); // Referência para o elemento do card
+  const [showOptions, setShowOptions] = useState<boolean>(false);
+  const trashCardRef = useRef<HTMLDivElement>(null);
 
-  // Função para fechar as opções quando o usuário clicar fora
   const handleClickOutside = (event: { target: any; }) => {
     if (trashCardRef.current && !trashCardRef.current.contains(event.target)) {
       setShowOptions(false);
     }
   };
+
+  const handleEscape = (event: { keyCode: number; }) => {
+    if (event.keyCode === 27) {
+      setShowOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
 
   useEffect(() => {
     // Adiciona o ouvinte de eventos quando showOptions for verdadeiro
