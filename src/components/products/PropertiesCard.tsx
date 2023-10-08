@@ -1,6 +1,6 @@
 import PropertiesRow from "./PropertiesRow"
 import { ProductProperty } from "../../types/product/Property"
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, useEffect } from "react"
 import ProductInput from "../form/ProductInput"
 
 import closeicon from "/icons/close-circle.svg"
@@ -47,6 +47,20 @@ const PropertiesCard = (props: Props) => {
       setErrMessage(error.response.data.message)
     }
   }
+
+  const handleEscape = (event: { keyCode: number; }) => {
+    if (event.keyCode === 27) {
+      setShowAddProperty(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
 
 
   return (
