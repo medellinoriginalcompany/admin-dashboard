@@ -51,8 +51,8 @@ const PropertiesCard = (props: Props) => {
 
   return (
     <>
-      <div className="flex space-x-5 justify-between h-96">
-        <div className="bg-white/60 rounded-xl py-7 px-10 space-y-5 overflow-y-scroll card w-full">
+      <div className="flex justify-between h-96">
+        <div className="bg-white/60 rounded py-7 px-10 space-y-5 overflow-y-scroll card w-full">
           <div className="flex justify-between sticky top-0 bg-[#F3F6FB]/90 px-3 py-1 rounded-lg z-20">
             <h3 className="font-semibold text-neutral-700">
               {props.title}
