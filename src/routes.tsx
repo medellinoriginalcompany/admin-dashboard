@@ -8,7 +8,7 @@ import ProductProperties from './pages/ProductProperties';
 import Orders from './pages/Orders';
 import ProductEdit from './pages/ProductEdit';
 import NotFound from './pages/err/NotFound';
-import Trash from './pages/Trash';
+import Trash from './pages/ProductTrash';
 
 const AppRoutes = () => {
   const location = useLocation();
