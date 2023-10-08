@@ -8,7 +8,7 @@ import { Cloudinary } from '@cloudinary/url-gen/index'
 
 import arrowicon from '/icons/arrow-left.svg'
 import imgicon from '/icons/gallery-add.svg'
-import erricon from '/icons/danger.svg'
+import erricon from '/icons/danger-red.svg'
 import generateSKU from '../funcs/generateSKU'
 import DefaultPage from '../components/page/DefaultPage'
 

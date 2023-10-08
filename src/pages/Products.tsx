@@ -8,7 +8,7 @@ import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
 import moreicon from '/icons/more.svg';
 import Confirmation from "../components/Confirmation";
-import erricon from '/icons/danger.svg';
+import erricon from '/icons/danger-red.svg';
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
 import { auto } from "@cloudinary/url-gen/qualifiers/quality";

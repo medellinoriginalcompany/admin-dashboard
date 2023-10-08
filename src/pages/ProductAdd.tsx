@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { ProductProperty } from "../types/product/Property";
 import generateSKU from "../funcs/generateSKU";
 
-import erricon from '/icons/danger.svg';
+import erricon from '/icons/danger-red.svg';
 import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
 import DefaultPage from "../components/page/DefaultPage";
