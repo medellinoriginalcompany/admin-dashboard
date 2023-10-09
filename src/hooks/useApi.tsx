@@ -85,6 +85,11 @@ export const useApi = () => ({
     return response.data;
   },
 
+  restoreProduct: async (id: number) => {
+    const response = await api.post(`/admin/produtos/restaurar/${id}`);
+    return response.data;
+  },
+
   delete: async (type: string, id: number) => {
     const response = await api.delete(`/admin/deletar/${type}/${id}`);
     return response.data;
