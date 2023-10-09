@@ -48,9 +48,9 @@ const ProductCard = (props: Props) => {
 
   return (
     <>
-      <li key={props.product.Name} className="grid grid-cols-7 items-center">
+      <li className="grid grid-cols-7 items-center">
         <div className='px-4 flex gap-4 col-span-2 bg-white/80 rounded-l p-2'>
-          <div onClick={() => setShowImage(true)}>
+          <div className="cursor-pointer hover:brightness-[.7]" onClick={() => setShowImage(true)}>
             <AdvancedImage cldImg={props.imageURL} className="w-14 min-w-[56px] h-14 rounded-lg object-cover" alt={'Imagem ' + props.product.Name} loading="lazy" />
           </div>
           <Link to={'/produtos/editar?id=' + props.product.ID} className='flex flex-col h-fit my-auto'>
@@ -114,7 +114,7 @@ const ProductCard = (props: Props) => {
           <div className='fixed -top-1 left-0 w-full h-full bg-neutral-800/20 z-50' onClick={() => setShowImage(false)}>
             <div className='flex flex-col justify-center h-full'>
               <div className="max-w-4xl mx-auto">
-                <AdvancedImage cldImg={url} alt="" />
+                <AdvancedImage cldImg={props.imageURL} alt="" />
               </div>
             </div>
           </div>
