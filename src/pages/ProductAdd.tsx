@@ -242,7 +242,7 @@ const ProductAdd = () => {
               type="text"
               value={name}
               handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setName(e.target.value) }}
-              maxLength={50}
+              maxLength={200}
               placeholder="Digite o nome do produto"
               autoFocus
             />
