@@ -153,7 +153,7 @@ const Products = () => {
                   return (
                     <li key={product.ID} className="grid grid-cols-7 items-center">
                       <div className='px-4 flex gap-4 col-span-2 bg-white/80 rounded-l p-2'>
-                        <AdvancedImage cldImg={url} className="w-14 h-14 rounded-lg object-cover" alt={'Imagem ' + product.Name} loading="lazy" />
+                        <AdvancedImage cldImg={url} className="w-14 min-w-[56px] h-14 rounded-lg object-cover" alt={'Imagem ' + product.Name} loading="lazy" />
                         <Link to={'/produtos/editar?id=' + product.ID} className='flex flex-col h-fit my-auto'>
                           <span className='font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis md:w-44 2xl:w-80' title={product.Name}>
                             {product.Name}
