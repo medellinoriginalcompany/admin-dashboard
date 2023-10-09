@@ -11,6 +11,7 @@ const Trash = () => {
   const api = useApi();
 
   const [items, setItems] = useState<ProductTrash[]>([]);
+  const [errMsg, setErrMsg] = useState<string>('');
 
   const getTrash = async () => {
     try {
@@ -20,8 +21,7 @@ const Trash = () => {
       };
 
     } catch (error: any) {
-      console.log(error);
-      console.log("Ocorreu um erro ao obter os produtos");
+      setErrMsg(error.response.data.message);
     }
 
   };
@@ -60,6 +60,15 @@ const Trash = () => {
               />
             )
           })
+        }
+        {
+          errMsg ? (
+            <div className='sticky top-10 right-0 my-3'>
+              <div className="bg-red-100/80 text-red-500 font-medium px-4 py-2 rounded-lg shadow-lg shadow-red-500/20">
+                <span>{errMsg}</span>
+              </div>
+            </div>
+          ) : null
         }
       </div>
     </DefaultPage>
