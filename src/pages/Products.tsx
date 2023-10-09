@@ -5,7 +5,7 @@ import { Product } from "../types/product/Product";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 
-import addicon from '/icons/add-square.svg';  
+import addicon from '/icons/add-square.svg';
 import Confirmation from "../components/Confirmation";
 import erricon from '/icons/danger-red.svg';
 import DefaultPage from "../components/page/DefaultPage";
@@ -123,16 +123,12 @@ const Products = () => {
                   });
 
                   const url = cld.image(product.Banner).format(auto());
-          
 
                   return (
-                    <>
-                      <ProductCard
-                        key={product.ID}
-                        imageURL={url}
-                        product={product}
-                      />
-                    </>
+                    <ProductCard key={product.ID}
+                      imageURL={url}
+                      product={product}
+                    />
                   )
                 })
               )
