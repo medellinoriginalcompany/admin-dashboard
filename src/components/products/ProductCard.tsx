@@ -71,7 +71,7 @@ const ProductCard = (props: Props) => {
         </div>
         <div className='bg-white/80 p-2'>
           <div className="py-4 2xl:px-4">
-            <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+            <span className="overflow-hidden whitespace-nowrap text-ellipsis" title={props.product.Category.Name}>
               {props.product.Category.Name}
             </span>
           </div>
