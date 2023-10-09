@@ -53,6 +53,13 @@ const Sidebar = () => {
                 link='/usuarios'
               />
             </li>
+            <li>
+              <NavItem
+                icon='document-text-1'
+                text='Logs'
+                link='/logs'
+              />
+            </li>
           </ul>
         </div>
         <div className='px-8 py-10'>
