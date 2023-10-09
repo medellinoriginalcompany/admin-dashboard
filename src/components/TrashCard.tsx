@@ -68,9 +68,9 @@ const TrashCard = (props: Props) => {
       setConfirmationMessage('');
       setErrMsg(error.response.data.message);
 
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 5000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     }
   }
 
@@ -205,7 +205,7 @@ const TrashCard = (props: Props) => {
                     }
                     <button onClick={() => setShowConfirmationDelete(false) }
                       className='bg-accent text-white font-medium px-4 py-2 rounded hover:bg-blue-700' >Não! Me leve de volta</button>
-                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleDelete(props.id)}>Deletar permanentemente</button>
+                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleDelete(props.id)}>Deletar permanentemente <span className='px-1'>:&#40;</span></button>
                   </div>
                 </div>
               </div>
@@ -265,7 +265,7 @@ const TrashCard = (props: Props) => {
                     }
                     <button onClick={() => setShowConfirmationRestore(false) }
                       className='bg-accent text-white font-medium px-4 py-2 rounded hover:bg-blue-700' >Não! Me leve de volta</button>
-                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleRestore(props.id)}>Restaurar produto</button>
+                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleRestore(props.id)}>Restaurar produto<span className='px-1'>:&#41;</span></button>
                   </div>
                 </div>
               </div>
