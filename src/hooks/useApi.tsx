@@ -80,6 +80,11 @@ export const useApi = () => ({
     return response.data;
   },
 
+  permaDeleteProduct: async (id: number) => {
+    const response = await api.delete(`/admin/produtos/deletar-permanente/${id}`);
+    return response.data;
+  },
+
   delete: async (type: string, id: number) => {
     const response = await api.delete(`/admin/deletar/${type}/${id}`);
     return response.data;
