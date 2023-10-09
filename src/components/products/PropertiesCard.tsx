@@ -2,10 +2,10 @@ import PropertiesRow from "./PropertiesRow"
 import { ProductProperty } from "../../types/product/Property"
 import { useState, ChangeEvent, useEffect } from "react"
 import ProductInput from "../form/ProductInput"
-
-import closeicon from "/icons/close-circle.svg"
+import { useNavigate } from "react-router-dom"
 import { useApi } from "../../hooks/useApi"
 
+import closeicon from "/icons/close-circle.svg"
 
 type Props = {
   title: string,
@@ -23,28 +23,31 @@ const PropertiesCard = (props: Props) => {
   const [confirmationMessage, setConfirmationMessage] = useState<string>('');
 
   const [showAddProperty, setShowAddProperty] = useState<boolean>(false);
-
   const handleClick = () => {
     setShowAddProperty(!showAddProperty);
   }
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     try {
       const response = await api.addProductProperty(props.title.toLowerCase(), name, description);
-
+      
       if (response) {
         setConfirmationMessage(response.message);
-
+        const currentPage = location.pathname;
+        
         setTimeout(() => {
-          window.location.reload();
-          setShowAddProperty(false);
-        }, 700);
-
+          navigate('/empty');
+        }, 900);
+        setTimeout(() => {
+          setConfirmationMessage('');
+          navigate(currentPage, {replace: true})
+        }, 1000);
       }
     } catch (error: any) {
-      setErrMessage(error.response.data.message)
+      setErrMessage(error.response.data.message);
     }
   }
 
