@@ -65,7 +65,7 @@ const PropertiesRow = (props: Props) => {
             return (
               <tr key={param.ID}>
                 <td className="px-4 py-3">
-                  {index}
+                  {index + 1}
                 </td>
                 <td className="px-4">
                   {param.Name}
