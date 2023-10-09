@@ -60,7 +60,7 @@ const ProductAdd = () => {
           setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
           setTimeout(() => {
             navigate('/produtos');
-          }, 3000); // 3 segundos
+          }, 1500); // 1.5 segundos
         }
       }
 
