@@ -25,10 +25,8 @@ const Trash = () => {
     }
 
   };
-  useEffect(() => {
 
-    getTrash();
-  }, []);
+  useEffect(() => { getTrash() }, []);
 
   return (
     <DefaultPage>
@@ -47,14 +45,18 @@ const Trash = () => {
             const date = new Date(item.DeletedAt);
             const day = date.getDate().toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
             const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
+            // Formatar horário para 12:00:00
+            const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             const formattedDate = `${day}.${month}.${date.getFullYear()}`;
 
             return (
               <TrashCard key={item.ID}
+                id={item.ID}
                 name={item.Name}
                 price={item.Price}
                 banner={url}
                 date={formattedDate}
+                time={time}
               />
             )
           })
