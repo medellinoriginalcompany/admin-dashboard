@@ -13,7 +13,7 @@ import generateSKU from '../funcs/generateSKU'
 import DefaultPage from '../components/page/DefaultPage'
 
 const ProductEdit = () => {
-  document.title = import.meta.env.VITE_APP_TITLE + ' | Editar produto';
+  document.title = import.meta.env.VITE_APP_TITLE + ' | Editar Produto';
 
   const api = useApi();
   const [params] = useSearchParams(); // Obter os parâmetros da URL

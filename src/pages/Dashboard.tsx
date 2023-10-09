@@ -6,6 +6,7 @@ import Resume from "../components/dashboard/Resume"
 
 
 const Dashboard = () => {
+  document.title = import.meta.env.VITE_APP_TITLE + ' | Dashboard';
   return (
     <DefaultPage>
       <Resume />

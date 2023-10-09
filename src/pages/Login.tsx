@@ -8,6 +8,8 @@ import erricon from '/icons/danger-red.svg';
 import Input from '../components/auth/Input';
 
 const Login = () => {
+  document.title = import.meta.env.VITE_APP_TITLE + ' | Login';
+  
   const auth = useContext(AuthContext);
 
   const emailRef = useRef<HTMLInputElement>(null!);

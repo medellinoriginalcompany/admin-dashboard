@@ -5,6 +5,7 @@ import PropertiesCard from "../components/products/PropertiesCard";
 import DefaultPage from "../components/page/DefaultPage";
 
 const ProductProperties = () => {
+  document.title = import.meta.env.VITE_APP_TITLE + ' | Propriedades';
 
   const api = useApi();
 
