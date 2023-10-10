@@ -22,6 +22,8 @@ export default {
       fontFamily: {
         'source-sans': ["'Source Sans 3'", 'sans-serif'],
         'open-sans': ["'Open Sans'", 'sans-serif'],
+        'nunito': ["'Nunito Sans'", 'sans-serif'],
+        'noto-sans': ["'Noto Sans'", 'sans-serif'],
       },
     },
   },
