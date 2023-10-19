@@ -18,13 +18,15 @@ const ProductAdd = () => {
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [price, setPrice] = useState<string>('');
-  const [size, setSize] = useState<string>('');
+  const [sku, setSku] = useState<string>('');
+  const [price, setPrice] = useState<any>('');
+  const [stock, setStock] = useState<string>('');
+  const [active, setActive] = useState<boolean>(true);
+  const [discountedPrice, setDiscountedPrice] = useState<any>('');
   const [type, setType] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [size, setSize] = useState<string>('');
   const [color, setColor] = useState<string>('');
-  const [active, setActive] = useState<boolean>(true);
-  const [sku, setSku] = useState<string>('');
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -45,17 +47,34 @@ const ProductAdd = () => {
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
+    const productData = {
+      name,
+      description,
+      sku,
+      price,
+      stock,
+      active,
+      discountedPrice,
+      banner: fileName,
+      type,
+      category,
+      size,
+      color,
+    }
+
+    console.log(productData)
+
     try {
       if (!file) {
         setErrMsg('Selecione uma imagem para o banner');
         return;
       }
-
+      setErrMsg('');
       setSuccessMsg('Carregando imagens...')
       const upload = await api.uploadImage(file, fileName);
 
       if (upload) {
-        const response = await api.addProduct(fileName, name, description, price, size, type, category, color, active, sku);
+        const response = await api.addProduct(productData);
         if (response) {
           setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
           setTimeout(() => {
@@ -66,7 +85,6 @@ const ProductAdd = () => {
 
     } catch (error: any) {
       setSuccessMsg(''); // Limpa a mensagem de sucesso
-      // setErrMsg(error.response.data.message);
       setErrMsg(error.message)
       console.log(error.response.data.body)
     }
@@ -99,7 +117,6 @@ const ProductAdd = () => {
       setImagesPreview(previews);
     }
   }
-
 
   useEffect(() => {
     const getData = async () => {
@@ -149,7 +166,7 @@ const ProductAdd = () => {
   useEffect(() => {
     setErrMsg('');
     setSuccessMsg('');
-  }, [name, description, price, size, type, category, color, active])
+  }, [name, description, price, discountedPrice, size, type, category, color, active])
 
 
   const selectCSS = "w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none";
@@ -375,19 +392,49 @@ const ProductAdd = () => {
               </div>
             </div>
 
-            <div className="w-fit">
+            <div className="flex items-center space-x-3">
               <ProductInput
                 label="Preço"
                 name="price"
                 type="tel"
                 value={price}
                 handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  // Certifique-se de que o valor seja uma string válido antes de convertê-lo
-                  const newValue = e.target.value.replace(',', '.'); // Troca ',' por '.' para permitir números decimais
-                  setPrice(newValue);
+                  // Formatar , para .
+                  const value = e.target.value.replace(',', '.');
+                  setPrice(value);
                 }}
-                maxLength={7}
-                placeholder="19.99"
+                max={99999.99}
+                placeholder="1099.99"
+              />
+              <ProductInput
+                label="Preço com desconto"
+                name="price"
+                type="tel"
+                value={discountedPrice ?? 0}
+                handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  // Formatar , para .
+                  const value = e.target.value.replace(',', '.');
+                  setDiscountedPrice(value);
+                }}
+                max={99999.99}
+                placeholder="909.99"
+              />
+              {discountedPrice > 0 && (
+                <span className="bg-green-200 text-green-600 px-3 mt-5 rounded ">
+                  {discountedPrice ? Math.round((1 - (discountedPrice / price)) * 100) : 0}% OFF
+                </span>
+              )}
+            </div>
+
+            <div className="w-fit">
+              <ProductInput
+                label='Quantidade em estoque'
+                name='stock'
+                type='number'
+                value={stock}
+                handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setStock(e.target.value) }}
+                maxLength={3}
+                placeholder='0'
               />
             </div>
 
@@ -407,7 +454,8 @@ const ProductAdd = () => {
             </div>
 
             <div className="flex justify-end">
-              <button type="submit" disabled={!(imagePreview && name && description && price && size && type && category && color)}
+              <button type="submit"
+                disabled={!(imagePreview && name && description && price && size && type && category && color)}
                 className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow-lg hover:bg-neutral-900">
                 Cadastrar
               </button>
