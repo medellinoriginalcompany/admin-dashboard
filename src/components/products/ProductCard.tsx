@@ -6,7 +6,6 @@ import { useState } from "react";
 
 import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
-import moreicon from '/icons/more.svg';
 import Confirmation from "../Confirmation";
 import { useApi } from "../../hooks/useApi";
 
@@ -97,14 +96,11 @@ const ProductCard = (props: Props) => {
           <div className="py-4 space-x-4 w-fit mx-auto flex">
             <Link to={'/produtos/editar?id=' + props.product.ID} className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
               <div>
-                <img src={editicon} alt='edit' className='w-4' draggable='false' />
+                <img src={editicon} alt='edit' className='min-w-[16px] w-4' draggable='false' />
               </div>
             </Link>
             <div onClick={async () => { await handleDelete(props.product.ID, props.product.Name); }} className="bg-red-200/80 p-3 rounded-full cursor-pointer hover:bg-red-300/80">
-              <img src={deleteicon} alt='delete' className='w-4' draggable='false' />
-            </div>
-            <div className="p-3 rounded-full hover:bg-neutral-300">
-              <img src={moreicon} alt='more' className='w-4 scale-150' draggable='false' />
+              <img src={deleteicon} alt='delete' className='min-w-[16px] w-4' draggable='false' />
             </div>
           </div>
         </div>

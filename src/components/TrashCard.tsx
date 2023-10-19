@@ -132,7 +132,7 @@ const TrashCard = (props: Props) => {
             <span className="text-red-500 text-sm font-medium mt-2">Deletado em: {props.date} às {props.time}</span>
           </div>
         </div>
-        <div className='p-1 rounded-full w-fit h-fit cursor-pointer hover:bg-neutral-200' onClick={() => setShowOptions(!showOptions)}>
+        <div className='p-1 rounded-full min-w-[30px] w-fit h-fit cursor-pointer hover:bg-neutral-200' onClick={() => setShowOptions(!showOptions)}>
           <img src={moreicon} alt="Mais opções" draggable='false' />
         </div>
 

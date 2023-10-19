@@ -30,7 +30,7 @@ const Trash = () => {
 
   return (
     <DefaultPage>
-      <div className="grid gap-2 lg:grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid gap-2 md:grid-cols-1 xl:grid-cols-3">
         {
           items.slice(0, 30).map((item) => {
             const cld = new Cloudinary({
