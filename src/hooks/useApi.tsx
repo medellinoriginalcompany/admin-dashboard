@@ -51,8 +51,7 @@ export const useApi = () => ({
   },
 
   addProduct: async (productData: ProductData) => {
-    const response = await api.post('/admin/cadastrar-produto', { productData });
-
+    const response = await api.post('/admin/cadastrar-produto', productData);
     return response.data;
   },
 
