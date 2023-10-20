@@ -26,6 +26,11 @@ export const useApi = () => ({
     const response = await api.post('/admin/logout');
     return response.data;
   },
+  
+  getProduct: async (id: string) => {
+    const response = await api.get(`/admin/produto/${id}`);
+    return response.data;
+  },
 
   getProducts: async () => {
     const response = await api.get('/admin/produtos');
@@ -51,7 +56,7 @@ export const useApi = () => ({
   },
 
   addProduct: async (productData: ProductData) => {
-    const response = await api.post('/admin/cadastrar-produto', productData);
+    const response = await api.post('/admin/produtos/cadastrar-produto', productData);
     return response.data;
   },
 
@@ -60,8 +65,8 @@ export const useApi = () => ({
     return response.data;
   },
 
-  editProduct: async (id: string) => {
-    const response = await api.get(`/admin/produto/${id}`);
+  editProduct: async (id: string, productData: ProductData) => {
+    const response = await api.post(`/admin/produtos/editar-produto/${id}`, productData);
     return response.data;
   },
 
