@@ -4,29 +4,32 @@ import ProductInput from '../components/form/ProductInput'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ProductProperty } from '../types/product/Property'
 import { useApi } from '../hooks/useApi'
-import { Cloudinary } from '@cloudinary/url-gen/index'
 
 import arrowicon from '/icons/arrow-left.svg'
 import imgicon from '/icons/gallery-add.svg'
 import erricon from '/icons/danger-red.svg'
 import generateSKU from '../funcs/generateSKU'
 import DefaultPage from '../components/page/DefaultPage'
+import cldConfig from '../hooks/useCloudinary'
 
 const ProductEdit = () => {
   document.title = import.meta.env.VITE_APP_TITLE + ' | Editar Produto';
 
   const api = useApi();
+  const cld = cldConfig;
   const [params] = useSearchParams(); // Obter os parâmetros da URL
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [price, setPrice] = useState<string>('');
-  const [size, setSize] = useState<string>('');
+  const [sku, setSku] = useState<string>('');
+  const [price, setPrice] = useState<any>('');
+  const [stock, setStock] = useState<string>('');
+  const [active, setActive] = useState<boolean>(true);
+  const [discountedPrice, setDiscountedPrice] = useState<any>('');
   const [type, setType] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [size, setSize] = useState<string>('');
   const [color, setColor] = useState<string>('');
-  const [active, setActive] = useState<boolean>(true);
-  const [sku, setSku] = useState<string>('');
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -37,8 +40,8 @@ const ProductEdit = () => {
   const [colors, setColors] = useState<ProductProperty[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [banner, setBanner] = useState<File>();
-  const [bannerName, setBannerName] = useState<string>('');
+  const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>('');
   const [_, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
@@ -47,37 +50,66 @@ const ProductEdit = () => {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const productData = {
+      name,
+      description,
+      sku,
+      price,
+      stock,
+      active,
+      discountedPrice,
+      banner: fileName,
+      type,
+      category,
+      size,
+      color,
+    }
+    console.log(productData)
+
     try {
-      if (!banner) {
-        setErrMsg('Selecione uma imagem de banner');
-        return;
-      }
+      setErrMsg('');
+      // Detectar se a imagem foi alterada
+      if (file) {
+        setSuccessMsg('Enviando imagem...');
+        const upload = await api.uploadImage(file, fileName);
 
-      const upload = await api.uploadImage(banner, bannerName);
-      setSuccessMsg('Carregando imagens...')
-
-      if (upload) {
-        const response = await api.addProduct(bannerName, name, description, price, size, type, category, color, active, sku);
+        if (upload) {
+          const response = await api.editProduct(params.get('id')!, productData);
+          if (response) {
+            setSuccessMsg(response.message + 'Redirecionando para a página de produtos...');
+            setTimeout(() => {
+              navigate('/produtos');
+            }, 1500); // 1.5 segundos
+          }
+        }
+      } else {
+        const response = await api.editProduct(params.get('id')!, productData);
         if (response) {
-          setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
+          setSuccessMsg(response.message + ' Redirecionando para a página de produtos...');
           setTimeout(() => {
             navigate('/produtos');
-          }, 3000); // 3 segundos
+          }, 1500); // 1.5 segundos
         }
       }
-
     } catch (error: any) {
       setSuccessMsg(''); // Limpa a mensagem de sucesso
-      // setErrMsg(error.response.data.message);
       setErrMsg(error.message)
-      console.log(error.response.data.body)
     }
   }
 
   const bannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setBanner(e.target.files[0]);
-      setBannerName(e.target.files[0].name);
+      // Gerar nome para a imagem 20231006-SKU.extensão
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // +1 porque os meses começam em 0
+      const day = date.getDate();
+
+      const fileName = `${year}${month}${day}-${sku}`;
+      console.log(fileName)
+      setFileName(fileName);
+
+      setFile(e.target.files[0]);
       setImagePreview(URL.createObjectURL(e.target.files[0]));
     }
   }
@@ -99,15 +131,10 @@ const ProductEdit = () => {
         // Obter as propriedades dos produtos e produto
         const response = await Promise.all([
           api.getProductProperties(),
-          api.editProduct(params.get('id')!),
+          api.getProduct(params.get('id')!),
         ]);
 
         if (response) {
-          const cld = new Cloudinary({
-            cloud: {
-              cloudName: 'medellincompany',
-            }
-          });
 
           setCategories(response[0].categories);
           setTypes(response[0].types);
@@ -116,19 +143,23 @@ const ProductEdit = () => {
 
           setName(response[1].product.Name);
           setDescription(response[1].product.Description);
-          setPrice(response[1].product.Price);
-          setSize(response[1].product.Size.Name);
+          setPrice(response[1].product.Price.toString());
+          setStock(response[1].product.Stock.toString());
+          setActive(response[1].product.Active);
+          setDiscountedPrice(response[1].product.DiscountedPrice.toString());
+          setFileName(response[1].product.Banner);
           setType(response[1].product.Type.Name);
           setCategory(response[1].product.Category.Name);
+          setSize(response[1].product.Size.Name);
           setColor(response[1].product.Color.Name);
-          setActive(response[1].product.Active);
           setImagePreview(cld.image(response[1].product.Banner).toURL());
+          console.log(price)
 
           setLoading(false);
         }
       } catch (error: any) {
-        setErrMsg(error.response.data.message)
-        console.log(error);
+        setErrMsg(error)
+        console.log(error.data.message);
       }
     };
 
@@ -375,19 +406,49 @@ const ProductEdit = () => {
               </div>
             </div>
 
-            <div className="w-fit">
+            <div className="flex items-center space-x-3">
               <ProductInput
                 label="Preço"
                 name="price"
                 type="tel"
                 value={price}
                 handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  // Certifique-se de que o valor seja uma string válido antes de convertê-lo
-                  const newValue = e.target.value.replace(',', '.'); // Troca ',' por '.' para permitir números decimais
-                  setPrice(newValue);
+                  // Formatar , para .
+                  const value = e.target.value.replace(',', '.');
+                  setPrice(value);
                 }}
-                maxLength={7}
-                placeholder="19.99"
+                max={99999.99}
+                placeholder="1099.99"
+              />
+              <ProductInput
+                label="Preço com desconto"
+                name="price"
+                type="tel"
+                value={discountedPrice ?? 0}
+                handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  // Formatar , para .
+                  const value = e.target.value.replace(',', '.');
+                  setDiscountedPrice(value);
+                }}
+                max={99999.99}
+                placeholder="909.99"
+              />
+              {discountedPrice > 0 && (
+                <span className="bg-green-200 text-green-600 px-3 mt-5 rounded ">
+                  {discountedPrice ? Math.round((1 - (discountedPrice / price)) * 100) : 0}% OFF
+                </span>
+              )}
+            </div>
+
+            <div className="w-fit">
+              <ProductInput
+                label='Quantidade em estoque'
+                name='stock'
+                type='number'
+                value={stock}
+                handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setStock(e.target.value) }}
+                maxLength={3}
+                placeholder='0'
               />
             </div>
 
