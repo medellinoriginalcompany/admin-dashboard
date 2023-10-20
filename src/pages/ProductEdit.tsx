@@ -454,7 +454,7 @@ const ProductEdit = () => {
 
             <div className="flex justify-between">
               <div className="flex items-center space-x-2">
-                <input id="active" name="active" type="checkbox" defaultChecked onChange={(e: ChangeEvent<HTMLInputElement>) => { setActive(e.target.checked) }}
+                <input id="active" name="active" type="checkbox" checked={active} onChange={() => setActive(!active)}
                   className="w-fit p-2 border border-neutral-300 rounded-sm accent-neutral-800 focus:ring-1 focus:ring-neutral-600 focus:outline-none" />
                 <label htmlFor="active" className="text-neutral-600">
                   Produto ativo?
