@@ -7,6 +7,8 @@ import { useState } from "react";
 import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
 import Confirmation from "../Confirmation";
+import tickicon from '/icons/tick-circle-green.svg';
+import closeicon from '/icons/close-circle-red.svg';
 import { useApi } from "../../hooks/useApi";
 
 type Props = {
@@ -43,7 +45,7 @@ const ProductCard = (props: Props) => {
     }
   }
 
-  
+
 
   return (
     <>
@@ -84,12 +86,11 @@ const ProductCard = (props: Props) => {
         </div>
         <div className='bg-white/80 p-2'>
           <div className="py-4 px-4">
-            <form className="h-fit">
-              <label className="relative cursor-pointer">
-                <input type="checkbox" name="active" id="active" className="sr-only peer" value='' />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
-            </form>
+            {props.product.Active ? (
+              <img src={tickicon} className="bg-green-100 rounded-full" draggable="false" />
+            ) : (
+              <img src={closeicon} className="bg-red-100 rounded-full" draggable="false" />
+            )}
           </div>
         </div>
         <div className="bg-white/80 relative  rounded-r">
