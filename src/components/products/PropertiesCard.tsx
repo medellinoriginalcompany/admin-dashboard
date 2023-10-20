@@ -30,20 +30,20 @@ const PropertiesCard = (props: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const response = await api.addProductProperty(props.title.toLowerCase(), name, description);
-      
+
       if (response) {
         setConfirmationMessage(response.message);
         const currentPage = location.pathname;
-        
+
         setTimeout(() => {
           navigate('/empty');
         }, 900);
         setTimeout(() => {
           setConfirmationMessage('');
-          navigate(currentPage, {replace: true})
+          navigate(currentPage, { replace: true })
         }, 1000);
       }
     } catch (error: any) {
@@ -97,7 +97,7 @@ const PropertiesCard = (props: Props) => {
                 </tr>
               </thead>
               <tbody>
-                <PropertiesRow loading={props.loading} property={props.property} type={props.title.toLowerCase()} />
+                <PropertiesRow loading={props.loading} property={props.property} type={props.title.toLowerCase()} name={props.title} />
               </tbody>
             </table>
           </div>
@@ -113,6 +113,7 @@ const PropertiesCard = (props: Props) => {
                   <img src={closeicon} alt="" />
                 </div>
                 <form className="space-y-5" onSubmit={handleSubmit}>
+                  <h2 className="text-xl font-semibold">Cadastrar propriedade</h2>
                   <ProductInput
                     label={"Adicionar novo (" + props.title + ")"}
                     name={props.title.toLowerCase()}
