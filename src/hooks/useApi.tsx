@@ -70,6 +70,11 @@ export const useApi = () => ({
     return response.data;
   },
 
+  editProperty: async (type:string, id: number, name: string, description: string) => {
+    const response = await api.post(`/admin/produtos/editar-propriedade/${type}/${id}`, { name, description });
+    return response.data;
+  },
+
   deleteProduct: async (id: number) => {
     const response = await api.delete(`/admin/deletar-produto/${id}`);
     return response.data;
