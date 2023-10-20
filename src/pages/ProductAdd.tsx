@@ -455,7 +455,7 @@ const ProductAdd = () => {
 
             <div className="flex justify-end">
               <button type="submit"
-                disabled={!(imagePreview && name && description && price && size && type && category && color)}
+                disabled={!(imagePreview && name && description && price && stock && size && type && category && color)}
                 className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow-lg hover:bg-neutral-900">
                 Cadastrar
               </button>
