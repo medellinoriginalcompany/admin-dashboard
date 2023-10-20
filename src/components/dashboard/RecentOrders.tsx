@@ -37,10 +37,10 @@ const RecentOrders = () => {
           <tbody className="text-left">
             <tr>
               <td className="px-4 py-3">
-                #857619-20231004
+                #20231020001-06127
               </td>
               <td className="px-4">
-                04/10/2023
+                20/10/2023
               </td>
               <td className="px-4">
                 R$ 100,00
