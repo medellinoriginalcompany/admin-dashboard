@@ -111,7 +111,7 @@ const ProductCard = (props: Props) => {
           <div className='fixed -top-1 left-0 w-full h-full bg-neutral-800/20 z-50' onClick={() => setShowImage(false)}>
             <div className='flex flex-col justify-center h-full'>
               <div className="max-w-4xl mx-auto">
-                <AdvancedImage cldImg={props.imageURL} alt="" />
+                <AdvancedImage cldImg={props.imageURL} alt=""/>
               </div>
             </div>
           </div>

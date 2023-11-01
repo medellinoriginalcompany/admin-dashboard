@@ -110,7 +110,7 @@ const Products = () => {
                   <div className="px-4 py-4">
                     <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
                       <img src={erricon} alt="Erro" />
-                      Nenhum produto foi encontrado.
+                      <p>Nenhum produto foi encontrado.</p>
                     </span>
                   </div>
                 </li>

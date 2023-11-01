@@ -159,7 +159,7 @@ const ProductEdit = () => {
         }
       } catch (error: any) {
         setErrMsg(error)
-        console.log(error.data.message);
+        console.log(error);
       }
     };
 
@@ -188,9 +188,9 @@ const ProductEdit = () => {
   return (
     <DefaultPage>
       <div className="max-w-6xl w-full mx-auto">
-        <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer">
+        <div onClick={() => navigate(-1)} className="w-fit flex gap-2 my-3 cursor-pointer" onKeyDown={()=> navigate(-1)}>
           <img src={arrowicon} className="w-4" />
-          Voltar
+          <p>Voltar</p>
         </div>
         <div className="my-3 mx-2">
           <h2 className="text-xl font-semibold text-neutral-600">
