@@ -27,7 +27,7 @@ const ProductInput = (props: Props) => {
         <input
           className={"w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none"
             + (props.name === 'price' ? ' pl-9' : '')}
-          type={props.type}
+          type={props.type} 
           id={props.name}
           name={props.name}
           value={props.value}
