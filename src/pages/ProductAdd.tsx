@@ -339,7 +339,7 @@ const ProductAdd = () => {
           </div>
 
         </div>
-        <div className="space-y-5 max-w-sm">
+        <div className="-my-4 space-y-5 max-w-sm rounded-lg">
           <div>
             <label htmlFor="category" className="font-medium">
               <span className="text-sm">
@@ -350,7 +350,7 @@ const ProductAdd = () => {
                 name="category"
                 value={category}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setCategory(e.target.value) }}
-                className="w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none">
+                className="w-full p-2 bg-white/70 rounded-sm font-normal cursor-pointer focus:ring-1 focus:ring-neutral-600 focus:outline-none">
                 <option value="" disabled>
                   Selecionar categoria
                 </option>
@@ -382,7 +382,7 @@ const ProductAdd = () => {
                 name="type"
                 value={type}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}
-                className="w-full p-2 bg-white/70 rounded-sm font-normal focus:ring-1 focus:ring-neutral-600 focus:outline-none">
+                className="w-full p-2 bg-white/70 rounded-sm font-normal cursor-pointer focus:ring-1 focus:ring-neutral-600 focus:outline-none">
                 <option value="" disabled>
                   Selecionar tipos
                 </option>
