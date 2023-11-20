@@ -27,8 +27,8 @@ const ProductAdd = () => {
   const [discountedPrice, setDiscountedPrice] = useState<any>('');
   const [type, setType] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  const [size, setSize] = useState<string>('');
-  const [color, setColor] = useState<string>('');
+  const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
+  const [selectedColors, setSelectedColors] = useState<number[]>([]);
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -60,8 +60,6 @@ const ProductAdd = () => {
       banner: fileName,
       type,
       category,
-      size,
-      color,
     }
 
     console.log(productData)
@@ -77,7 +75,7 @@ const ProductAdd = () => {
 
       if (upload) {
         const response = await api.addProduct(productData);
-        if (response) {
+        if (response) { 
           setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
           setTimeout(() => {
             navigate('/produtos');
@@ -120,6 +118,30 @@ const ProductAdd = () => {
     }
   }
 
+  const selectSizes = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const size = Number((e.target as HTMLButtonElement).value);
+    if (selectedSizes.includes(size)) {
+      // Remover o tamanho do array
+      const newSizes = selectedSizes.filter((s) => s !== size);
+      setSelectedSizes(newSizes);
+    } else {
+      // Adicionar o tamanho ao array
+      setSelectedSizes([...selectedSizes, size]);
+    }
+  }
+
+  const selectColors = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const color = Number((e.target as HTMLButtonElement).value);
+    if (selectedColors.includes(color)) {
+      // Remover o tamanho do array
+      const newColors = selectedColors.filter((s) => s !== color);
+      setSelectedColors(newColors);
+    } else {
+      // Adicionar o tamanho ao array
+      setSelectedColors([...selectedColors, color]);
+    }
+  }
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -144,8 +166,8 @@ const ProductAdd = () => {
   useEffect(() => {
     const skuManufact = 'Fabricante';
     const skuType = type;
-    const skuColor = color;
-    const skuSize = size;
+    const skuColor = 'color';
+    const skuSize = 'size';
     const skuCategory = category;
 
     const sku = generateSKU(skuManufact, skuType, skuColor, skuSize, skuCategory);
@@ -163,12 +185,15 @@ const ProductAdd = () => {
       setFileName(fileName);
     }
 
-  }, [category, size, price, type, color]);
+    console.log('cor: ' + selectedColors)
+    console.log('tamanho: ' + selectedSizes)
+
+  }, [category, price, type, selectedSizes, selectedColors]);
 
   useEffect(() => {
     setErrMsg('');
     setSuccessMsg('');
-  }, [name, description, price, discountedPrice, size, type, category, color, active])
+  }, [name, description, price, discountedPrice, type, category, active])
 
   return (
     <DefaultPage>
@@ -185,41 +210,37 @@ const ProductAdd = () => {
       </div>
       <div className="flex space-x-5">
         <div className="w-full bg-white/60 -my-4 px-5 py-5 rounded-lg">
-          {
-            errMsg ?
-              <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
-                initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-                animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-                transition={{
-                  duration: 1,
-                  type: 'spring',
-                }}
-              >
-                <p>
-                  {errMsg}
-                </p>
+          {errMsg ?
+            <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
+              initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+              transition={{
+                duration: 1,
+                type: 'spring',
+              }}
+            >
+              <p>
+                {errMsg}
+              </p>
 
-                <img src={erricon} />
-              </motion.div>
-              : ''
-          }
-          {
-            successMsg ?
-              <motion.div className='absolute bottom-0 max-w-6xl w-full flex gap-3 justify-between items-center bg-green-100 px-3 py-2 rounded border border-green-400 mb-10 font-semibold text-green-500'
-                initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-                animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-                transition={{
-                  duration: 1,
-                  type: 'spring',
-                }}
-              >
-                <p>
-                  {successMsg}
-                </p>
-                <div className="w-4 h-4 rounded-full border-2 border-green-500 border-t-transparent animate-spin"></div>
-              </motion.div>
-              : ''
-          }
+              <img src={erricon} />
+            </motion.div>
+            : ''}
+          {successMsg ?
+            <motion.div className='absolute bottom-0 max-w-6xl w-full flex gap-3 justify-between items-center bg-green-100 px-3 py-2 rounded border border-green-400 mb-10 font-semibold text-green-500'
+              initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+              transition={{
+                duration: 1,
+                type: 'spring',
+              }}
+            >
+              <p>
+                {successMsg}
+              </p>
+              <div className="w-4 h-4 rounded-full border-2 border-green-500 border-t-transparent animate-spin"></div>
+            </motion.div>
+            : ''}
 
           <div className="flex space-x-5">
             <div className="flex flex-col">
@@ -250,7 +271,6 @@ const ProductAdd = () => {
             <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl w-full">
               <input type="file" name="banner" id="banner" className="hidden" accept="image/*" onChange={bannerChange} />
               <input type="file" name="images" id="images" className="hidden" accept="image/*" multiple onChange={imagesChange} />
-
 
               <ProductInput
                 label="Nome"
@@ -328,7 +348,7 @@ const ProductAdd = () => {
 
               <div className="flex justify-end">
                 <button type="submit"
-                  disabled={!(imagePreview && name && description && price && stock && size && type && category && color)}
+                  disabled={!(imagePreview && name && description && price && stock && type && category)}
                   className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow-lg hover:bg-accent/80">
                   Cadastrar
                 </button>
@@ -411,25 +431,39 @@ const ProductAdd = () => {
             </h4>
             <div className="flex flex-wrap gap-1">
               {sizes.map((size) => (
-                <button key={size.ID} className="bg-white/60 font-medium px-3 py-1 rounded hover:bg-accent hover:text-white">
+                <button key={size.ID} onClick={selectSizes} value={size.ID}
+                  className={selectedSizes.includes(size.ID) ?
+                    "bg-accent text-white font-medium px-3 py-1 rounded hover:bg-accent hover:text-white" :
+                    "bg-white/60 font-medium px-3 py-1 rounded hover:bg-accent hover:text-white"}>
                   {size.Name}
                 </button>
-                )
-              )}
+              ))}
             </div>
+            {selectedSizes.length > 0 && (
+              <button className="py-2 text-red-500" onClick={() => setSelectedSizes([])}>
+                Limpar
+              </button>
+            )}
           </div>
           <div>
             <h4 className="text-sm font-medium py-1">
               Selecionar cores
             </h4>
             <div className="flex flex-wrap gap-1">
-              {colors.map((size) => (
-                <button key={size.ID} className="bg-white/60 font-medium px-3 py-1 rounded hover:bg-accent hover:text-white">
-                  {size.Name}
+              {colors.map((color) => (
+                <button key={color.ID} onClick={selectColors} value={color.ID}
+                  className={selectedColors.includes(color.ID) ?
+                    "bg-accent text-white font-medium px-3 py-1 rounded hover:bg-accent hover:text-white" :
+                    "bg-white/60 font-medium px-3 py-1 rounded hover:bg-accent hover:text-white"}>
+                  {color.Name}
                 </button>
-                )
-              )}
+              ))}
             </div>
+            {selectedColors.length > 0 && (
+              <button className="py-2 text-red-500" onClick={() => setSelectedColors([])}>
+                Limpar
+              </button>
+            )}
           </div>
         </div>
       </div>
