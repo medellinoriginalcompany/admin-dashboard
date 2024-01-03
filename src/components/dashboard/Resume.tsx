@@ -2,7 +2,7 @@ import ResumeItem from './ResumeItem';
 
 const Resume = () => {
   return (
-    <div className="bg-white/60 divide-x divide-gray-200 grid grid-cols-4 justify-items-center rounded-xl py-10">
+    <div className="bg-gray-50 divide-x divide-gray-200 grid grid-cols-4 justify-items-center rounded-xl py-10">
       <ResumeItem
         icon='moneys'
         title='Receita Total'

@@ -8,7 +8,7 @@ import erricon from '/icons/danger-red.svg';
 import Input from '../components/auth/Input';
 
 const Login = () => {
-  document.title = import.meta.env.VITE_APP_TITLE + ' | Login';
+  document.title =  'Login | ' + import.meta.env.VITE_APP_TITLE;
   
   const auth = useContext(AuthContext);
 
@@ -50,9 +50,9 @@ const Login = () => {
   };
 
   return (
-    <section className='bg-neutral-100'>
+    <section>
       <div className='flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0'>
-        <div className='w-full bg-white rounded-lg shadow-lg md:mt-0 sm:max-w-md xl:p-0'>
+        <div className='w-full border border-neutral-300 rounded-md shadow-sm md:mt-0 sm:max-w-md xl:p-0'>
           <div className='px-8 py-10 space-y-8'>
             <div className='flex items-center space-x-4'>
               <div className='border-r border-neutral-300 h-20 pr-5'>
@@ -84,7 +84,7 @@ const Login = () => {
                   {errMsg}
                 </p>
 
-                <img src={erricon} />
+                <img src={erricon} alt='' />
               </motion.div> :
 
               ''

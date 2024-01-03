@@ -14,7 +14,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className=" sticky top-0 lg:min-w-[280px] 2xl:min-w-[310px] h-screen z-50">
+    <div className=" sticky top-0 lg:min-w-[280px] 2xl:min-w-[310px] h-screen z-50 bg-neutral-50 border-r border-neutral-200">
       <nav className='flex flex-col justify-between h-full'>
         <div className='space-y-7'>
           <div className='mt-8 mb-24 w-fit'>
@@ -23,7 +23,7 @@ const Sidebar = () => {
             </Link>
           </div>
 
-          <ul className='space-y-3 px-9'>
+          <ul className='space-y-2 px-9'>
             <li>
               <NavItem
                 icon='graph'
@@ -64,10 +64,10 @@ const Sidebar = () => {
         </div>
         <div className='px-8 py-10'>
           <button
-            className='flex items-center w-full space-x-3 px-8 py-2 rounded-lg hover:bg-accent/20'
+            className='flex items-center w-full space-x-3 px-8 py-2 rounded-lg hover:bg-neutral-200'
             onClick={handleLogout}>
             <div className=''>
-              <img src={`/icons/logout-1.svg`} alt='logout' className='w-7 transition-all rotate-180 brightness-[2]' />
+              <img src={`/icons/logout-1.svg`} alt='logout' className='w-7 transition-all rotate-180' />
             </div>
 
             <span className='font-semibold text-neutral-700'>
