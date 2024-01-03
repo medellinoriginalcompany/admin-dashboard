@@ -5,7 +5,7 @@ interface ProductData {
   price: string,
   stock: string,
   active: boolean,
-  discountedPrice: string,
+  discountPercentage: string,
   banner: string,
   type: string,
   category: string,
