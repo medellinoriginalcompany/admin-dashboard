@@ -58,16 +58,19 @@ const ProductAdd = () => {
     e.preventDefault();
 
     const productData: ProductData = {
+      banner: fileName,
       name,
       description,
-      sku,
       price,
+      discountPercentage,
       stock,
       active,
-      discountPercentage,
-      banner: fileName,
-      type,
+      manufacturer,
+      print,
       category,
+      type,
+      color,
+      sku,
     }
 
     console.log(productData);
@@ -94,13 +97,10 @@ const ProductAdd = () => {
 
   const bannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      // Gerar nome para a imagem 20231006-SKU.extensão
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1; // +1 porque os meses começam em 0
-      const day = date.getDate();
+      // Gerar nome para a imagem UNIXTIME-SKU.extensão
+      const date = Date.now();
 
-      const fileName = `${year}${month}${day}-${sku}`;
+      const fileName = `${date}-${sku}`;
       console.log(fileName)
       setFileName(fileName);
 
@@ -139,8 +139,7 @@ const ProductAdd = () => {
     setSelectedSizes(sizeQuantities);
   };
 
-  // Fechar modal com ESC, limpar modal e eventlistener
-  useEffect(() => {
+  useEffect(() => { // Fechar modal com ESC, limpar modal e eventlistener
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeModal();
     }
@@ -150,7 +149,7 @@ const ProductAdd = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [closeModal]);
 
-  useEffect(() => {
+  useEffect(() => { // Coletar dados das propriedades do produto
     const getData = async () => {
       try {
         const response = await api.getProductProperties();
@@ -195,7 +194,7 @@ const ProductAdd = () => {
 
   }, [manufacturer, category, type, color, print]);
 
-  useEffect(() => {
+  useEffect(() => { // Limpar mensagens de erro e sucesso
     setErrMsg('');
     setSuccessMsg('');
   }, [name, description, price, discountPercentage, type, category, active])
@@ -321,7 +320,7 @@ const ProductAdd = () => {
                   />
                 </div>
                 <span className="bg-green-200 text-green-600 px-3 mt-5 rounded">
-                  R$ {discountPercentage ? price - (price * discountPercentage / 100) : 0}
+                  R$ {discountPercentage ? (price - (price * discountPercentage / 100)).toFixed(2) : 0}
                 </span>
               </div>
 
