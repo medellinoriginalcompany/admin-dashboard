@@ -130,7 +130,7 @@ const Sidebar = () => {
               <img src={moreicon} alt="" />
             </div>
 
-            <p className='text-xs text-center mb-4 text-neutral-500'>
+            <p className='text-xs text-center pb-4 text-neutral-500'>
               &copy; Medellin Original Company 2024. <br />Todos os direitos reservados.
             </p>
           </div>
