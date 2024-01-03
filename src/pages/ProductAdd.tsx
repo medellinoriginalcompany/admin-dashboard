@@ -13,6 +13,7 @@ import 'react-quill/dist/quill.snow.css';
 import erricon from '/icons/danger-red.svg';
 import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
+import externalicon from '/icons/external.svg';
 
 const ProductAdd = () => {
   document.title = 'Cadastrar produto | ' + import.meta.env.VITE_APP_TITLE;
@@ -430,7 +431,7 @@ const ProductAdd = () => {
                 name="category"
                 value={category}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setCategory(e.target.value) }}
-                className="w-full p-2 rounded-md font-normal cursor-pointer border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
                 <option value="" disabled>
                   Selecionar categoria
                 </option>
@@ -465,7 +466,7 @@ const ProductAdd = () => {
                 name="type"
                 value={type}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}
-                className="w-full p-2 rounded-md font-normal cursor-pointer border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
                 <option value="" disabled>
                   Selecionar tipos
                 </option>
@@ -515,11 +516,11 @@ const ProductAdd = () => {
             </div>
 
             <button onClick={() => openModal(sizes)}
-              className="bg-neutral-100 border border-neutral-300 flex items-center justify-center gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
-              <span>
+              className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
+              <span className="mx-auto">
                 Clique aqui para selecionar os tamanhos
               </span>
-              <img src={arrowicon} alt="" className="group-hover:brightness-[6] w-4 rotate-[135deg] duration-75" />
+              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" />
             </button>
           </div>
           <div>
@@ -549,11 +550,11 @@ const ProductAdd = () => {
             </div>
 
             <button onClick={() => openModal(colors)}
-              className="bg-neutral-100 border border-neutral-300 flex items-center justify-center gap-2 w-full py-1.5 rounded font-medium mt-5 mb-4 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
-              <span>
+              className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-4 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
+              <span className="mx-auto">
                 Clique aqui para selecionar as cores
               </span>
-              <img src={arrowicon} alt="" className="group-hover:brightness-[6] w-4 rotate-[135deg] duration-75" />
+              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" />
             </button>
           </div>
         </div>
