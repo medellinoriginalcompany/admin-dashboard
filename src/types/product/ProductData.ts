@@ -1,14 +1,17 @@
 interface ProductData {
+  banner: string,
   name: string,
   description: string,
-  sku: string,
   price: string,
+  discountPercentage: string,
   stock: string,
   active: boolean,
-  discountPercentage: string,
-  banner: string,
-  type: string,
+  manufacturer: string,
+  print: string,
   category: string,
+  type: string,
+  color: string,
+  sku: string,
 }
 
 export default ProductData;
