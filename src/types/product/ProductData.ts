@@ -12,6 +12,8 @@ interface ProductData {
   type: string,
   color: string,
   sku: string,
+
+  sizes: { [key: string]: number },
 }
 
 export default ProductData;
