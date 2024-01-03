@@ -15,14 +15,8 @@ const generateSKU = (manufact: string, type: string, category: string, color: st
   // Três primeiras letras da estampa
   const fifth = print.charAt(0) + print.charAt(1) + print.charAt(2);
 
-  // Gerar data como 20240102
-  const date = new Date();
-  const year = date.getFullYear().toString();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
-  const day = date.getDate().toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
-
   // Gerar SKU em caixa alta
-  const sku = (first + second + third + fourth + fifth).toUpperCase() + year + month + day;
+  const sku = (first + second + third + fourth + fifth).toUpperCase();
 
   return sku;
 }
