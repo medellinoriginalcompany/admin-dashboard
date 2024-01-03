@@ -24,8 +24,6 @@ const ProductAddModal = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSizeQuantities = { ...sizeQuantities, [e.target.id]: Number(e.target.value) };
     setSizeQuantities(newSizeQuantities);
-
-    console.log(newSizeQuantities);
   }
 
   const handleSave = () => {
