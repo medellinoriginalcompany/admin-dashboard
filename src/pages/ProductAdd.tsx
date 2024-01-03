@@ -29,9 +29,10 @@ const ProductAdd = () => {
   const [active, setActive] = useState<boolean>(true);
   const [discountedPrice, setDiscountedPrice] = useState<any>('');
   const [type, setType] = useState<string>('');
+  const [color, setColor] = useState<string>('');
+  const [print, setPrint] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
-  const [selectedColors, setSelectedColors] = useState<number[]>([]);
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -70,11 +71,9 @@ const ProductAdd = () => {
 
     // Para cada tamanho/cor selecionada criar um objeto com o ID do produto e o ID do tamanho/cor
     const sizesData = selectedSizes.map((size) => ({ id: 0, size }));
-    const colorsData = selectedColors.map((color) => ({ id: 0, color }));
 
     console.log(productData);
     console.log(sizesData);
-    console.log(colorsData);
 
     try {
       if (!file) {
@@ -87,26 +86,6 @@ const ProductAdd = () => {
 
       if (upload) {
         const response = await api.addProduct(productData);
-        const productID = response.data.ID;
-
-        if (response) {
-          sizesData.forEach(async element => { // Para cada tamanho selecionado, adicionar uma relação entre o produto e o tamanho
-            const res = await api.addProductRelation('tamanhos', productID, element);
-
-            if (res) {
-              colorsData.forEach(async element => { // Para cada cor selecionada, adicionar uma relação entre o produto e a cor
-                const res = await api.addProductRelation('cores', productID, element);
-
-                if (res) {
-                  setSuccessMsg('Produto adicionado com sucesso! Redirecionando para a página de produtos...');
-                  setTimeout(() => {
-                    navigate('/produtos');
-                  }, 1500); // 1.5 segundos
-                }
-              });
-            }
-          });
-        };
       };
 
     } catch (error: any) {
@@ -156,18 +135,6 @@ const ProductAdd = () => {
     }
   }
 
-  const selectColors = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const color = Number((e.target as HTMLButtonElement).value);
-    if (selectedColors.includes(color)) {
-      // Remover o tamanho do array
-      const newColors = selectedColors.filter((s) => s !== color);
-      setSelectedColors(newColors);
-    } else {
-      // Adicionar o tamanho ao array
-      setSelectedColors([...selectedColors, color]);
-    }
-  }
-
   const closeModal = () => {
     setModalIsOpen(false); // Fecha o modal
   }
@@ -213,8 +180,10 @@ const ProductAdd = () => {
     const skuManufact = manufacturer;
     const skuType = type;
     const skuCategory = category;
+    const skuColor = color;
+    const skuPrint = print;
 
-    const sku = generateSKU(skuManufact, skuType, skuCategory);
+    const sku = generateSKU(skuManufact, skuType, skuCategory, skuColor, skuPrint);
     setSku(sku);
 
     if (file && sku) {
@@ -229,7 +198,7 @@ const ProductAdd = () => {
       setFileName(fileName);
     }
 
-  }, [manufacturer, category, price, type, selectedSizes, selectedColors]);
+  }, [manufacturer, category, type, color, print]);
 
   useEffect(() => {
     setErrMsg('');
@@ -249,7 +218,7 @@ const ProductAdd = () => {
           </h2>
         </div>
       </div>
-      <div className="flex space-x-3">
+      <form onSubmit={handleSubmit} className="flex space-x-3">
         <div className="w-full bg-neutral-50 -my-4 px-5 py-5 rounded-lg">
           {errMsg ?
             <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
@@ -258,8 +227,7 @@ const ProductAdd = () => {
               transition={{
                 duration: 1,
                 type: 'spring',
-              }}
-            >
+              }}>
               <p>
                 {errMsg}
               </p>
@@ -283,8 +251,8 @@ const ProductAdd = () => {
             </motion.div>
             : ''}
 
-          <div className="flex space-x-5">
-            <div className="flex flex-col">
+          <div className="flex flex-col-reverse 2xl:flex-row 2xl:space-x-5">
+            <div className="flex items-center space-x-5 2xl:flex-col 2xl:space-x-0">
               <label htmlFor="banner" className="cursor-pointer w-fit flex">
                 <div className="w-80 min-h-[450px] relative">
                   <div className="flex items-center justify-center mx-auto h-full bg-white border border-neutral-300 rounded-md">
@@ -295,9 +263,9 @@ const ProductAdd = () => {
                 </div>
               </label>
 
-              <label htmlFor="images" className="grid grid-cols-4 gap-1 my-2 rounded-lg cursor-pointer">
+              <label htmlFor="images" className="flex flex-col flex-wrap gap-1 my-2 rounded-lg cursor-pointer 2xl:flex-row">
                 {imagesPreview.map((preview) => (
-                  <img key={preview} src={preview} className="w-20 h-20 object-cover rounded-lg" alt='' />
+                  <img key={preview} src={preview} className="w-28 h-28 2xl:w-[77px] 2xl:h-[77px] object-cover rounded-lg" alt='' />
                 ))}
                 {
                   imagesPreview.length < 4 && (
@@ -309,7 +277,7 @@ const ProductAdd = () => {
               </label>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 -mt-4 max-w-4xl w-full">
+            <div className="space-y-4 -mt-4 max-w-4xl w-full">
               <input type="file" name="banner" id="banner" className="hidden" accept="image/*" onChange={bannerChange} />
               <input type="file" name="images" id="images" className="hidden" accept="image/*" multiple onChange={imagesChange} />
 
@@ -372,35 +340,20 @@ const ProductAdd = () => {
                 />
               </div>
 
-              <div className="flex justify-between">
-                <div className="flex items-center space-x-2">
-                  <input id="active" name="active" type="checkbox" defaultChecked onChange={(e: ChangeEvent<HTMLInputElement>) => { setActive(e.target.checked) }}
-                    className="w-fit p-2 border border-neutral-300 rounded-sm accent-neutral-800 focus:ring-1 focus:ring-neutral-600 focus:outline-none" />
-                  <label htmlFor="active" className="text-neutral-600">
-                    Produto ativo?
-                  </label>
-                </div>
-
-
-                <span>
-                  SKU: {sku}
-                </span>
+              <div className="flex items-center space-x-2">
+                <input id="active" name="active" type="checkbox" defaultChecked onChange={(e: ChangeEvent<HTMLInputElement>) => { setActive(e.target.checked) }}
+                  className="w-fit p-2 border border-neutral-300 rounded-sm accent-neutral-800 focus:ring-1 focus:ring-neutral-600 focus:outline-none" />
+                <label htmlFor="active" className="text-neutral-600">
+                  Produto ativo?
+                </label>
               </div>
 
-              <div className="flex justify-end">
-                <button type="submit"
-                  disabled={!(imagePreview && name && description && price && stock && type && category)}
-                  className="bg-accent text-primary rounded-md w-fit px-8 py-2 font-semibold flex items-center">
-                  Cadastrar
-                </button>
-              </div>
-
-            </form>
+            </div>
 
           </div>
 
         </div>
-        <div className="-my-4 space-y-4 max-w-sm rounded-lg bg-neutral-50 p-4">
+        <div className="-my-4 space-y-4 max-w-md rounded-lg bg-neutral-50 p-4">
           <div>
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
@@ -416,6 +369,23 @@ const ProductAdd = () => {
               handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setManufacturer(e.target.value) }}
               maxLength={200}
               placeholder="Digite o nome do fabricante"
+            />
+          </div>
+          <div>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
+                Estampa
+              </h4>
+              <hr className="w-full border-neutral-300" />
+            </div>
+            <ProductInput
+              name="print"
+              label={''}
+              type="text"
+              value={print}
+              handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setPrint(e.target.value) }}
+              maxLength={200}
+              placeholder="Digite o nome da estampa"
             />
           </div>
           <div>
@@ -488,6 +458,40 @@ const ProductAdd = () => {
               </select>
             </label>
           </div>
+          <div>
+            <label htmlFor="color" className="font-medium">
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="text-sm">
+                  Cor
+                </span>
+                <hr className="w-full border-neutral-300" />
+              </div>
+              <select
+                id="color"
+                name="type"
+                value={color}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => { setColor(e.target.value) }}
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                <option value="" disabled>
+                  Selecionar cor
+                </option>
+
+                {
+                  loading ?
+                    <option value="Carregando...">Carregando...</option>
+                    :
+                    // Mapear as categorias e retornar um <option> para cada uma
+                    colors?.map((color) => {
+                      return (
+                        <option key={color.ID} value={color.Name}>
+                          {color.Name}
+                        </option>
+                      )
+                    })
+                }
+              </select>
+            </label>
+          </div>
 
           <div>
             <div className="flex items-center justify-between">
@@ -504,7 +508,7 @@ const ProductAdd = () => {
             <h4 className="text-sm text-neutral-500">
               Tamanhos disponíveis
             </h4>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap justify-between gap-1">
               {sizes.map((size) => (
                 <button key={size.ID} value={size.ID} disabled
                   className={selectedSizes.includes(size.ID) ?
@@ -515,7 +519,7 @@ const ProductAdd = () => {
               ))}
             </div>
 
-            <button onClick={() => openModal(sizes)}
+            <button onClick={() => openModal(sizes)} type="button"
               className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
               <span className="mx-auto">
                 Clique aqui para selecionar os tamanhos
@@ -523,45 +527,21 @@ const ProductAdd = () => {
               <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" />
             </button>
           </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
-                Cor
-              </h4>
-              <hr className="w-full border-neutral-300" />
-              {selectedColors.length > 0 && (
-                <button className="py-0.5 px-3 ml-2 min-w-max text-sm text-red-500 bg-red-50 rounded hover:text-white hover:bg-red-500" onClick={() => setSelectedColors([])}>
-                  Limpar
-                </button>
-              )}
-            </div>
-            <h4 className="text-sm text-neutral-500">
-              Cores disponíveis
-            </h4>
-            <div className="flex flex-wrap gap-1">
-              {colors.map((color) => (
-                <button key={color.ID} value={color.ID} disabled
-                  className={selectedColors.includes(color.ID) ?
-                    "bg-accent text-white font-medium my-0.5 px-3 py-1 rounded border border-neutral-800 hover:bg-accent hover:text-white" :
-                    "bg-neutral-50 text-neutral-400 font-medium w-20 text-ellipsis overflow-x-hidden whitespace-nowrap my-0.5 px-3 py-1 rounded border border-neutral-300"}>
-                  {color.Name}
-                </button>
-              ))}
-            </div>
+          <div className="flex items-center justify-between gap-5">
+            <span className="min-w-[205px] text-sm bg-neutral-50 border border-neutral-200 text-neutral-500 px-3 py-0.5 font-semibold rounded">
+              {sku}
+            </span>
 
-            <button onClick={() => openModal(colors)}
-              className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-4 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
-              <span className="mx-auto">
-                Clique aqui para selecionar as cores
-              </span>
-              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" />
+            <button type="submit"
+              disabled={!(imagePreview && name && description && price && stock && type && category && manufacturer && color)}
+              className="bg-accent text-primary rounded-md w-fit px-8 py-2 font-semibold flex items-center min-w-max disabled:bg-neutral-100 border disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed">
+              Cadastrar produto
             </button>
           </div>
         </div>
-      </div>
+      </form>
 
       {modalIsOpen ? modalComponent : ''}
-
 
     </DefaultPage>
   )
