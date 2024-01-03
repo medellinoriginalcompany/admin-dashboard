@@ -14,6 +14,7 @@ import erricon from '/icons/danger-red.svg';
 import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
 import externalicon from '/icons/external.svg';
+import ProductData from "../types/product/ProductData";
 
 const ProductAdd = () => {
   document.title = 'Cadastrar produto | ' + import.meta.env.VITE_APP_TITLE;
@@ -27,7 +28,7 @@ const ProductAdd = () => {
   const [price, setPrice] = useState<any>('');
   const [stock, setStock] = useState<string>('');
   const [active, setActive] = useState<boolean>(true);
-  const [discountedPrice, setDiscountedPrice] = useState<any>('');
+  const [discountPercentage, setDiscountPercentage] = useState<any>('');
   const [type, setType] = useState<string>('');
   const [color, setColor] = useState<string>('');
   const [print, setPrint] = useState<string>('');
@@ -56,14 +57,14 @@ const ProductAdd = () => {
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    const productData = {
+    const productData: ProductData = {
       name,
       description,
       sku,
       price,
       stock,
       active,
-      discountedPrice,
+      discountPercentage,
       banner: fileName,
       type,
       category,
@@ -124,10 +125,10 @@ const ProductAdd = () => {
   }
 
   const openModal = (type: ProductProperty[], callback: (sizeQuantities: { [key: string]: number }) => void) => {
-    setModalComponent(<ProductAddModal type={type} close={closeModal} onSave={callback}/>);
+    setModalComponent(<ProductAddModal type={type} close={closeModal} onSave={callback} />);
     setModalIsOpen(true); // Abre o modal
   }
-  
+
   // Verificar se o tamanho foi selecionado
   const hasValueForSize = (size: string): boolean => {
     return selectedSizes.hasOwnProperty(size) && selectedSizes[size] > 0;
@@ -197,7 +198,7 @@ const ProductAdd = () => {
   useEffect(() => {
     setErrMsg('');
     setSuccessMsg('');
-  }, [name, description, price, discountedPrice, type, category, active])
+  }, [name, description, price, discountPercentage, type, category, active])
 
   return (
     <DefaultPage>
@@ -302,24 +303,26 @@ const ProductAdd = () => {
                   max={99999.99}
                   placeholder="1099.99"
                 />
-                <ProductInput
-                  label="Preço com desconto"
-                  name="price"
-                  type="tel"
-                  value={discountedPrice ?? 0}
-                  handleOnChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    // Formatar , para .
-                    const value = e.target.value.replace(',', '.');
-                    setDiscountedPrice(value);
-                  }}
-                  max={99999.99}
-                  placeholder="909.99"
-                />
-                {discountedPrice > 0 && (
-                  <span className="bg-green-200 text-green-600 px-3 mt-5 rounded ">
-                    {discountedPrice ? Math.round((1 - (discountedPrice / price)) * 100) : 0}% OFF
-                  </span>
-                )}
+                <div className="flex flex-col">
+                  <label htmlFor='discount' className='text-sm font-medium'>
+                    Desconto <span className='text-xs text-gray-500' title="Insira a porcentagem de desconto. O desconto é opcional">(?)</span>
+                  </label>
+                  <input
+                    className="w-fit p-2 bg-white border border-neutral-300 rounded font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none placeholder:text-neutral-400"
+                    type='number'
+                    id='discount'
+                    name='discount'
+                    value={discountPercentage}
+                    onChange={(e) => setDiscountPercentage(e.target.value)}
+                    maxLength={3}
+                    max={100}
+                    min={1}
+                    placeholder='1-100%'
+                  />
+                </div>
+                <span className="bg-green-200 text-green-600 px-3 mt-5 rounded">
+                  R$ {discountPercentage ? price - (price * discountPercentage / 100) : 0}
+                </span>
               </div>
 
               <div className="w-fit">
