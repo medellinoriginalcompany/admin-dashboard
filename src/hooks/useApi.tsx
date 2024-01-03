@@ -1,5 +1,6 @@
 import axios from "axios";
 import ProductData from "../types/product/ProductData";
+import ProductRelation from "../types/product/ProductRelation";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // URL API
@@ -57,6 +58,11 @@ export const useApi = () => ({
 
   addProduct: async (productData: ProductData) => {
     const response = await api.post('/admin/produtos/cadastrar-produto', productData);
+    return response.data;
+  },
+
+  addProductRelation: async (type: string, id: number, relation: ProductRelation) => {
+    const response = await api.post(`/admin/produtos/adicionar-relacao/${type}/${id}`, relation);
     return response.data;
   },
 
