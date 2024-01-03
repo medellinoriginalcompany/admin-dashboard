@@ -9,8 +9,6 @@ interface ProductData {
   banner: string,
   type: string,
   category: string,
-  size: string,
-  color: string,
 }
 
 export default ProductData;
