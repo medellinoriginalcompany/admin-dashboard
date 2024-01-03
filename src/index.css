@@ -24,3 +24,10 @@
   background: rgb(9, 84, 212);
   backdrop-filter: blur(10px);
 }
+
+/* Remover setas do input number */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
