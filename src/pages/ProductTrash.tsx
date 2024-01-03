@@ -6,7 +6,7 @@ import TrashCard from "../components/TrashCard"
 import { Cloudinary } from "@cloudinary/url-gen/index"
 
 const Trash = () => {
-  document.title = import.meta.env.VITE_APP_TITLE + ' | Lixeira';
+  document.title = 'Lixeira | ' + import.meta.env.VITE_APP_TITLE;
 
   const api = useApi();
 
@@ -30,47 +30,49 @@ const Trash = () => {
 
   return (
     <DefaultPage>
-      <div className="grid gap-2 md:grid-cols-1 xl:grid-cols-3">
-        {
-          items.slice(0, 30).map((item) => {
-            const cld = new Cloudinary({
-              cloud: {
-                cloudName: 'medellincompany',
-              }
-            });
+      <>
+        <div className="grid gap-2 md:grid-cols-1 xl:grid-cols-3">
+          {
+            items.slice(0, 30).map((item) => {
+              const cld = new Cloudinary({
+                cloud: {
+                  cloudName: 'medellincompany',
+                }
+              });
 
-            const url = cld.image(item.Banner).toURL();
+              const url = cld.image(item.Banner).toURL();
 
-            // Formatar data para 08.10.2023
-            const date = new Date(item.DeletedAt);
-            const day = date.getDate().toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
-            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
-            // Formatar horário para 12:00:00
-            const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const formattedDate = `${day}.${month}.${date.getFullYear()}`;
+              // Formatar data para 08.10.2023
+              const date = new Date(item.DeletedAt);
+              const day = date.getDate().toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
+              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda, se necessário
+              // Formatar horário para 12:00:00
+              const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+              const formattedDate = `${day}.${month}.${date.getFullYear()}`;
 
-            return (
-              <TrashCard key={item.ID}
-                id={item.ID}
-                name={item.Name}
-                price={item.Price}
-                banner={url}
-                date={formattedDate}
-                time={time}
-              />
-            )
-          })
-        }
+              return (
+                <TrashCard key={item.ID}
+                  id={item.ID}
+                  name={item.Name}
+                  price={item.Price}
+                  banner={url}
+                  date={formattedDate}
+                  time={time}
+                />
+              )
+            })
+          }
+        </div>
         {
           errMsg ? (
             <div className='sticky top-10 right-0 my-3'>
-              <div className="bg-red-100/80 text-red-500 font-medium px-4 py-2 rounded-lg shadow-lg shadow-red-500/20">
+              <div className="bg-red-100 text-red-500 font-medium px-4 py-2 rounded-lg w-full">
                 <span>{errMsg}</span>
               </div>
             </div>
           ) : null
         }
-      </div>
+      </>
     </DefaultPage>
   )
 }

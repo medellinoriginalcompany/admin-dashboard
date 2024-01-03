@@ -14,7 +14,7 @@ import ProductCard from "../components/products/ProductCard";
 
 
 const Products = () => {
-  document.title = import.meta.env.VITE_APP_TITLE + ' | Produtos'
+  document.title = 'Produtos | ' + import.meta.env.VITE_APP_TITLE;
 
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -68,7 +68,9 @@ const Products = () => {
         <div className="flex items-center justify-between my-5">
           <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center hover:bg-accent/80">
             <img src={addicon} alt='add' className='mr-2 brightness-[6]' draggable='false' />
-            Cadastrar Produto
+            <span>
+              Cadastrar Produto
+            </span>
           </Link>
           <span className="text-neutral-500 px-2 py-1 float-right">
             {products.length} produtos
