@@ -92,49 +92,46 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div>
-          {profileOptions && (
-            <div className='profile my-2 py-3 px-3 ml-9 mr-3 space-y-3 rounded bg-neutral-50 border border-neutral-300'>
-              <button
-                className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-neutral-100 border border-neutral-300 hover:bg-neutral-200'>
+        {profileOptions && (
+          <div className='absolute bottom-32 right-2 py-3 px-3 ml-12 space-y-3 rounded bg-neutral-50 border border-neutral-300 shadow-sm z-20'>
+            <button
+              className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-neutral-100 border border-neutral-300 hover:bg-neutral-200'>
 
-                <span className='font-semibold text-sm text-neutral-700'>
-                  Alterar foto de perfil
+              <span className='font-semibold text-sm text-neutral-700'>
+                Alterar foto de perfil
+              </span>
+            </button>
+
+            <button onClick={handleLogout}
+              className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-red-50 hover:bg-red-100'>
+
+              <span className='font-semibold text-sm text-red-500'>
+                Sair da conta
+              </span>
+            </button>
+          </div>
+        )}
+
+        <div className='bg-neutral-100 border-t border-neutral-200 px-2 pt-3' ref={profileRef}>
+          <div onClick={() => setProfileOptions(!profileOptions)}
+            className='flex items-center justify-between px-4 py-2 mb-5 rounded cursor-pointer hover:bg-neutral-200'>
+            <div className='flex items-center gap-3'>
+              <img src={usericon} alt='user' className='w-8 h-8 object-cover rounded-full' />
+              <div className='flex flex-col'>
+                <span className='text-sm font-semibold text-neutral-800'>
+                  {auth.user?.FirstName + ' ' + auth.user?.LastName}
                 </span>
-              </button>
-
-              <button onClick={handleLogout}
-                className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-red-50 hover:bg-red-100'>
-
-                <span className='font-semibold text-sm text-red-500'>
-                  Sair da conta
+                <span title={auth.user?.Email} className='text-xs text-neutral-400 overflow-x-hidden text-ellipsis whitespace-nowrap w-40'>
+                  {auth.user?.Email}
                 </span>
-              </button>
-            </div>
-          )}
-
-          <div className='bg-neutral-100 border-t border-neutral-200 px-2 pt-3' ref={profileRef}>
-            <div onClick={() => setProfileOptions(!profileOptions)}
-              className='profile flex items-center justify-between px-4 py-2 mb-5 rounded cursor-pointer hover:bg-neutral-200'>
-              <div className='flex items-center gap-3'>
-                <img src={usericon} alt='user' className='w-8 h-8 object-cover rounded-full' />
-                <div className='flex flex-col'>
-                  <span className='text-sm font-semibold text-neutral-800'>
-                    {auth.user?.FirstName + ' ' + auth.user?.LastName}
-                  </span>
-                  <span title={auth.user?.Email} className='text-xs text-neutral-400 overflow-x-hidden text-ellipsis whitespace-nowrap w-40'>
-                    {auth.user?.Email}
-                  </span>
-                </div>
               </div>
-              <img src={moreicon} alt="" />
             </div>
-
-            <p className='text-xs text-center pb-4 text-neutral-500'>
-              &copy; Medellin Original Company 2024. <br />Todos os direitos reservados.
-            </p>
+            <img src={moreicon} alt="" />
           </div>
 
+          <p className='text-xs text-center pb-4 text-neutral-500'>
+            &copy; Medellin Original Company 2024. <br />Todos os direitos reservados.
+          </p>
         </div>
       </nav>
     </div>
