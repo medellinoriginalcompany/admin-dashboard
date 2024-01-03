@@ -49,8 +49,8 @@ const ProductCard = (props: Props) => {
 
   return (
     <>
-      <li className="grid grid-cols-7 items-center">
-        <div className='px-4 flex gap-4 col-span-2 bg-white/80 rounded-l p-2'>
+      <li className="grid grid-cols-7 items-center border rounded-md bg-neutral-50 hover:bg-neutral-100">
+        <div className='px-4 flex gap-4 col-span-2 rounded-l-md p-2'>
           <div className="cursor-pointer hover:brightness-[.7]" onClick={() => setShowImage(true)}>
             <AdvancedImage cldImg={props.imageURL} className="w-14 min-w-[56px] h-14 rounded-lg object-cover" alt={'Imagem ' + props.product.Name} loading="lazy" />
           </div>
@@ -63,37 +63,37 @@ const ProductCard = (props: Props) => {
             </span>
           </Link>
         </div>
-        <div className='bg-white/80 p-2'>
-          <div className="py-4 px-4">
-            <span>
+        <div className='p-2'>
+          <div className="py-4 px-4 overflow-x-hidden whitespace-nowrap text-ellipsis w-46">
+            <span title={props.product.SKU}>
               {props.product.SKU}
             </span>
           </div>
         </div>
-        <div className='bg-white/80 p-2'>
+        <div className='p-2'>
           <div className="py-4 2xl:px-4">
             <span className="overflow-hidden whitespace-nowrap text-ellipsis" title={props.product.Category.Name}>
               {props.product.Category.Name}
             </span>
           </div>
         </div>
-        <div className='bg-white/80 p-2'>
+        <div className='p-2'>
           <div className="py-4 px-4">
             <span>
               {props.product.Stock}
             </span>
           </div>
         </div>
-        <div className='bg-white/80 p-2'>
+        <div className='p-2'>
           <div className="py-4 px-4">
             {props.product.Active ? (
-              <img src={tickicon} className="bg-green-100 rounded-full" draggable="false" />
+              <img src={tickicon} alt="" className="bg-green-100 rounded-full" draggable="false" />
             ) : (
-              <img src={closeicon} className="bg-red-100 rounded-full" draggable="false" />
+              <img src={closeicon} alt="" className="bg-red-100 rounded-full" draggable="false" />
             )}
           </div>
         </div>
-        <div className="bg-white/80 relative  rounded-r">
+        <div className=" relative  rounded-r">
           <div className="py-4 space-x-4 w-fit mx-auto flex">
             <Link to={'/produtos/editar?id=' + props.product.ID} className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
               <div>
@@ -111,7 +111,7 @@ const ProductCard = (props: Props) => {
           <div className='fixed -top-1 left-0 w-full h-full bg-neutral-800/20 z-50' onClick={() => setShowImage(false)}>
             <div className='flex flex-col justify-center h-full'>
               <div className="max-w-4xl mx-auto">
-                <AdvancedImage cldImg={props.imageURL} alt=""/>
+                <AdvancedImage cldImg={props.imageURL} alt="" />
               </div>
             </div>
           </div>

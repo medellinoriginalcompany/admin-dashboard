@@ -5,7 +5,7 @@ import { Product } from "../types/product/Product";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 
-import addicon from '/icons/add-square.svg';
+import externalicon from '/icons/external.svg';
 import Confirmation from "../components/Confirmation";
 import erricon from '/icons/danger-red.svg';
 import DefaultPage from "../components/page/DefaultPage";
@@ -64,13 +64,13 @@ const Products = () => {
 
   return (
     <DefaultPage >
-      <div className="p-8 space-y-5">
+      <div>
         <div className="flex items-center justify-between my-5">
-          <Link to='cadastrar' className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center hover:bg-accent/80">
-            <img src={addicon} alt='add' className='mr-2 brightness-[6]' draggable='false' />
-            <span>
+          <Link to='cadastrar' className="bg-accent text-primary rounded-md w-fit py-2 font-semibold flex justify-between items-center">
+            <span className="mx-10">
               Cadastrar Produto
             </span>
+            <img src={externalicon} alt="" className="brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" draggable='false' />
           </Link>
           <span className="text-neutral-500 px-2 py-1 float-right">
             {products.length} produtos
@@ -79,7 +79,7 @@ const Products = () => {
         </div>
 
         <div className="w-full">
-          <div className="bg-accent text-sm text-white font-semibold rounded-t-lg rounded-b grid grid-cols-7 py-3 mb-1">
+          <div className="bg-accent text-sm text-white font-semibold rounded-lg grid grid-cols-7 py-3 mb-3">
             <h3 className="px-5 col-span-2">
               Informações do Produto
             </h3>
@@ -97,7 +97,7 @@ const Products = () => {
             </h3>
           </div>
 
-          <ul className="space-y-1 text-neutral-700">
+          <ul className="space-y-2 text-neutral-700">
             {
               loading ? (
                 <div className="bg-green-100 w-fit my-2 px-4 py-2 rounded-lg flex items-center gap-3 shadow-lg shadow-green-500/20">
