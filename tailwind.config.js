@@ -10,7 +10,7 @@ export default {
       colors: {
         'gradient-primary': '#ecf2fe',
         'gradient-secondary': '#dae4f0',
-        'accent': '#0560FD',
+        'accent': '#22201e',
         'primary': '#fff', 
         'secondary': '#F7F7FA',
         'tertiary': '#d4d4d4',
