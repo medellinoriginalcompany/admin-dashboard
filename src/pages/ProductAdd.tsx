@@ -71,6 +71,8 @@ const ProductAdd = () => {
       type,
       color,
       sku,
+
+      sizes: selectedSizes,
     }
 
     console.log(productData);
@@ -81,16 +83,29 @@ const ProductAdd = () => {
         return;
       }
       setErrMsg('');
-      setSuccessMsg('Carregando imagens...')
-      const upload = await api.uploadImage(file, fileName);
+      setSuccessMsg('Criando produto na base de dados...');
+      const response = await api.addProduct(productData);
 
-      if (upload) {
-        const response = await api.addProduct(productData);
-      };
+      if (response) {
+        setTimeout(async () => {
+          setSuccessMsg('Produto criado com sucesso! Enviando imagens...');
+
+          const upload = await api.uploadImage(file, fileName);
+
+          if (upload) {
+            setTimeout(() => {
+              setSuccessMsg('Imagens enviadas com sucesso! Redirecionando...');
+              setTimeout(() => {
+                navigate('/produtos');
+              }, 1300);
+            }, 1000);
+          }
+        }, 1000);
+      }
 
     } catch (error: any) {
-      setSuccessMsg(''); // Limpa a mensagem de sucesso
-      setErrMsg(error.message)
+      setTimeout(() => {setSuccessMsg(''); setErrMsg(error.response.data.message)}, 1000); // Limpa a mensagem de sucesso
+      
       console.log(error.response.data.body)
     }
   }
