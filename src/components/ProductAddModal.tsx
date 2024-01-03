@@ -1,13 +1,17 @@
 import { ProductProperty } from '../types/product/Property';
 import exclamationicon from '/icons/exclamation.svg';
 import closeicon from '/icons/add.svg';
+import React, { useState } from 'react';
 
 type Props = {
   type: ProductProperty[],
-  close: () => void
+  close: () => void,
+  onSave: (sizeQuantities: { [key: string]: number }) => void,
 }
 
 const ProductAddModal = (props: Props) => {
+
+  const [sizeQuantities, setSizeQuantities] = useState<{ [key: string]: number }>({});
 
   // Fechar o modal ao clicar fora dele
   const handleClickOutside = (e: any) => {
@@ -16,11 +20,24 @@ const ProductAddModal = (props: Props) => {
     }
   }
 
+  // Atualizar o estado quando o valor de um input for alterado
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSizeQuantities = { ...sizeQuantities, [e.target.id]: Number(e.target.value) };
+    setSizeQuantities(newSizeQuantities);
+
+    console.log(newSizeQuantities);
+  }
+
+  const handleSave = () => {
+    // Chame a função de callback com os valores de sizeQuantities
+    props.onSave(sizeQuantities);
+    props.close();
+  };
+
   return (
     <div
       className="fixed -top-8 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-10 z-50"
       onClick={handleClickOutside}
-
     >
       <div className="bg-white rounded border border-neutral-300 px-2 py-5 w-[800px] h-[600px] overflow-y-auto shadow-sm relative">
         <div className='flex items-center justify-between'>
@@ -46,8 +63,9 @@ const ProductAddModal = (props: Props) => {
               <span className="font-medium">
                 {type.Name}
               </span>
-              <input type="number" name={type.Name} id={type.Name} placeholder='0' min={0} style={{ MozAppearance: 'textfield' }}
+              <input type="number" name={type.Name} id={type.ID.toString()} placeholder='0' min={0} style={{ MozAppearance: 'textfield' }}
                 className="w-20 p-2 bg-neutral-50 border border-neutral-200 rounded-md font-normal text-center focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                onChange={handleInputChange}
               />
             </label>
           ))}
@@ -57,7 +75,7 @@ const ProductAddModal = (props: Props) => {
           <button className="mx-5 my-2" onClick={props.close}>
             Cancelar
           </button>
-          <button className="rounded px-5 py-1.5 text-white bg-accent">
+          <button className="rounded px-5 py-1.5 text-white bg-accent" onClick={handleSave}>
             Salvar
           </button>
         </div>

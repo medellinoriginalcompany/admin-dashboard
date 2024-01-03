@@ -32,7 +32,7 @@ const ProductAdd = () => {
   const [color, setColor] = useState<string>('');
   const [print, setPrint] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: number }>({});
 
   const [errMsg, setErrMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -69,11 +69,7 @@ const ProductAdd = () => {
       category,
     }
 
-    // Para cada tamanho/cor selecionada criar um objeto com o ID do produto e o ID do tamanho/cor
-    const sizesData = selectedSizes.map((size) => ({ id: 0, size }));
-
     console.log(productData);
-    console.log(sizesData);
 
     try {
       if (!file) {
@@ -123,26 +119,24 @@ const ProductAdd = () => {
     }
   }
 
-  const selectSizes = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const size = Number((e.target as HTMLButtonElement).value);
-    if (selectedSizes.includes(size)) {
-      // Remover o tamanho do array
-      const newSizes = selectedSizes.filter((s) => s !== size);
-      setSelectedSizes(newSizes);
-    } else {
-      // Adicionar o tamanho ao array
-      setSelectedSizes([...selectedSizes, size]);
-    }
-  }
-
   const closeModal = () => {
     setModalIsOpen(false); // Fecha o modal
   }
 
-  const openModal = (type: ProductProperty[]) => {
-    setModalComponent(<ProductAddModal type={type} close={closeModal} />);
-    setModalIsOpen(true); // Abre o modal]
+  const openModal = (type: ProductProperty[], callback: (sizeQuantities: { [key: string]: number }) => void) => {
+    setModalComponent(<ProductAddModal type={type} close={closeModal} onSave={callback}/>);
+    setModalIsOpen(true); // Abre o modal
   }
+  
+  // Verificar se o tamanho foi selecionado
+  const hasValueForSize = (size: string): boolean => {
+    return selectedSizes.hasOwnProperty(size) && selectedSizes[size] > 0;
+  };
+
+  const handleSaveModal = (sizeQuantities: { [key: string]: number }) => {
+    // Armazena os tamanhos selecionados
+    setSelectedSizes(sizeQuantities);
+  };
 
   // Fechar modal com ESC, limpar modal e eventlistener
   useEffect(() => {
@@ -499,11 +493,6 @@ const ProductAdd = () => {
                 Tamanho
               </h4>
               <hr className="w-full border-neutral-300" />
-              {selectedSizes.length > 0 && (
-                <button className="py-0.5 px-3 ml-2 min-w-max text-sm text-red-500 bg-red-50 rounded hover:text-white hover:bg-red-500" onClick={() => setSelectedSizes([])}>
-                  Limpar
-                </button>
-              )}
             </div>
             <h4 className="text-sm text-neutral-500">
               Tamanhos disponíveis
@@ -511,7 +500,7 @@ const ProductAdd = () => {
             <div className="flex flex-wrap justify-between gap-1">
               {sizes.map((size) => (
                 <button key={size.ID} value={size.ID} disabled
-                  className={selectedSizes.includes(size.ID) ?
+                  className={hasValueForSize(size.ID.toString()) ?
                     "bg-accent text-white font-medium my-0.5 h-8 w-12 rounded border border-neutral-800 hover:bg-accent hover:text-white" :
                     "bg-neutral-50 text-neutral-400 font-medium my-0.5 h-8 w-12 rounded border border-neutral-300"}>
                   {size.Name}
@@ -519,7 +508,7 @@ const ProductAdd = () => {
               ))}
             </div>
 
-            <button onClick={() => openModal(sizes)} type="button"
+            <button onClick={() => openModal(sizes, handleSaveModal)} type="button"
               className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
               <span className="mx-auto">
                 Clique aqui para selecionar os tamanhos
