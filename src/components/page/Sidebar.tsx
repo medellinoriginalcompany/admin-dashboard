@@ -64,10 +64,10 @@ const Sidebar = () => {
         </div>
         <div className='px-8 py-10'>
           <button
-            className='flex items-center w-full space-x-3 px-8 py-2 rounded-lg hover:bg-neutral-200'
+            className='flex items-center w-full space-x-2 px-8 py-1.5 rounded-md bg-neutral-100 border border-neutral-300 hover:bg-neutral-200'
             onClick={handleLogout}>
             <div className=''>
-              <img src={`/icons/logout-1.svg`} alt='logout' className='w-7 transition-all rotate-180' />
+              <img src={`/icons/logout.svg`} alt='logout' className='w-5 transition-all' />
             </div>
 
             <span className='font-semibold text-neutral-700'>
