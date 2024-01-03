@@ -28,7 +28,7 @@ const NavItem = (props: Props) => {
             <div className="flex gap-3 items-center">
               <div className=''>
                 <img src={`/icons/${props.icon}.svg`} alt={props.icon}
-                  className={'w-6 transition-all ' + (isActive ? 'brightness-[6]' : '')} />
+                  className={'w-6 transition-all translate-y-0.5 ' + (isActive ? 'brightness-[6]' : '')} />
               </div>
 
               <span className={'font-semibold transition-all ' + (isActive ? 'text-white' : 'text-neutral-800')}>
