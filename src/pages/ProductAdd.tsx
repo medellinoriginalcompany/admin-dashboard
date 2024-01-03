@@ -15,6 +15,7 @@ import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
 import externalicon from '/icons/external.svg';
 import ProductData from "../types/product/ProductData";
+import generateFileName from "../funcs/generateFileName";
 
 const ProductAdd = () => {
   document.title = 'Cadastrar produto | ' + import.meta.env.VITE_APP_TITLE;
@@ -104,7 +105,7 @@ const ProductAdd = () => {
       }
 
     } catch (error: any) {
-      setTimeout(() => {setSuccessMsg(''); setErrMsg(error.response.data.message)}, 1000); // Limpa a mensagem de sucesso
+      setTimeout(() => {setSuccessMsg(''); setErrMsg(error.response.data.message + ': ' + error.response.data.error)}, 1000); // Limpa a mensagem de sucesso
       
       console.log(error.response.data.body)
     }
@@ -112,12 +113,8 @@ const ProductAdd = () => {
 
   const bannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      // Gerar nome para a imagem UNIXTIME-SKU.extensão
-      const date = Date.now();
-
-      const fileName = `${date}-${sku}`;
+      setFileName(generateFileName(sku));
       console.log(fileName)
-      setFileName(fileName);
 
       setFile(e.target.files[0]);
       setImagePreview(URL.createObjectURL(e.target.files[0]));
@@ -185,7 +182,7 @@ const ProductAdd = () => {
     getData();
   }, [])
 
-  useEffect(() => { // Atualizar SKU
+  useEffect(() => { // Atualizar SKU e nome do BANNER
     const skuManufact = manufacturer;
     const skuType = type;
     const skuCategory = category;
@@ -196,15 +193,8 @@ const ProductAdd = () => {
     setSku(sku);
 
     if (file && sku) {
-      // Gerar nome para a imagem 20231006-SKU.extensão
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1; // +1 porque os meses começam em 0
-      const day = date.getDate();
-
-      const fileName = `${year}${month}${day}-${sku}`;
+      setFileName(generateFileName(sku));
       console.log(fileName)
-      setFileName(fileName);
     }
 
   }, [manufacturer, category, type, color, print]);
