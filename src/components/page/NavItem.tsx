@@ -51,28 +51,28 @@ const NavItem = (props: Props) => {
         props.text === 'Produtos' && showMore && (
           <div className="pl-10 py-2 w-full -z-10">
             <Link to='/produtos/cadastrar'>
-              <div className="pl-5 py-2 rounded group hover:bg-neutral-100">
+              <div className="pl-5 py-2 rounded group hover:bg-neutral-200">
                 <span className="text-neutral-800 font-medium">
                   Cadastrar produto
                 </span>
               </div>
             </Link>
             <Link to='/produtos'>
-              <div className="pl-5 py-2 rounded group hover:bg-neutral-100">
+              <div className="pl-5 py-2 rounded group hover:bg-neutral-200">
                 <span className="text-neutral-800 font-medium">
                   Gerenciar produtos
                 </span>
               </div>
             </Link>
             <Link to='/produtos/propriedades'>
-              <div className="pl-5 py-2 rounded group hover:bg-neutral-100">
+              <div className="pl-5 py-2 rounded group hover:bg-neutral-200">
                 <span className="text-neutral-800 font-medium">
                   Propriedades
                 </span>
               </div>
             </Link>
             <Link to='/produtos/lixeira'>
-              <div className="pl-5 py-2 rounded group hover:bg-neutral-100">
+              <div className="pl-5 py-2 rounded group hover:bg-neutral-200">
                 <span className="text-neutral-800 font-medium">
                   Lixeira
                 </span>
