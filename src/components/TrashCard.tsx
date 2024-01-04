@@ -3,7 +3,8 @@ import { useApi } from '../hooks/useApi';
 import { motion } from 'framer-motion';
 
 import moreicon from '/icons/more.svg';
-import dangericon from '/icons/danger.svg';
+import exclamationicon from '/icons/exclamation.svg';
+import closeicon from '/icons/add.svg';
 
 type Props = {
   id: number,
@@ -28,6 +29,12 @@ const TrashCard = (props: Props) => {
   const confirmationDeleteRef = useRef<HTMLDivElement>(null);
   const confirmationRestoreRef = useRef<HTMLDivElement>(null);
 
+  const close = () => {
+    setShowOptions(false);
+    setShowConfirmationDelete(false);
+    setShowConfirmationRestore(false);
+  };
+
   const handleClickOutside = (event: { target: any; }) => {
     if (trashCardRef.current && !trashCardRef.current.contains(event.target)) {
       setShowOptions(false);
@@ -51,17 +58,22 @@ const TrashCard = (props: Props) => {
   };
 
   const handleRestore = async (id: number) => {
+    setErrMsg('');
+    setConfirmationMessage('');
+
     try {
       setLoading(true);
       const response = await api.restoreProduct(id);
 
       if (response) {
-        setLoading(false);
-        setConfirmationMessage(response.message);
+        setTimeout(() => {
+          setLoading(false);
+          setConfirmationMessage(response.message);
+        }, 1300);
 
         setTimeout(() => {
           window.location.reload();
-        }, 1100);
+        }, 2500);
       }
     } catch (error: any) {
       setLoading(false);
@@ -75,17 +87,22 @@ const TrashCard = (props: Props) => {
   }
 
   const handleDelete = async (id: number) => {
+    setErrMsg('');
+    setConfirmationMessage('');
+
     try {
       setLoading(true);
       const response = await api.permaDeleteProduct(id);
 
       if (response) {
-        setLoading(false);
-        setConfirmationMessage(response.message);
+        setTimeout(() => {
+          setLoading(false);
+          setConfirmationMessage(response.message);
+        }, 1300);
 
         setTimeout(() => {
           window.location.reload();
-        }, 900);
+        }, 2500);
       }
     } catch (error: any) {
       setLoading(false);
@@ -123,7 +140,7 @@ const TrashCard = (props: Props) => {
 
   return (
     <>
-      <div className='bg-white/80 px-3 py-2.5 rounded flex justify-between relative' ref={trashCardRef}>
+      <div className='bg-neutral-50 border border-neutral-300 px-3 py-2.5 rounded flex justify-between relative' ref={trashCardRef}>
         <div className='flex'>
           <img src={props.banner} alt="" className="rounded w-16 h-16 object-cover" />
           <div className='ml-2 flex flex-col whitespace-nowrap overflow-hidden max-w-[230px]'>
@@ -136,143 +153,181 @@ const TrashCard = (props: Props) => {
           <img src={moreicon} alt="Mais opções" draggable='false' />
         </div>
 
-        {
-          showOptions && (
-            <div className='absolute flex-col right-1 top-10 bg-accent/10 backdrop-blur rounded z-20'>
-              <div className="flex flex-col w-fit self-end divide-y divide-blue-200">
-                <button onClick={() => setShowConfirmationRestore(true)}
-                  className="text-sm text-end text-blue-500 font-medium py-1 px-2 rounded-sm hover:bg-blue-500/80 hover:text-white">Restaurar</button>
-                <button onClick={() => setShowConfirmationDelete(true)}
-                  className="text-sm text-end text-red-500 font-medium py-1 px-2 rounded-sm hover:bg-red-500/80 hover:text-white">Deletar</button>
-              </div>
+        {showOptions && (
+          <div className='absolute flex-col right-1 top-10 p-4 bg-white border border-neutral-300 w-64 rounded z-20'>
+            <div className="flex flex-col gap-2">
+              <button onClick={() => setShowConfirmationRestore(true)}
+                className="text-sm text-center text-blue-500 font-medium py-1 px-2 rounded bg-blue-50 hover:bg-blue-100">
+                Restaurar
+              </button>
+              <button onClick={() => setShowConfirmationDelete(true)}
+                className="text-sm text-center text-red-500 font-medium py-1.5 rounded flex items-center gap-2 justify-center bg-red-50 hover:bg-red-100">
+                Deletar permanentemente <img src="/icons/danger-red-outline.svg" alt="" className='w-4' />
+              </button>
             </div>
-          )
-        }
+          </div>
+        )}
       </div>
-      {
-        showConfirmationDelete && (
-          <div className='absolute top-0 left-0 w-full h-full bg-neutral-800/20 z-50'>
-            <div className='flex flex-col justify-center h-full'>
-              <div className='bg-white max-w-4xl mx-auto rounded' ref={confirmationDeleteRef}>
-                <div className="flex flex-col px-9 py-9 space-y-10">
-                  <div className=''>
-                    <h2 className='text-2xl font-semibold flex items-center gap-2'>
-                      <img src={dangericon} alt="Perigo!" />
-                      Cuidado, esta ação é irreversível!
-                    </h2>
-                    <h3 className='text-xl font-medium'>
-                      Tem certeza que deseja deletar este produto?
-                    </h3>
+      {showConfirmationDelete && (
+        <div className='fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-10 z-50'>
+          <div className='bg-white border border-neutral-300 w-[700px] h-[400px] p-9 mx-auto rounded relative' ref={confirmationDeleteRef}>
+            <div className="flex flex-col">
+              <div className='flex items-center justify-between'>
+                <h3 className="font-medium flex items-center">
+                  <img src={exclamationicon} alt="" className="w-7" />
+                  <span>
+                    Tem certeza que deseja DELETAR PERMANENTEMENTE este produto?
+                  </span>
+                </h3>
 
-                    <p className='mx-auto w-fit my-3 bg-neutral-200 px-2 rounded whitespace-pre'>{props.name}</p>
-                  </div>
-
-                  <div className='flex flex-col space-y-2'>
-                    {
-                      loading && (
-                        <div className='bg-blue-100 px-4 py-2 rounded flex justify-between items-center'>
-                          <p className='text-blue-500 font-medium text-center'>
-                            Carregando...
-                          </p>
-                          <div className='w-4 h-4 rounded-full border-2 border-blue-500 border-t-transparent animate-spin'></div>
-                        </div>
-                      )
-                    }
-                    {
-                      confirmationMessage && (
-                        <motion.div className='bg-green-100 px-4 py-2 rounded'
-                          initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-                          animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-                          transition={{
-                            duration: 1,
-                            type: 'spring',
-                          }}
-                        >
-                          <p className='text-green-500 font-medium text-center'>
-                            {confirmationMessage}
-                          </p>
-                        </motion.div>
-                      )
-                    }
-                    {
-                      errMsg && (
-                        <div className='bg-red-100 px-4 py-2 rounded flex justify-between items-center'>
-                          <p className='text-red-500 font-medium text-center'>
-                            {errMsg}
-                          </p>
-                        </div>
-                      )
-                    }
-                    <button onClick={() => setShowConfirmationDelete(false) }
-                      className='bg-accent text-white font-medium px-4 py-2 rounded hover:bg-blue-700' >Não! Me leve de volta</button>
-                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleDelete(props.id)}>Deletar permanentemente <span className='px-1'>:&#40;</span></button>
-                  </div>
-                </div>
+                <button className='cursor-pointer rounded hover:bg-red-400 group' onClick={close}>
+                  <img src={closeicon} alt="" className='rotate-45 group-hover:brightness-[6]' />
+                </button>
               </div>
+              <h4 className='px-7 mb-6 font-medium text-sm text-neutral-500'>
+                IMPORTANTE: Esta ação é IRREVERSÍVEL e não será mais possível recuperar os dados deste produto.
+              </h4>
+              <p className='mx-auto w-fit bg-neutral-50 border border-neutral-300 text-neutral-500 shadow-sm px-4 rounded whitespace-wrap'>
+                {props.name}
+              </p>
+
+              {loading && (
+                <motion.div className='bg-blue-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-blue-500 font-medium text-center'>
+                    Deletando...
+                  </p>
+                  <div className='w-4 h-4 rounded-full border-2 border-blue-500 border-t-transparent animate-spin'></div>
+                </motion.div>
+              )}
+              {confirmationMessage && (
+                <motion.div className='bg-green-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-green-500 font-medium text-center flex items-center gap-2'>
+                    {confirmationMessage} <img src="/icons/check.svg" alt="" className='w-5' />
+                  </p>
+                </motion.div>
+              )}
+              {errMsg && (
+                <motion.div className='bg-red-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-red-500 font-medium text-center flex items-center gap-2'>
+                    {errMsg} <img src="/icons/danger-red-outline.svg" alt="" className='w-5' />
+                  </p>
+                </motion.div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end absolute right-0 bottom-0 p-4">
+              <button className="mx-5 my-2" onClick={close}>
+                Cancelar
+              </button>
+              <button
+                className="flex items-center gap-3 rounded px-5 py-1.5 text-red-500 bg-red-50 group hover:text-white hover:bg-red-500" onClick={() => handleDelete(props.id)}>
+                Deletar permanentemente <img src="/icons/danger-red-outline.svg" alt="" className='group-hover:brightness-[6] w-4' />
+              </button>
             </div>
           </div>
-        )
-      }
-      {
-        showConfirmationRestore && (
-          <div className='absolute top-0 left-0 w-full h-full bg-neutral-800/20 z-50'>
-            <div className='flex flex-col justify-center h-full'>
-              <div className='bg-white max-w-4xl mx-auto rounded' ref={confirmationRestoreRef}>
-                <div className="flex flex-col px-9 py-9 space-y-10">
-                  <div className=''>
-                    <h3 className='text-xl font-medium'>
-                      Tem certeza que deseja restaurar este produto?
-                    </h3>
+        </div>
+      )}
+      {showConfirmationRestore && (
+        <div className='fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-10 z-50'>
+          <div className='bg-white border border-neutral-300 w-[700px] h-[400px] p-9 mx-auto rounded relative' ref={confirmationRestoreRef}>
+            <div className="flex flex-col">
+              <div className='flex items-center justify-between'>
+                <h3 className="font-medium flex items-center">
+                  <img src={exclamationicon} alt="" className="w-7" />
+                  <span>
+                    Tem certeza que deseja RESTAURAR este produto?
+                  </span>
+                </h3>
 
-                    <p className='mx-auto w-fit my-3 bg-neutral-200 px-2 rounded whitespace-pre'>{props.name}</p>
-                  </div>
-
-                  <div className='flex flex-col space-y-2'>
-                    {
-                      loading && (
-                        <div className='bg-blue-100 px-4 py-2 rounded flex justify-between items-center'>
-                          <p className='text-blue-500 font-medium text-center'>
-                            Carregando...
-                          </p>
-                          <div className='w-4 h-4 rounded-full border-2 border-blue-500 border-t-transparent animate-spin'></div>
-                        </div>
-                      )
-                    }
-                    {
-                      confirmationMessage && (
-                        <motion.div className='bg-green-100 px-4 py-2 rounded'
-                          initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-                          animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-                          transition={{
-                            duration: 1,
-                            type: 'spring',
-                          }}
-                        >
-                          <p className='text-green-500 font-medium text-center'>
-                            {confirmationMessage}
-                          </p>
-                        </motion.div>
-                      )
-                    }
-                    {
-                      errMsg && (
-                        <div className='bg-red-100 px-4 py-2 rounded flex justify-between items-center'>
-                          <p className='text-red-500 font-medium text-center'>
-                            {errMsg}
-                          </p>
-                        </div>
-                      )
-                    }
-                    <button onClick={() => setShowConfirmationRestore(false) }
-                      className='bg-accent text-white font-medium px-4 py-2 rounded hover:bg-blue-700' >Não! Me leve de volta</button>
-                    <button className='font-semibold text-red-500 w-fit mx-auto' onClick={() => handleRestore(props.id)}>Restaurar produto<span className='px-1'>:&#41;</span></button>
-                  </div>
-                </div>
+                <button className='cursor-pointer rounded hover:bg-red-400 group' onClick={close}>
+                  <img src={closeicon} alt="" className='rotate-45 group-hover:brightness-[6]' />
+                </button>
               </div>
+              <h4 className='px-7 mb-6 font-medium text-sm text-neutral-500'>
+                IMPORTANTE: Ao clicar em RESTAURAR o produto voltará como inativo e terá de ser reativado manualmente.
+              </h4>
+              <p className='mx-auto w-fit bg-neutral-50 border border-neutral-300 text-neutral-500 shadow-sm px-4 rounded whitespace-wrap'>
+                {props.name}
+              </p>
+
+              {loading && (
+                <motion.div className='bg-blue-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-blue-500 font-medium text-center'>
+                    Restaurando...
+                  </p>
+                  <div className='w-4 h-4 rounded-full border-2 border-blue-500 border-t-transparent animate-spin'></div>
+                </motion.div>
+              )}
+              {confirmationMessage && (
+                <motion.div className='bg-green-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-green-500 font-medium text-center flex items-center gap-2'>
+                    {confirmationMessage} <img src="/icons/check.svg" alt="" className='w-5' />
+                  </p>
+                </motion.div>
+              )}
+              {errMsg && (
+                <motion.div className='bg-red-50 flex items-center justify-end gap-5 absolute right-0 bottom-14 px-4 py-2 m-4 rounded'
+                  initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                  animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                  transition={{
+                    duration: 1,
+                    type: 'spring',
+                  }}
+                >
+                  <p className='text-red-500 font-medium text-center flex items-center gap-2'>
+                    {errMsg} <img src="/icons/danger-red-outline.svg" alt="" className='w-5' />
+                  </p>
+                </motion.div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end absolute right-0 bottom-0 p-4">
+              <button className="mx-5 my-2" onClick={close}>
+                Cancelar
+              </button>
+              <button
+                className="rounded px-5 py-1.5 text-blue-500 bg-blue-50 group hover:text-white hover:bg-blue-500" onClick={() => handleRestore(props.id)}>
+                Restaurar produto
+              </button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
     </>
 
   )
