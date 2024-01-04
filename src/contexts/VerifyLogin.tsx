@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useContext, ReactNode } from 'react'
 import { AuthContext } from './AuthContext';
 
-function LoginGuard({ children }: { children: ReactNode }) {
+function LoginGuard({ children }: Readonly<{ children: ReactNode }>) {
 
   const auth = useContext(AuthContext)
   const isAuthenticated = auth?.user;
