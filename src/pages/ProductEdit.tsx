@@ -7,7 +7,7 @@ import { useApi } from '../hooks/useApi'
 
 import arrowicon from '/icons/arrow-left.svg'
 import imgicon from '/icons/gallery-add.svg'
-import erricon from '/icons/danger-red.svg'
+import erricon from '/icons/danger-red-outline.svg'
 import generateSKU from '../funcs/generateSKU'
 import DefaultPage from '../components/page/DefaultPage'
 import cldConfig from '../hooks/useCloudinary'
