@@ -30,8 +30,10 @@ const Products = () => {
       const response = await api.getProducts();
 
       if (response) {
-        setProducts(response.products);
-        setLoading(false);
+        setTimeout(() => {
+          setProducts(response.products);
+          setLoading(false);
+        }, 700);
       }
     } catch (error: any) {
       console.log(error);
@@ -98,56 +100,49 @@ const Products = () => {
           </div>
 
           <ul className="space-y-2 text-neutral-700">
-            {
-              loading ? (
-                <div className="bg-green-100 w-fit my-2 px-4 py-2 rounded-lg flex items-center gap-3 shadow-lg shadow-green-500/20">
-                  <div className="w-4 h-4 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
-                  <span className="text-green-500 font-medium">Carregando produtos...</span>
+            {loading ? (
+              <div className="bg-blue-50 flex items-center gap-5 px-4 py-2 rounded">
+                <span className="text-blue-500 font-medium">Carregando produtos...</span>
+                <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : null}
+            {products.length == 0 && !loading ? (
+              <li>
+                <div className="px-4 py-4">
+                  <span className="bg-red-50 flex items-center justify-between gap-5 px-4 py-2 rounded">
+                    <p className="text-red-500 font-medium">Nenhum produto foi encontrado.</p>
+                    <img src={erricon} alt="Erro" className="w-4" />
+                  </span>
                 </div>
-              ) : null
-            }
-            {
-              products.length == 0 ? (
-                <li>
-                  <div className="px-4 py-4">
-                    <span className="font-medium text-red-500 bg-red-200/70 border border-red-500 rounded-lg px-3 py-1 w-fit flex gap-2 items-center">
-                      <img src={erricon} alt="Erro" />
-                      <p>Nenhum produto foi encontrado.</p>
-                    </span>
-                  </div>
-                </li>
-              ) : (
-                products.slice(0, itemsLoaded).map((product) => {
-                  const cld = new Cloudinary({
-                    cloud: {
-                      cloudName: 'medellincompany',
-                    }
-                  });
+              </li>
+            ) : (
+              products.slice(0, itemsLoaded).map((product) => {
+                const cld = new Cloudinary({
+                  cloud: {
+                    cloudName: 'medellincompany',
+                  }
+                });
 
-                  const url = cld.image(product.Banner).format(auto());
+                const url = cld.image(product.Banner).format(auto());
 
-                  return (
-                    <ProductCard key={product.ID}
-                      imageURL={url}
-                      product={product}
-                    />
-                  )
-                })
-              )
-            }
+                return (
+                  <ProductCard key={product.ID}
+                    imageURL={url}
+                    product={product}
+                  />
+                )
+              })
+            )}
           </ul>
 
         </div>
-        {
-          products.length <= itemsLoaded ? null : (
-            <div className="w-fit">
-              <button className="bg-accent text-white font-medium px-5 py-2 rounded-lg" onClick={loadMoreItems}>
-                Carregar Mais
-              </button>
-            </div>
-          )
-        }
-
+        {products.length <= itemsLoaded ? null : (
+          <div className="w-fit">
+            <button className="bg-accent text-white font-medium px-5 py-2 rounded-lg" onClick={loadMoreItems}>
+              Carregar Mais
+            </button>
+          </div>
+        )}
       </div>
       <>
         {
