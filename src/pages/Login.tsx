@@ -31,14 +31,14 @@ const Login = () => {
       if (response) {
         navigate('/dashboard');
       }
-    } catch (err: any) {
+    } catch (error: any) {
       // Caso seja network error (erro de conexão), exibe mensagem de erro
-      if (err.message === 'Network Error') {
+      if (error.message === 'Network Error') {
         setErrMsg('Erro de conexão. Tente novamente mais tarde.');
         return;
       }
 
-      setErrMsg(err.response.data.message);
+      setErrMsg(error.response.data.message);
     }
   };
 
@@ -100,7 +100,19 @@ const Login = () => {
                   </label>
                 </div>
               </div>
-              <div className='pt-8'>
+              <div className='pt-16 relative'>
+                {errMsg && (
+                  <motion.div className='absolute w-full top-0 flex justify-between items-center py-3 px-6 font-semibold rounded bg-red-50 text-red-500'
+                    initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
+                    animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+                    transition={{
+                      duration: 1,
+                      type: 'spring',
+                    }}>
+                    <p>{errMsg}</p>
+                    <img src={erricon} alt='' className='w-5' />
+                  </motion.div>
+                )}
                 <button type='submit' disabled={!(email && password)}
                   className='w-full text-white bg-accent font-medium rounded-lg text-sm px-5 py-2.5 text-center border hover:bg-neutral-700 focus:ring-2 focus:outline-none focus:ring-blue-400 disabled:bg-neutral-100 disabled:text-neutral-800 disabled:border-neutral-300 disabled:cursor-not-allowed'>
                   Entrar
@@ -108,18 +120,6 @@ const Login = () => {
               </div>
             </form>
           </div>
-          {!errMsg && (
-            <motion.div className='flex justify-between items-center p-3 font-semibold rounded bg-red-50 text-red-500'
-              initial={{ maxHeight: '0%', opacity: 0, translateY: -50 }}
-              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-              transition={{
-                duration: 1,
-                type: 'spring',
-              }}>
-              <p>{errMsg}</p>
-              <img src={erricon} alt='' className='w-5' />
-            </motion.div>
-          )}
         </div>
       </div>
     </section>
