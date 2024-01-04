@@ -1,38 +1,36 @@
 import React from 'react';
 
-const Input: React.FC<any> = ({
-  name,
-  label,
-  value,
-  type,
-  handleOnChange,
-  handleFocus,
-  ariainvalid,
-  innerRef,
-  required,
-  maxlength,
-  placeholder,
-}) => {
+type Props = {
+  name: string,
+  label: string,
+  type: string,
+  value: string | number,
+  autoFocus?: boolean,
+  maxLength?: number,
+  placeholder?: string,
+  required: boolean,
+  handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const Input = (props: Props) => {
 
   return (
     <div className="flex relative flex-col group">
-      <label htmlFor={name} className='block mb-2 text-sm font-medium'>
-        {label}
+      <label htmlFor={props.name} className='text-sm font-medium mb-1'>
+        {props.label}
       </label>
       <input
-        className="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 focus:outline-none block w-full p-2.5"
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        ref={innerRef}
-        onChange={handleOnChange}
-        onFocus={handleFocus}
-        maxLength={maxlength}
-        aria-invalid={ariainvalid}
-        placeholder={placeholder}
+        className="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none block w-full p-2.5"
+        type={props.type}
+        id={props.name}
+        name={props.name}
+        value={props.value}
+        onChange={props.handleOnChange}
+        maxLength={props.maxLength}
+        placeholder={props.placeholder}
+        required={props.required}
         autoComplete='on'
-        {...(required ? { required: true } : {})}
+        autoFocus={props.autoFocus}
       />
     </div>
   );
