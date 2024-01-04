@@ -10,6 +10,8 @@ type RequireAuthProps = {
 export const RequireAuth = ({ children }: RequireAuthProps) => {
   const auth = useContext(AuthContext);
 
+  if(auth.loading) return <Loading />;
+
   // Se a autenticação não foi validada, mostrar tela de loading
   if (!auth.authValidated) {
     return (
