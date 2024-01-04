@@ -1,14 +1,20 @@
 import { Navigate } from 'react-router-dom';
 import { useContext, ReactNode } from 'react'
 import { AuthContext } from './AuthContext';
+import Loading from '../pages/Loading';
 
 function LoginGuard({ children }: Readonly<{ children: ReactNode }>) {
 
   const auth = useContext(AuthContext)
-  const isAuthenticated = auth?.user;
+  
+  if(!auth.authValidated) {
+    return (
+      <Loading />
+    );
+  }
 
   // Se o usuário estiver logado, redireciona para a página de home
-  if (isAuthenticated != null) {
+  if (auth.user != null) {
     return <Navigate to="/dashboard" replace />;
   }
 

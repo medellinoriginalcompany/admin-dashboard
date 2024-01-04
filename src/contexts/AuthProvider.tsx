@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
   const api = useApi();
 
   const [user, setUser] = useState<User | null>(null);
-
+  const [authValidated, setAuthValidated] = React.useState<boolean>(false);
 
   useEffect(() => {
     const validateToken = async () => {
@@ -16,11 +16,11 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
       if (response) {
         setUser(response.user);
       }
+
+      setAuthValidated(true);
     };
-
     validateToken();
-  }, [])
-
+  }, []);
 
   const login = async (email: string, password: string) => {
 
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, authValidated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
