@@ -10,7 +10,7 @@ import DefaultPage from "../components/page/DefaultPage";
 import ProductAddModal from "../components/ProductAddModal";
 import 'react-quill/dist/quill.snow.css';
 
-import erricon from '/icons/danger-red.svg';
+import erricon from '/icons/danger-red-outline.svg';
 import imgicon from '/icons/gallery-add.svg';
 import arrowicon from '/icons/arrow-left.svg';
 import externalicon from '/icons/external.svg';
@@ -105,8 +105,8 @@ const ProductAdd = () => {
       }
 
     } catch (error: any) {
-      setTimeout(() => {setSuccessMsg(''); setErrMsg(error.response.data.message + ': ' + error.response.data.error)}, 1000); // Limpa a mensagem de sucesso
-      
+      setTimeout(() => { setSuccessMsg(''); setErrMsg(error.response.data.message + ': ' + error.response.data.error) }, 1000); // Limpa a mensagem de sucesso
+
       console.log(error.response.data.body)
     }
   }

@@ -7,7 +7,7 @@ import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 
 import externalicon from '/icons/external.svg';
 import Confirmation from "../components/Confirmation";
-import erricon from '/icons/danger-red.svg';
+import erricon from '/icons/danger-red-outline.svg';
 import DefaultPage from "../components/page/DefaultPage";
 import ProductCard from "../components/products/ProductCard";
 
@@ -65,7 +65,7 @@ const Products = () => {
   return (
     <DefaultPage >
       <div>
-        <div className="flex items-center justify-between my-5">
+        <div className="flex items-center justify-between mb-5">
           <Link to='cadastrar' className="bg-accent text-primary rounded-md w-fit py-2 font-semibold flex justify-between items-center">
             <span className="mx-10">
               Cadastrar Produto

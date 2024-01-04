@@ -38,7 +38,7 @@ const ProductProperties = () => {
 
   return (
     <DefaultPage>
-      <div className="grid grid-cols-2 gap-1 w-full">
+      <div className="grid grid-cols-2 gap-2 w-full">
         <PropertiesCard title='Tamanhos' property={sizes} loading={loading} />
         <PropertiesCard title='Categorias' property={categories} loading={loading} />
         <PropertiesCard title='Cores' property={colors} loading={loading} />

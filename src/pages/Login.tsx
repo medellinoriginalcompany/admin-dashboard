@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts/AuthContext';
 
 import logo from '/images/medellin-black.png';
-import erricon from '/icons/danger-red.svg';
+import erricon from '/icons/danger-red-outline.svg';
 import Input from '../components/auth/Input';
 
 const Login = () => {

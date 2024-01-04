@@ -3,26 +3,47 @@
 @tailwind utilities;
 
 /* width */
-.card::-webkit-scrollbar { 
-  width: 15px; 
-} 
+.card::-webkit-scrollbar {
+  width: 15px;
+}
 
 /* Track */
-.card::-webkit-scrollbar-track { 
+.card::-webkit-scrollbar-track {
   background: transparent;
-} 
+}
 
 /* Handle */
-.card::-webkit-scrollbar-thumb { 
-  background-color: rgb(5 96 253);
+.card::-webkit-scrollbar-thumb {
+  background-color: #737373;
   border-radius: 9999px;
-  border: 4px solid #F3F6FB;
-} 
+  border: 4px solid white;
+}
 
 /* Handle on hover */
-.card::-webkit-scrollbar-thumb:hover { 
-  background: rgb(9, 84, 212);
-  backdrop-filter: blur(10px);
+.card::-webkit-scrollbar-thumb:hover {
+  background: #fafafa;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e5e5e5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #737373;
+  border-radius: 9999px;
+  border: 4px solid #e5e5e5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #22201ece;
 }
 
 /* Remover setas do input number */

@@ -35,7 +35,7 @@ const PropertiesRow = (props: Props) => {
 
       if (response) {
         setConfirmationMessage(response.message);
-        const currentPage = location.pathname;  
+        const currentPage = location.pathname;
 
         setTimeout(() => {
           navigate('/empty');
@@ -112,13 +112,13 @@ const PropertiesRow = (props: Props) => {
         props.property?.map((param, index) => {
           return (
             <tr key={param.ID}>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 rounded-l">
                 {index + 1}
               </td>
               <td className="px-4">
                 {param.Name}
               </td>
-              <td className="relative">
+              <td className="relative rounded-r">
                 <div className="space-x-2 mx-4 float-right">
                   <button className="bg-sky-200/80 p-2 rounded-full hover:bg-sky-300/80" onClick={() => toggleShowEdit(index)}>
                     <img src={editicon} alt='edit' className='w-3 ' draggable='false' />
@@ -135,7 +135,7 @@ const PropertiesRow = (props: Props) => {
                       <div className="absolute top-0 right-0 p-3 cursor-pointer" onClick={() => { toggleShowEdit(index) }}>
                         <img src={closeicon} alt="" />
                       </div>
-                      <form className="space-y-5" onSubmit={() => {handleSubmit(props.type, param.ID, name, description)}}>
+                      <form className="space-y-5" onSubmit={() => { handleSubmit(props.type, param.ID, name, description) }}>
                         <h2 className="text-xl font-semibold">Editar propriedade</h2>
                         <ProductInput
                           label={"Editar (" + props.name + ")"}
