@@ -44,7 +44,6 @@ const ProductAddModal = (props: Props) => {
             <span>
               Selecione a quantidade disponível para cada um
             </span>
-            <span></span>
           </h3>
 
           <button className='cursor-pointer rounded hover:bg-red-400 group' onClick={props.close}>
