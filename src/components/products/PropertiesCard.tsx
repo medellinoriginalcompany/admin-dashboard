@@ -5,7 +5,9 @@ import ProductInput from "../form/ProductInput"
 import { useNavigate } from "react-router-dom"
 import { useApi } from "../../hooks/useApi"
 
-import closeicon from "/icons/close-circle.svg"
+import externalicon from '/icons/external.svg';
+import exclamationicon from '/icons/exclamation.svg';
+import closeicon from '/icons/add.svg';
 
 type Props = {
   title: string,
@@ -23,7 +25,7 @@ const PropertiesCard = (props: Props) => {
   const [confirmationMessage, setConfirmationMessage] = useState<string>('');
 
   const [showAddProperty, setShowAddProperty] = useState<boolean>(false);
-  const handleClick = () => {
+  const close = () => {
     setShowAddProperty(!showAddProperty);
   }
   const navigate = useNavigate();
@@ -68,35 +70,36 @@ const PropertiesCard = (props: Props) => {
 
   return (
     <>
-      <div className="flex justify-between h-96">
-        <div className="bg-white/60 rounded py-7 px-10 space-y-5 overflow-y-scroll card w-full">
-          <div className="flex justify-between sticky top-0 bg-[#F3F6FB]/90 px-3 py-1 rounded-lg z-20">
+      <div className="flex justify-between h-96 shadow-sm">
+        <div className="bg-neutral-50 border border-neutral-300 rounded pt-3 px-10 overflow-y-scroll card w-full">
+          <div className="flex items-center justify-between sticky top-0 bg-neutral-100 border border-neutral-300 px-3 py-1 rounded-md z-20">
             <h3 className="font-semibold text-neutral-700">
               {props.title}
             </h3>
 
-            <button onClick={handleClick} className="w-fit flex items-center space-x-2 px-3 rounded hover:bg-accent/20">
-              <span>
+            <button onClick={close} type="button"
+              className="bg-neutral-200 border border-neutral-300 flex items-center justify-between gap-2 w-52 -mr-2 py-1 rounded font-medium text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
+              <span className="mx-auto">
                 Adicionar {props.title.toLowerCase()}
               </span>
-              <img src="/icons/arrow-right-1.svg" alt="arrow-right" className="w-4" draggable='false' />
+              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-10 mr-3 w-4 -scale-x-100 duration-75" />
             </button>
           </div>
 
           <div>
-            <table className="w-full">
-              <thead className="text-left bg-accent shadow-lg shadow-accent/10 text-white rounded-lg">
+            <table className="w-full border-separate border-spacing-y-2">
+              <thead className="text-left bg-accent text-white sticky top-12 z-10">
                 <tr>
-                  <th className="pl-4 px-10  font-medium py-1 rounded-l-lg">
+                  <th className="pl-4 px-10 font-medium py-1 rounded-l">
                     #
                   </th>
                   <th className="px-4 font-medium">
-                    {props.title}
+                    Nome
                   </th>
-                  <th className="rounded-r-lg"></th>
+                  <th className="rounded-r"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="[&>*:nth-child(even)]:bg-neutral-100">
                 <PropertiesRow loading={props.loading} property={props.property} type={props.title.toLowerCase()} name={props.title} />
               </tbody>
             </table>
@@ -106,16 +109,27 @@ const PropertiesCard = (props: Props) => {
       </div>
       {
         showAddProperty && (
-          <div className="absolute top-0 left-0 w-full bg-neutral-800/20 z-50">
-            <div className="flex flex-col justify-center h-screen mx-auto max-w-xl">
-              <div className="bg-white p-10 rounded relative">
-                <div className="absolute top-0 right-0 p-3 cursor-pointer" onClick={handleClick}>
-                  <img src={closeicon} alt="" />
+          <div className="absolute top-0 left-0 w-full bg-neutral-800/10 z-50">
+            <div className="flex flex-col justify-center h-screen mx-auto w-fit">
+              <div className="bg-white rounded border border-neutral-300 px-12 py-9 w-[800px] h-[400px] relative shadow-sm">
+                <div className='flex items-center justify-between'>
+                  <h3 className="font-medium flex items-center">
+                    <img src={exclamationicon} alt="" className="w-7" />
+                    <span>
+                      Insira o nome da nova propriedade
+                    </span>
+                  </h3>
+
+                  <button className='cursor-pointer rounded hover:bg-red-400 group' onClick={close}>
+                    <img src={closeicon} alt="" className='rotate-45 group-hover:brightness-[6]' />
+                  </button>
                 </div>
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                  <h2 className="text-xl font-semibold">Cadastrar propriedade</h2>
+                <h4 className='px-7 mb-6 font-medium text-sm text-neutral-500'>
+                  VOCÊ ESTÁ ADICIONANDO <span className="font-bold text-red-400">{props.title.toUpperCase()}</span>!
+                </h4>
+                <form className="space-y-4 px-7" onSubmit={handleSubmit}>
                   <ProductInput
-                    label={"Adicionar novo (" + props.title + ")"}
+                    label={"Nome"}
                     name={props.title.toLowerCase()}
                     type="text"
                     value={name}
@@ -134,10 +148,13 @@ const PropertiesCard = (props: Props) => {
                     placeholder="Digite a descrição da propriedade"
                   />
 
-                  <div className="flex justify-end">
-                    <button type="submit" disabled={!name}
-                      className="bg-accent text-primary rounded-lg w-fit px-8 py-2 font-semibold flex items-center shadow-lg hover:bg-neutral-900">
-                      Cadastrar
+                  <div className="flex items-center justify-end absolute right-0 bottom-0 p-4">
+                    <button className="mx-5 my-2" type="button" onClick={close}>
+                      Cancelar
+                    </button>
+                    <button disabled={!name}
+                      className="rounded px-5 py-1.5 text-white bg-accent disabled:bg-neutral-100 border disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed">
+                      Salvar
                     </button>
                   </div>
                 </form>
