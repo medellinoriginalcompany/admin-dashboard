@@ -6,10 +6,9 @@ import { useState } from "react";
 
 import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
-import Confirmation from "../Confirmation";
 import tickicon from '/icons/check.svg';
 import closeicon from '/icons/close-circle-red.svg';
-import { useApi } from "../../hooks/useApi";
+import ProductDeleteModal from "../ProductDeleteModal";
 
 type Props = {
   product: Product,
@@ -18,28 +17,18 @@ type Props = {
 
 const ProductCard = (props: Props) => {
 
-  const api = useApi();
+  const [showImage, setShowImage] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modal, setModal] = useState<any>(null);
 
-  const [showImage, setShowImage] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const openDeleteModal = (id: number, name: string) => {
+    setModal(<ProductDeleteModal id={id} name={name} close={closeDeleteModal} />)
+    setShowModal(true);
+  }
 
-  const handleDelete = async (id: number, name: string) => {
-    if (window.confirm(`Tem certeza que deseja excluir "${name}"?`)) {
-      const response = await api.deleteProduct(id);
-      if (response) {
-        setConfirmationMessage(response.message);
-        setShowConfirmation(true);
-        setTimeout(() => {
-          setShowConfirmation(false);
-        }, 5000);
-
-      } else {
-        console.log("Ocorreu um erro ao excluir o produto");
-        setConfirmationMessage("Ocorreu um erro ao excluir o produto");
-        setShowConfirmation(true);
-      }
-    }
+  const closeDeleteModal = () => {
+    setModal(null);
+    setShowModal(false);
   }
 
   return (
@@ -95,31 +84,22 @@ const ProductCard = (props: Props) => {
                 <img src={editicon} alt='edit' className='min-w-[16px] w-4 dark:brightness-0' draggable='false' />
               </div>
             </Link>
-            <div onClick={async () => { await handleDelete(props.product.ID, props.product.Name); }} className="bg-red-100 p-3 rounded-full cursor-pointer hover:bg-red-200 dark:bg-red-500 dark:hover:bg-red-400">
+            <button onClick={() => openDeleteModal(props.product.ID, props.product.Name)} className="bg-red-100 p-3 rounded-full cursor-pointer hover:bg-red-200 dark:bg-red-500 dark:hover:bg-red-400">
               <img src={deleteicon} alt='delete' className='min-w-[16px] w-4 dark:brightness-0' draggable='false' />
-            </div>
+            </button>
           </div>
         </div>
       </li>
-      {
-        showImage && (
-          <div className='fixed -top-1 left-0 w-full h-full bg-neutral-800/20 z-50' onClick={() => setShowImage(false)}>
-            <div className='flex flex-col justify-center h-full'>
-              <div className="max-w-4xl mx-auto">
-                <AdvancedImage cldImg={props.imageURL} alt="" />
-              </div>
+      {showImage && (
+        <div className='fixed -top-1 left-0 w-full h-full bg-neutral-800/20 z-50' onClick={() => setShowImage(false)}>
+          <div className='flex flex-col justify-center h-full'>
+            <div className="max-w-4xl mx-auto">
+              <AdvancedImage cldImg={props.imageURL} alt="" />
             </div>
           </div>
-        )
-      }
-      <>
-        {
-          showConfirmation && (
-            <Confirmation content={confirmationMessage} />
-          )
-        }
-
-      </>
+        </div>
+      )}
+      {showModal && modal}
     </>
 
   )
