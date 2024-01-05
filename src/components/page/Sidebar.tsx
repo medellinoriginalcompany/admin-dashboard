@@ -6,6 +6,8 @@ import { AuthContext } from '../../contexts/AuthContext'
 import logo from '/images/medellin-black.png'
 import usericon from '/images/user_icon.jpg';
 import moreicon from '/icons/more.svg';
+import sunicon from '/icons/sun-1.svg';
+import moonicon from '/icons/moon.svg';
 import notificationicon from '/icons/notification.svg';
 
 const Sidebar = () => {
@@ -17,6 +19,19 @@ const Sidebar = () => {
   const handleLogout = () => {
     if (window.confirm('Deseja realmente sair?')) {
       auth.logout();
+    }
+  }
+
+  const changeTheme = () => {
+    const html = document.documentElement;
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'dark') {
+      localStorage.setItem('theme', 'light');
+      html.classList.remove('dark');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      html.classList.add('dark');
     }
   }
 
@@ -94,9 +109,13 @@ const Sidebar = () => {
 
         {profileOptions && (
           <div className='absolute bottom-32 right-2 py-3 px-3 ml-12 space-y-3 rounded bg-neutral-50 border border-neutral-300 shadow-sm z-20'>
+            <button onClick={changeTheme}
+              className='w-fit px-8 py-1.5 rounded bg-neutral-100 border border-neutral-300 hover:bg-neutral-200'>
+              <img src={moonicon} alt="" className='w-4 left-0 dark:hidden' />
+              <img src={sunicon} alt="" className='w-4 left-0 hidden dark:block' />
+            </button>
             <button
               className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-neutral-100 border border-neutral-300 hover:bg-neutral-200'>
-
               <span className='font-semibold text-sm text-neutral-700'>
                 Alterar foto de perfil
               </span>
@@ -104,7 +123,6 @@ const Sidebar = () => {
 
             <button onClick={handleLogout}
               className='flex items-center justify-center w-full space-x-2 px-8 py-1.5 rounded bg-red-50 hover:bg-red-100'>
-
               <span className='font-semibold text-sm text-red-500'>
                 Sair da conta
               </span>
