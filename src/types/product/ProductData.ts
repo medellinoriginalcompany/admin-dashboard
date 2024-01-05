@@ -4,7 +4,6 @@ interface ProductData {
   description: string,
   price: string,
   discountPercentage: string,
-  stock: string,
   active: boolean,
   manufacturer: string,
   print: string,
