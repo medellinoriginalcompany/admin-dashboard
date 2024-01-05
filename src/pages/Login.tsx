@@ -6,6 +6,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import logo from '/images/medellin-black.png';
 import erricon from '/icons/danger-red-outline.svg';
 import Input from '../components/auth/Input';
+import { Credentials } from '../types/Credentials';
 
 const Login = () => {
   document.title = 'Login | ' + import.meta.env.VITE_APP_TITLE;
@@ -24,15 +25,15 @@ const Login = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    // Try Catch para tratar erros de autenticação
     try {
-      const response = await auth.login(email, password);
-      // Caso o login seja bem sucedido, redireciona para a dashboard
+      const credentials: Credentials = { email, password };
+      const response = await auth.login(credentials);
+
       if (response) {
         navigate('/dashboard');
       }
     } catch (error: any) {
-      // Caso seja network error (erro de conexão), exibe mensagem de erro
+      
       if (error.message === 'Network Error') {
         setErrMsg('Erro de conexão. Tente novamente mais tarde.');
         return;
