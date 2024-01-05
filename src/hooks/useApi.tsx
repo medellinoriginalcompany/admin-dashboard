@@ -1,6 +1,7 @@
 import axios from "axios";
 import ProductData from "../types/product/ProductData";
 import ProductRelation from "../types/product/ProductRelation";
+import { Credentials } from "../types/Credentials";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // URL API
@@ -9,17 +10,12 @@ const api = axios.create({
 
 export const useApi = () => ({
   validateToken: async () => {
-    const response = await api.post('/admin/validar');
-
-    if (response.data.user) {
-      return response.data;
-    } else {
-      console.log('Token inválido');
-    }
+    const response = await api.get('/admin/validar');
+    return response.data
   },
 
-  login: async (email: string, password: string) => {
-    const response = await api.post('/admin/login', { email, password });
+  login: async (credentials: Credentials) => {
+    const response = await api.post('/admin/login', { credentials });
     return response.data;
   },
 
@@ -27,7 +23,7 @@ export const useApi = () => ({
     const response = await api.post('/admin/logout');
     return response.data;
   },
-  
+
   getProduct: async (id: string) => {
     const response = await api.get(`/admin/produto/${id}`);
     return response.data;
@@ -76,7 +72,7 @@ export const useApi = () => ({
     return response.data;
   },
 
-  editProperty: async (type:string, id: number, name: string, description: string) => {
+  editProperty: async (type: string, id: number, name: string, description: string) => {
     const response = await api.post(`/admin/produtos/editar-propriedade/${type}/${id}`, { name, description });
     return response.data;
   },
