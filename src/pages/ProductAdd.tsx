@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ProductInput from "../components/form/ProductInput"
-import React, { ChangeEvent, useState, useEffect } from "react"
+import { ChangeEvent, useState, useEffect, FormEvent } from "react"
 import { useApi } from "../hooks/useApi";
 import { motion } from "framer-motion";
 import { ProductProperty } from "../types/product/Property";
@@ -37,7 +37,8 @@ const ProductAdd = () => {
   const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: number }>({});
 
   const [errMsg, setErrMsg] = useState<string>('');
-  const [successMsg, setSuccessMsg] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [boxColor, setBoxColor] = useState<string>('blue');
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [modalComponent, setModalComponent] = useState<any>(null);
@@ -55,7 +56,8 @@ const ProductAdd = () => {
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
   const navigate = useNavigate();
-  async function handleSubmit(e: React.SyntheticEvent) {
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const productData: ProductData = {
@@ -84,18 +86,19 @@ const ProductAdd = () => {
         return;
       }
       setErrMsg('');
-      setSuccessMsg('Criando produto na base de dados...');
+      setMessage('Criando produto na base de dados...');
       const response = await api.addProduct(productData);
 
       if (response) {
         setTimeout(async () => {
-          setSuccessMsg('Produto criado com sucesso! Enviando imagens...');
+          setMessage('Produto criado com sucesso! Enviando imagens...');
 
           const upload = await api.uploadImage(file, fileName);
 
           if (upload) {
             setTimeout(() => {
-              setSuccessMsg('Imagens enviadas com sucesso! Redirecionando...');
+              setBoxColor('green');
+              setMessage('Tudo certo! Redirecionando...');
               setTimeout(() => {
                 navigate('/produtos');
               }, 1300);
@@ -105,7 +108,12 @@ const ProductAdd = () => {
       }
 
     } catch (error: any) {
-      setTimeout(() => { setSuccessMsg(''); setErrMsg(error.response.data.message + ': ' + error.response.data.error) }, 1000); // Limpa a mensagem de sucesso
+      if (error.message === 'Network Error') {
+        setMessage('');
+        setErrMsg('Erro de conexão. Tente novamente mais tarde.');
+        return;
+      }
+      setTimeout(() => { setMessage(''); setErrMsg(error.response.data.message + ': ' + error.response.data.error) }, 1000); // Limpa a mensagem de sucesso
 
       console.log(error.response.data.body)
     }
@@ -201,55 +209,24 @@ const ProductAdd = () => {
 
   useEffect(() => { // Limpar mensagens de erro e sucesso
     setErrMsg('');
-    setSuccessMsg('');
+    setMessage('');
   }, [name, description, price, discountPercentage, type, category, active])
 
   return (
     <DefaultPage>
       <div className="w-full">
-        <button onClick={() => navigate(-1)} className="w-fit flex items-center gap-2 cursor-pointer px-3 py-0.5 rounded-md hover:bg-neutral-200">
-          <img src={arrowicon} className="w-4" alt='Voltar' />
-          <span>Voltar</span>
+        <button onClick={() => navigate(-1)} className="w-fit flex items-center gap-2 cursor-pointer px-3 py-0.5 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800">
+          <img src={arrowicon} className="w-4 dark:brightness-[6]" alt='Voltar' />
+          <span className="dark:text-neutral-300">Voltar</span>
         </button>
         <div className="m-2">
-          <h2 className="text-xl font-semibold text-neutral-600">
+          <h2 className="text-xl font-semibold text-neutral-600 dark:text-neutral-300">
             Cadastrar produto
           </h2>
         </div>
       </div>
       <form onSubmit={handleSubmit} className="flex space-x-3">
-        <div className="w-full bg-neutral-50 -my-4 px-5 py-5 rounded-lg">
-          {errMsg ?
-            <motion.div className='absolute bottom-0 max-w-6xl w-full flex justify-between items-center bg-red-300/30 p-3 rounded-lg border border-red-400 mb-3 font-semibold text-red-500'
-              initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-              transition={{
-                duration: 1,
-                type: 'spring',
-              }}>
-              <p>
-                {errMsg}
-              </p>
-
-              <img src={erricon} alt="" />
-            </motion.div>
-            : ''}
-          {successMsg ?
-            <motion.div className='absolute bottom-0 max-w-6xl w-full flex gap-3 justify-between items-center bg-green-100 px-3 py-2 rounded border border-green-400 mb-10 font-semibold text-green-500'
-              initial={{ maxHeight: '0%', opacity: 0, translateY: 50 }}
-              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
-              transition={{
-                duration: 1,
-                type: 'spring',
-              }}
-            >
-              <p>
-                {successMsg}
-              </p>
-              <div className="w-4 h-4 rounded-full border-2 border-green-500 border-t-transparent animate-spin"></div>
-            </motion.div>
-            : ''}
-
+        <div className="w-full bg-neutral-50 -my-4 px-5 py-5 rounded-lg dark:bg-neutral-900">
           <div className="flex flex-col-reverse 2xl:flex-row 2xl:space-x-5">
             <div className="flex items-center space-x-5 2xl:flex-col 2xl:space-x-0">
               <label htmlFor="banner" className="cursor-pointer w-fit flex">
@@ -534,6 +511,36 @@ const ProductAdd = () => {
               Cadastrar produto
             </button>
           </div>
+          {errMsg &&
+            <motion.div className='flex justify-between items-center gap-3 bg-red-100 p-3 rounded-md font-semibold text-red-500 break-all'
+              initial={{ maxHeight: '0%', opacity: 0, translateY: -50 }}
+              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+              transition={{
+                duration: 1,
+                type: 'spring',
+              }}>
+              <p>
+                {errMsg}
+              </p>
+
+              <img src={erricon} alt="" className="w-5" />
+            </motion.div>
+          }
+          {message &&
+            <motion.div className={'flex justify-between items-center gap-3 bg-' + boxColor + '-100 p-3 rounded-md font-semibold text-' + boxColor + '-500 break-all'}
+              initial={{ maxHeight: '0%', opacity: 0, translateY: -50 }}
+              animate={{ maxHeight: '100%', opacity: 1, translateY: 0 }}
+              transition={{
+                duration: 1,
+                type: 'spring',
+              }}
+            >
+              <p>
+                {message}
+              </p>
+              <div className={'w-3 h-3 rounded-full border-2 border-' + boxColor + '-500 border-t-transparent animate-spin'}></div>
+            </motion.div>
+          }
         </div>
       </form>
 
