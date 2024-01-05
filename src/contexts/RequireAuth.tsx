@@ -10,19 +10,10 @@ type RequireAuthProps = {
 export const RequireAuth = ({ children }: RequireAuthProps) => {
   const auth = useContext(AuthContext);
 
-  if(auth.loading) return <Loading />;
-
-  // Se a autenticação não foi validada, mostrar tela de loading
-  if (!auth.authValidated) {
-    return (
-      <Loading />
-    );
-  }
-
-  // Se o usuário não estiver logado, redireciona para a página de login
-  if (!auth.user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
+  if (auth.loading) return <Loading />;
+  
+  if (auth.user) return children;
+  
+  // Se não estiver logado, redireciona para a página de login
+  if (!auth.user || !auth.authValidated) return <Navigate to="/login" replace />;
 }

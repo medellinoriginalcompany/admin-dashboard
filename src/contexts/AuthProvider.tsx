@@ -1,4 +1,5 @@
 import { useApi } from "../hooks/useApi";
+import { Credentials } from "../types/Credentials";
 import { User } from "../types/User";
 import { AuthContext } from "./AuthContext"
 import React, { useState, useEffect } from 'react';
@@ -12,41 +13,38 @@ export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
 
   useEffect(() => {
     const validateToken = async () => {
-      const response = await api.validateToken();
+      try {
+        const response = await api.validateToken();
 
-      if (response) {
-        setTimeout(() => {
+        if (response) {
           setUser(response.user);
           setAuthValidated(true);
-          setLoading(false);
-        }, 900);
-      }
+        }
+        setLoading(false);
 
+      } catch (error) {
+        setLoading(false);
+      }
     };
+
     validateToken();
   }, []);
 
-  const login = async (email: string, password: string) => {
-
-    const data = await api.login(email, password);
-    if (data.user && data.token) {
-      setUser(data.user);
-
-      return true
+  const login = async (credentials: Credentials) => {
+    const response = await api.login(credentials);
+    if (response.user && response.token) {
+      setUser(response.user);
+      setLoading(false);
     };
 
-    return false
+    return false;
   };
 
   const logout = async () => {
     const response = await api.logout();
-    if (response) {
-      setUser(null);
+    if (response) setUser(null);
 
-      return true;
-    }
-
-    return false;
+    return response;
   };
 
 
