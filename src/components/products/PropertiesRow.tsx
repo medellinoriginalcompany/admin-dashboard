@@ -112,24 +112,24 @@ const PropertiesRow = (props: Props) => {
         props.property?.map((param, index) => {
           return (
             <tr key={param.ID}>
-              <td className="px-4 py-3 rounded-l">
+              <td className="px-4 py-3 rounded-l dark:text-neutral-300">
                 {index + 1}
               </td>
-              <td className="px-4">
+              <td className="px-4 dark:text-neutral-300">
                 {param.Name}
               </td>
               <td className="relative rounded-r">
                 <div className="space-x-2 mx-4 float-right">
-                  <button className="bg-sky-200/80 p-2 rounded-full hover:bg-sky-300/80" onClick={() => toggleShowEdit(index)}>
-                    <img src={editicon} alt='edit' className='w-3 ' draggable='false' />
+                  <button className="bg-sky-100 p-2 rounded-full hover:bg-sky-200 dark:bg-sky-400 dark:hover:bg-sky-300" onClick={() => toggleShowEdit(index)}>
+                    <img src={editicon} alt='edit' className='w-3 dark:brightness-0' draggable='false' />
                   </button>
-                  <button onClick={() => handleDelete(param.ID, param.Name)} className="bg-red-200/80 p-2 rounded-full hover:bg-red-300/80">
-                    <img src={deleteicon} alt='delete' className='w-3' draggable='false' />
+                  <button onClick={() => handleDelete(param.ID, param.Name)} className="bg-red-100 p-2 rounded-full hover:bg-red-200 dark:bg-red-500 dark:hover:bg-red-400">
+                    <img src={deleteicon} alt='delete' className='w-3 dark:brightness-0' draggable='false' />
                   </button>
                 </div>
               </td>
               {showEditArray[index] ? (
-                <td className="absolute top-0 left-0 w-full bg-neutral-800/20 z-50">
+                <td className="absolute top-0 left-0 w-full bg-neutral-800 bg-opacity-20 z-50 dark:bg-opacity-20">
                   <div className="flex flex-col justify-center h-screen mx-auto max-w-xl">
                     <div className="bg-white p-10 rounded relative">
                       <div className="absolute top-0 right-0 p-3 cursor-pointer" onClick={() => { toggleShowEdit(index) }}>
@@ -164,26 +164,22 @@ const PropertiesRow = (props: Props) => {
                           </button>
                         </div>
                       </form>
-                      {
-                        confirmationMessage && (
-                          <div className='absolute bottom-0 left-0 m-5'>
-                            <div className="bg-green-100 text-green-500 px-3 py-2 rounded-lg shadow-lg">
-                              <span>{confirmationMessage}</span>
-                            </div>
+                      {confirmationMessage && (
+                        <div className='absolute bottom-0 left-0 m-5'>
+                          <div className="bg-green-100 text-green-500 px-3 py-2 rounded-lg shadow-lg">
+                            <span>{confirmationMessage}</span>
                           </div>
-                        )
-                      }
-                      {
-                        errMessage && (
-                          <div className='absolute bottom-0 left-0 m-5'>
-                            <div className="bg-red-100 text-red-500 px-3 py-2 rounded-lg shadow-lg shadow-red-500/20">
-                              <p>
-                                Erro: <span>{errMessage}</span>
-                              </p>
-                            </div>
+                        </div>
+                      )}
+                      {errMessage && (
+                        <div className='absolute bottom-0 left-0 m-5'>
+                          <div className="bg-red-100 text-red-500 px-3 py-2 rounded-lg shadow-lg shadow-red-500/20">
+                            <p>
+                              Erro: <span>{errMessage}</span>
+                            </p>
                           </div>
-                        )
-                      }
+                        </div>
+                      )}
                     </div>
                   </div>
                 </td>

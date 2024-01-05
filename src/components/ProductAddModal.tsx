@@ -34,14 +34,14 @@ const ProductAddModal = (props: Props) => {
 
   return (
     <div
-      className="fixed -top-8 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-10 z-50"
+      className="fixed -top-8 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-10 z-50 dark:bg-opacity-50"
       onClick={handleClickOutside}
     >
-      <div className="bg-white rounded border border-neutral-300 px-2 py-5 w-[800px] h-[600px] overflow-y-auto shadow-sm relative">
+      <div className="bg-white rounded border border-neutral-300 px-2 py-5 w-[800px] h-[600px] overflow-y-auto shadow-sm relative dark:bg-neutral-915 dark:border-neutral-800">
         <div className='flex items-center justify-between'>
           <h3 className="font-medium flex items-center">
             <img src={exclamationicon} alt="" className="w-7" />
-            <span>
+            <span className='dark:text-neutral-500'>
               Selecione a quantidade disponível para cada um
             </span>
           </h3>
@@ -50,18 +50,19 @@ const ProductAddModal = (props: Props) => {
             <img src={closeicon} alt="" className='rotate-45 group-hover:brightness-[6]' />
           </button>
         </div>
-        <h4 className='px-7 text-sm text-neutral-500'>
+        <h4 className='px-7 text-sm text-neutral-500 dark:text-neutral-600'>
           Caso não haja estoque disponível para algum tipo, deixe o campo em branco.
         </h4>
 
         <div className="flex flex-col gap-2 mt-5 pl-2">
           {props.type.map((type) => (
-            <label htmlFor={type.Name} key={type.ID} className="flex items-center justify-between rounded pl-5 pr-2 py-1 border border-neutral-200 hover:bg-neutral-50">
-              <span className="font-medium">
+            <label htmlFor={type.ID.toString()} key={type.ID} className="flex items-center justify-between rounded pl-5 pr-2 py-1 border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900">
+              <span className="font-medium dark:text-neutral-400">
                 {type.Name}
               </span>
               <input type="number" name={type.Name} id={type.ID.toString()} placeholder='0' min={0} style={{ MozAppearance: 'textfield' }}
-                className="w-20 p-2 bg-neutral-50 border border-neutral-200 rounded-md font-normal text-center focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                className="w-20 p-2 bg-neutral-50 border border-neutral-200 rounded-md font-normal text-center
+                focus:ring-2 focus:ring-blue-300 focus:outline-none dark:bg-neutral-900 dark:border-neutral-800 dark:ring-blue-400 dark:text-neutral-300 dark:placeholder-neutral-700"
                 onChange={handleInputChange}
               />
             </label>
@@ -69,10 +70,10 @@ const ProductAddModal = (props: Props) => {
         </div>
 
         <div className="flex items-center justify-end absolute right-0 bottom-0 p-4">
-          <button className="mx-5 my-2" onClick={props.close}>
+          <button className="mx-5 my-2 dark:text-neutral-500" onClick={props.close}>
             Cancelar
           </button>
-          <button className="rounded px-5 py-1.5 text-white bg-accent" onClick={handleSave}>
+          <button className="rounded px-5 py-1.5 text-white bg-accent dark:bg-accent-dark dark:text-neutral-800" onClick={handleSave}>
             Salvar
           </button>
         </div>

@@ -16,11 +16,12 @@ const Input = (props: Props) => {
 
   return (
     <div className="flex relative flex-col group">
-      <label htmlFor={props.name} className='text-sm font-medium mb-1'>
+      <label htmlFor={props.name} className='text-sm font-medium mb-1 dark:text-neutral-500'>
         {props.label}
       </label>
       <input
-        className="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none block w-full p-2.5"
+        className="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none block w-full p-2.5
+        dark:bg-neutral-900 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-200 dark:placeholder-neutral-700"
         type={props.type}
         id={props.name}
         name={props.name}

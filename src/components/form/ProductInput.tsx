@@ -15,17 +15,17 @@ type Props = {
 const ProductInput = (props: Props) => {
   return (
     <div className="flex relative flex-col group">
-      <label htmlFor={props.name} className='block text-sm font-medium'>
-        {props.label} {props.label === 'Preço com desconto' && (<span className='text-xs text-gray-500'>(opcional)</span>)}
+      <label htmlFor={props.name} className='block text-sm font-medium dark:text-neutral-500'>
+        {props.label}
       </label>
       <div className={props.name === 'price' ? 'relative' : ''}>
         {props.name === 'price' && (
-          <label htmlFor='price' className="absolute top-1/2 left-2 transform -translate-y-1/2 text-sm text-green-600 bg-green-200 px-1 rounded">
+          <label htmlFor='price' className="absolute top-1/2 left-2 transform -translate-y-1/2 text-sm text-green-500 bg-green-100 px-1 rounded dark:bg-green-500 dark:text-neutral-800">
             R$
           </label>
         )}
         <input
-          className={"w-full p-2 bg-white border border-neutral-300 rounded font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none placeholder:text-neutral-400"
+          className={"w-full p-2 bg-white border border-neutral-300 rounded font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none placeholder:text-neutral-400 dark:bg-neutral-915 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-300 dark:placeholder-neutral-700"
             + (props.name === 'price' ? ' pl-9' : '')}
           type={props.type}
           id={props.name}

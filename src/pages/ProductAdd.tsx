@@ -27,7 +27,6 @@ const ProductAdd = () => {
   const [description, setDescription] = useState<string>('');
   const [sku, setSku] = useState<string>('');
   const [price, setPrice] = useState<any>('');
-  const [stock, setStock] = useState<string>('');
   const [active, setActive] = useState<boolean>(true);
   const [discountPercentage, setDiscountPercentage] = useState<any>('');
   const [type, setType] = useState<string>('');
@@ -66,7 +65,6 @@ const ProductAdd = () => {
       description,
       price,
       discountPercentage,
-      stock,
       active,
       manufacturer,
       print,
@@ -231,11 +229,10 @@ const ProductAdd = () => {
             <div className="flex items-center space-x-5 2xl:flex-col 2xl:space-x-0">
               <label htmlFor="banner" className="cursor-pointer w-fit flex">
                 <div className="w-80 min-h-[450px] relative">
-                  <div className="flex items-center justify-center mx-auto h-full bg-white border border-neutral-300 rounded-md">
-                    <img src={imgicon} className="brightness-[3]" alt='' />
+                  <div className="flex items-center justify-center mx-auto h-full rounded-md bg-white border border-neutral-300 hover:bg-neutral-100 dark:bg-neutral-915 dark:border-neutral-800 dark:hover:bg-neutral-925">
+                    <img src={imgicon} className="brightness-[3] dark:brightness-100" alt='Selecionar banner' />
                   </div>
                   <img src={imagePreview} alt="" className="absolute top-0 w-fit min-h-full object-cover z-20 rounded-md" />
-
                 </div>
               </label>
 
@@ -245,8 +242,8 @@ const ProductAdd = () => {
                 ))}
                 {
                   imagesPreview.length < 4 && (
-                    <label htmlFor="images" className="flex items-center justify-center mx-auto h-20 w-20 rounded-md bg-white border border-neutral-300 hover:bg-neutral-200 cursor-pointer">
-                      <img src={imgicon} className="brightness-[3] w-5" alt='' />
+                    <label htmlFor="images" className="flex items-center justify-center mx-auto h-20 w-20 rounded-md cursor-pointer bg-white border border-neutral-300 hover:bg-neutral-100 dark:bg-neutral-915 dark:border-neutral-800 dark:hover:bg-neutral-925">
+                      <img src={imgicon} className="brightness-[3] w-5 dark:brightness-100" alt='' />
                     </label>
                   )
                 }
@@ -268,9 +265,9 @@ const ProductAdd = () => {
                 autoFocus
               />
 
-              <ReactQuill theme="snow" value={description} onChange={setDescription} className="bg-white/70 pb-10 h-80" placeholder="Digite a descrição" />
+              <ReactQuill theme="snow" value={description} onChange={setDescription} className="bg-white pb-10 h-80 dark:bg-neutral-915" placeholder="Digite a descrição" />
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-end space-x-3">
                 <ProductInput
                   label="Preço"
                   name="price"
@@ -285,11 +282,11 @@ const ProductAdd = () => {
                   placeholder="1099.99"
                 />
                 <div className="flex flex-col">
-                  <label htmlFor='discount' className='text-sm font-medium'>
+                  <label htmlFor='discount' className='text-sm font-medium dark:text-neutral-500'>
                     Desconto <span className='text-xs text-gray-500' title="Insira a porcentagem de desconto. O desconto é opcional">(?)</span>
                   </label>
                   <input
-                    className="w-fit p-2 bg-white border border-neutral-300 rounded font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none placeholder:text-neutral-400"
+                    className="w-fit p-2 bg-white border border-neutral-300 rounded font-normal focus:ring-2 focus:ring-blue-300 focus:outline-none placeholder:text-neutral-400 dark:bg-neutral-915 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-200 dark:placeholder-neutral-700"
                     type='number'
                     id='discount'
                     name='discount'
@@ -301,21 +298,9 @@ const ProductAdd = () => {
                     placeholder='1-100%'
                   />
                 </div>
-                <span className="bg-green-200 text-green-600 px-3 mt-5 rounded">
+                <span className="text-green-600">
                   R$ {discountPercentage ? (price - (price * discountPercentage / 100)).toFixed(2) : 0}
                 </span>
-              </div>
-
-              <div className="w-fit">
-                <ProductInput
-                  label='Quantidade em estoque'
-                  name='stock'
-                  type='number'
-                  value={stock}
-                  handleOnChange={(e: ChangeEvent<HTMLInputElement>) => { setStock(e.target.value) }}
-                  maxLength={3}
-                  placeholder='0'
-                />
               </div>
 
               <div className="flex items-center space-x-2">
@@ -325,19 +310,17 @@ const ProductAdd = () => {
                   Produto ativo?
                 </label>
               </div>
-
             </div>
-
           </div>
 
         </div>
-        <div className="-my-4 space-y-4 max-w-md rounded-lg bg-neutral-50 p-4">
+        <div className="-my-4 space-y-4 max-w-md rounded-lg bg-neutral-50 p-4 dark:bg-neutral-900">
           <div>
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
+              <h4 className="text-sm font-medium py-1 mr-2 min-w-max dark:text-neutral-500">
                 Fabricante
               </h4>
-              <hr className="w-full border-neutral-300" />
+              <hr className="w-full border-neutral-300 dark:border-neutral-800" />
             </div>
             <ProductInput
               name="manufacturer"
@@ -351,10 +334,10 @@ const ProductAdd = () => {
           </div>
           <div>
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
+              <h4 className="text-sm font-medium py-1 mr-2 min-w-max dark:text-neutral-500">
                 Estampa
               </h4>
-              <hr className="w-full border-neutral-300" />
+              <hr className="w-full border-neutral-300 dark:border-neutral-800" />
             </div>
             <ProductInput
               name="print"
@@ -369,145 +352,146 @@ const ProductAdd = () => {
           <div>
             <label htmlFor="category" className="font-medium">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-sm">
+                <span className="text-sm dark:text-neutral-500">
                   Categoria
                 </span>
-                <hr className="w-full border-neutral-300" />
+                <hr className="w-full border-neutral-300 dark:border-neutral-800" />
               </div>
               <select
                 id="category"
                 name="category"
                 value={category}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setCategory(e.target.value) }}
-                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none
+                dark:bg-neutral-915 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-300 dark:placeholder-neutral-700">
                 <option value="" disabled>
                   Selecionar categoria
                 </option>
 
-                {
-                  loading ?
-                    <option value="Carregando...">Carregando...</option>
-                    :
+                {loading ?
+                  <option value="Carregando...">Carregando...</option>
+                  :
 
-                    // Mapear as categorias e retornar um <option> para cada uma
-                    categories?.map((category) => {
-                      return (
-                        <option key={category.ID} value={category.Name}>
-                          {category.Name}
-                        </option>
-                      )
-                    })
-                }
+                  // Mapear as categorias e retornar um <option> para cada uma
+                  categories?.map((category) => {
+                    return (
+                      <option key={category.ID} value={category.Name}>
+                        {category.Name}
+                      </option>
+                    )
+                  })}
               </select>
             </label>
           </div>
           <div>
             <label htmlFor="type" className="font-medium">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-sm">
+                <span className="text-sm dark:text-neutral-500">
                   Tipo
                 </span>
-                <hr className="w-full border-neutral-300" />
+                <hr className="w-full border-neutral-300 dark:border-neutral-800" />
               </div>
               <select
                 id="type"
                 name="type"
                 value={type}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setType(e.target.value) }}
-                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none
+                dark:bg-neutral-915 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-300 dark:placeholder-neutral-700">
                 <option value="" disabled>
-                  Selecionar tipos
+                  Selecionar tipo
                 </option>
 
-                {
-                  loading ?
-                    <option value="Carregando...">Carregando...</option>
-                    :
+                {loading ?
+                  <option value="Carregando...">Carregando...</option>
+                  :
 
-                    // Mapear as categorias e retornar um <option> para cada uma
-                    types?.map((type) => {
-                      return (
-                        <option key={type.ID} value={type.Name}>
-                          {type.Name}
-                        </option>
-                      )
-                    })
-                }
+                  // Mapear as categorias e retornar um <option> para cada uma
+                  types?.map((type) => {
+                    return (
+                      <option key={type.ID} value={type.Name}>
+                        {type.Name}
+                      </option>
+                    )
+                  })}
               </select>
             </label>
           </div>
           <div>
             <label htmlFor="color" className="font-medium">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-sm">
+                <span className="text-sm dark:text-neutral-500">
                   Cor
                 </span>
-                <hr className="w-full border-neutral-300" />
+                <hr className="w-full border-neutral-300 dark:border-neutral-800" />
               </div>
               <select
                 id="color"
                 name="type"
                 value={color}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => { setColor(e.target.value) }}
-                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                className="w-full p-2 rounded-md font-normal cursor-pointer bg-white border border-neutral-300 focus:ring-2 focus:ring-blue-300 focus:outline-none
+                dark:bg-neutral-915 dark:border-neutral-800 dark:focus:ring-blue-400 dark:text-neutral-300 dark:placeholder-neutral-700">
                 <option value="" disabled>
                   Selecionar cor
                 </option>
 
-                {
-                  loading ?
-                    <option value="Carregando...">Carregando...</option>
-                    :
-                    // Mapear as categorias e retornar um <option> para cada uma
-                    colors?.map((color) => {
-                      return (
-                        <option key={color.ID} value={color.Name}>
-                          {color.Name}
-                        </option>
-                      )
-                    })
-                }
+                {loading ?
+                  <option value="Carregando...">Carregando...</option>
+                  :
+                  // Mapear as categorias e retornar um <option> para cada uma
+                  colors?.map((color) => {
+                    return (
+                      <option key={color.ID} value={color.Name}>
+                        {color.Name}
+                      </option>
+                    )
+                  })}
               </select>
             </label>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium py-1 mr-2 min-w-max">
+              <h4 className="text-sm font-medium py-1 mr-2 min-w-max dark:text-neutral-500">
                 Tamanho
               </h4>
-              <hr className="w-full border-neutral-300" />
+              <hr className="w-full border-neutral-300 dark:border-neutral-800" />
             </div>
-            <h4 className="text-sm text-neutral-500">
+            <h4 className="text-sm text-neutral-500 dark:text-neutral-600">
               Tamanhos disponíveis
             </h4>
             <div className="flex flex-wrap justify-between gap-1">
               {sizes.map((size) => (
-                <button key={size.ID} value={size.ID} disabled
-                  className={hasValueForSize(size.ID.toString()) ?
-                    "bg-accent text-white font-medium my-0.5 h-8 w-12 rounded border border-neutral-800 hover:bg-accent hover:text-white" :
-                    "bg-neutral-50 text-neutral-400 font-medium my-0.5 h-8 w-12 rounded border border-neutral-300"}>
+                <button key={size.ID} value={size.ID} disabled={!hasValueForSize(size.ID.toString())} type="button"
+                  className="font-medium my-0.5 h-8 w-12 rounded border bg-accent text-white border-neutral-800 dark:bg-accent-dark dark:text-neutral-800
+                  disabled:border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-400 disabled:cursor-not-allowed
+                  disabled:dark:bg-neutral-915 disabled:dark:border-neutral-800 disabled:dark:text-neutral-700">
                   {size.Name}
                 </button>
               ))}
             </div>
 
             <button onClick={() => openModal(sizes, handleSaveModal)} type="button"
-              className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800">
+              className="bg-neutral-100 border border-neutral-300 flex items-center justify-between gap-2 w-full py-1.5 rounded font-medium mt-5 mb-2 text-sm group duration-75 hover:bg-accent hover:text-white hover:border-neutral-800
+              dark:bg-neutral-915 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-accent-dark dark:hover:text-neutral-800">
               <span className="mx-auto">
                 Clique aqui para selecionar os tamanhos
               </span>
-              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" />
+              <img src={externalicon} alt="" className="group-hover:brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75 dark:group-hover:brightness-0" />
             </button>
           </div>
           <div className="flex items-center justify-between gap-5">
-            <span className="min-w-[205px] text-sm bg-neutral-50 border border-neutral-200 text-neutral-500 px-3 py-0.5 font-semibold rounded">
+            <span className="min-w-[205px] text-sm bg-neutral-50 border border-neutral-200 text-neutral-500 px-3 py-0.5 font-semibold rounded dark:bg-neutral-915 dark:border-neutral-800 dark:text-neutral-700">
               {sku}
             </span>
 
             <button type="submit"
-              disabled={!(imagePreview && name && description && price && stock && type && category && manufacturer && color)}
-              className="bg-accent text-primary rounded-md w-fit px-8 py-2 font-semibold flex items-center min-w-max disabled:bg-neutral-100 border disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed">
+              disabled={!(imagePreview && name && description && price && type && category && manufacturer && color)}
+              className="bg-accent text-primary rounded-md w-fit px-8 py-2 font-semibold flex items-center min-w-max
+              dark:bg-accent-dark
+              disabled:bg-neutral-100 border disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed
+              dark:disabled:bg-neutral-915 dark:disabled:border-neutral-800 dark:disabled:text-neutral-700">
               Cadastrar produto
             </button>
           </div>

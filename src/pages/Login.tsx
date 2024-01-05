@@ -3,7 +3,8 @@ import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts/AuthContext';
 
-import logo from '/images/medellin-black.png';
+import logoblack from '/images/medellin-black.png';
+import logowhite from '/images/medellin-white.png';
 import erricon from '/icons/danger-red-outline.svg';
 import Input from '../components/auth/Input';
 import { Credentials } from '../types/Credentials';
@@ -45,20 +46,22 @@ const Login = () => {
 
   return (
     <section>
-      <div className='fixed top-0 left-0 w-full h-screen flex items-center justify-center md:h-screen lg:py-0'>
-        <div className='w-full border border-neutral-300 rounded-md shadow-sm md:mt-0 sm:max-w-md xl:p-0'>
+      <div className='fixed top-0 left-0 w-full h-screen flex items-center justify-center md:h-screen lg:py-0 dark:bg-neutral-950'>
+        <div className='w-full border border-neutral-300 rounded-md shadow-sm md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-925 dark:border-neutral-800'>
           <div className='px-8 py-10 space-y-8'>
             <div className='flex items-center space-x-4'>
-              <div className='border-r border-neutral-300 h-20 pr-5'>
-                <img className='w-24 py-3' src={logo} alt='logo' draggable='false' />
+              <div className='border-r border-neutral-300 h-20 pr-5 dark:border-neutral-800'>
+                <img className='w-24 py-3 dark:hidden' src={logoblack} alt='logo' draggable='false' />
+                <img className='w-24 py-3 hidden dark:block' src={logowhite} alt='logo' draggable='false' />
+
               </div>
 
               <div>
                 <h2 className='flex flex-col'>
-                  <span className='text-2xl font-semibold text-neutral-800'>
+                  <span className='text-2xl font-semibold text-neutral-800 dark:text-neutral-400'>
                     Bem vindo!
                   </span>
-                  <span className='text-sm font-semibold text-neutral-600'>
+                  <span className='text-sm font-semibold text-neutral-600 dark:text-neutral-600'>
                     Faça login para continuar
                   </span>
                 </h2>
@@ -115,7 +118,9 @@ const Login = () => {
                   </motion.div>
                 )}
                 <button type='submit' disabled={!(email && password)}
-                  className='w-full text-white bg-accent font-medium rounded-lg text-sm px-5 py-2.5 text-center border hover:bg-neutral-700 focus:ring-2 focus:outline-none focus:ring-blue-400 disabled:bg-neutral-100 disabled:text-neutral-800 disabled:border-neutral-300 disabled:cursor-not-allowed'>
+                  className='w-full text-white bg-accent font-medium rounded-lg text-sm px-5 py-2.5 text-center border
+                  hover:bg-neutral-700 focus:ring-2 focus:outline-none focus:ring-blue-400 disabled:bg-neutral-100 disabled:text-neutral-800 disabled:border-neutral-300 disabled:cursor-not-allowed
+                  dark:bg-accent-dark dark:text-neutral-800 dark:hover:bg-neutral-200 dark:disabled:bg-neutral-925 dark:disabled:border-neutral-800 dark:disabled:text-neutral-700'>
                   Entrar
                 </button>
               </div>
