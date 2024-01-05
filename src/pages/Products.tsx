@@ -6,7 +6,6 @@ import { Cloudinary } from "@cloudinary/url-gen/index";
 import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 
 import externalicon from '/icons/external.svg';
-import Confirmation from "../components/Confirmation";
 import erricon from '/icons/danger-red-outline.svg';
 import DefaultPage from "../components/page/DefaultPage";
 import ProductCard from "../components/products/ProductCard";
@@ -16,13 +15,12 @@ import ProductCard from "../components/products/ProductCard";
 const Products = () => {
   document.title = 'Produtos | ' + import.meta.env.VITE_APP_TITLE;
 
-
   const [products, setProducts] = useState<Product[]>([]);
   const [itemsLoaded, setItemsLoaded] = useState(30);
+
   const [loading, setLoading] = useState(true);
-  const [retryTimeout, setRetryTimeout] = useState<NodeJS.Timeout | null>(null); // Estado para controlar o intervalo de retentativas de reqTimeout
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [errMsg, setErrMsg] = useState('');
+
   const api = useApi();
 
   const getProducts = async () => {
@@ -36,15 +34,11 @@ const Products = () => {
         }, 700);
       }
     } catch (error: any) {
-      console.log(error);
-      console.log("Ocorreu um erro ao obter os produtos");
-      setConfirmationMessage("Ocorreu um erro ao obter os produtos");
-      setShowConfirmation(true);
-      // Tente novamente em 5 segundos
-      const timeout = setTimeout(() => {
-        getProducts();
-      }, 5000);
-      setRetryTimeout(timeout);
+      if (error.message === 'Network Error') {
+        setErrMsg('Erro de conexão. Tente novamente mais tarde.');
+        return;
+      }
+      setErrMsg(error.response.data.message);
     }
   }
 
@@ -52,16 +46,8 @@ const Products = () => {
     setItemsLoaded(itemsLoaded + 15);
   };
 
-
   useEffect(() => {
     getProducts();
-
-    // Certifique-se de limpar o intervalo ao desmontar o componente
-    return () => {
-      if (retryTimeout) {
-        clearTimeout(retryTimeout);
-      }
-    };
   }, []);
 
   return (
@@ -74,13 +60,21 @@ const Products = () => {
             </span>
             <img src={externalicon} alt="" className="brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75 dark:brightness-0 hover:" draggable='false' />
           </Link>
+          {errMsg &&
+            <div className='sticky top-10 right-0 my-3'>
+              <div className="bg-red-100 text-red-500 font-medium px-4 py-2 rounded-lg w-full flex items-center gap-3">
+                <span>{errMsg}</span>
+                <img src={erricon} alt="" className="w-4" />
+              </div>
+            </div>
+          }
           <span className="text-neutral-500 px-2 py-1 float-right">
             {products.length} produtos
           </span>
         </div>
 
         <div className="w-full">
-          <div className="bg-accent text-sm text-white font-semibold rounded-lg grid grid-cols-7 py-3 mb-3 dark:bg-neutral-900 dark:text-neutral-500">
+          <div className="bg-accent text-sm text-white font-semibold rounded-lg grid grid-cols-7 py-3 mb-3 sticky top-3 z-40 shadow dark:bg-neutral-900 dark:text-neutral-500">
             <h3 className="px-5 col-span-2">
               Informações do Produto
             </h3>
@@ -136,20 +130,13 @@ const Products = () => {
 
         </div>
         {products.length <= itemsLoaded ? null : (
-          <div className="w-fit">
-            <button className="bg-accent text-white font-medium px-5 py-2 rounded-lg" onClick={loadMoreItems}>
+          <div className="w-fit mx-auto my-5">
+            <button className="bg-accent text-white border font-medium px-5 py-2 rounded dark:bg-neutral-900 dark:border-neutral-800" onClick={loadMoreItems}>
               Carregar Mais
             </button>
           </div>
         )}
       </div>
-      <>
-        {
-          showConfirmation && (
-            <Confirmation content={confirmationMessage} />
-          )
-        }
-      </>
     </DefaultPage>
   )
 }
