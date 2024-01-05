@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Tailwind CSS Variables */
+  --rounded: 0.25rem; /* 4px */
+  --rounded-xl: 0.75rem; /* 12px */
+  --rounded-full: 9999px;
+  
+  --neutral-950: #0a0a0a;
+  --neutral-915: #151515;
+  --neutral-900: #171717;
+  --neutral-800: #262626;
+  --neutral-600: #525252;
+  --neutral-500: #737373;
+  --neutral-300: #d4d4d4;
+  --neutral-200: #e5e5e5;
+  --neutral-050: #fafafa;
+}
+
 /* width */
 .card::-webkit-scrollbar {
   width: 15px;
@@ -13,26 +30,26 @@
 }
 
 html.dark .card::-webkit-scrollbar-track {
-  background: #171717;
-  border-radius: 12px;
+  background: var(--neutral-900);
+  border-radius: var(--rounded-xl);
 }
 
 /* Handle */
 .card::-webkit-scrollbar-thumb {
-  background-color: #737373;
-  border-radius: 9999px;
-  border: 4px solid white;
+  background-color: var(--neutral-500);
+  border-radius: var(--rounded-full);
+  border: var(--rounded) solid white;
 }
 
 html.dark .card::-webkit-scrollbar-thumb {
-  background-color: #262626;
-  border-radius: 9999px;
-  border: 4px solid #171717;
+  background-color: var(--neutral-800);
+  border-radius: var(--rounded-full);
+  border: var(--rounded) solid var(--neutral-900);
 }
 
 /* Handle on hover */
 .card::-webkit-scrollbar-thumb:hover {
-  background: #fafafa;
+  background: var(--neutral-050);
 }
 
 /* width */
@@ -42,24 +59,24 @@ html.dark .card::-webkit-scrollbar-thumb {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e5e5e5;
+  background: var(--neutral-200);
 }
 
 html.dark ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--neutral-950);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: #737373;
-  border-radius: 9999px;
-  border: 4px solid #e5e5e5;
+  background-color: var(--neutral-500);
+  border-radius: var(--rounded-full);
+  border: var(--rounded) solid var(--neutral-200);
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background-color: #262626;
-  border-radius: 9999px;
-  border: 4px solid #0a0a0a;
+  background-color: var(--neutral-800);
+  border-radius: var(--rounded-full);
+  border: var(--rounded) solid var(--neutral-950);
 }
 
 /* Handle on hover */
@@ -67,9 +84,85 @@ html.dark ::-webkit-scrollbar-thumb {
   background: #22201ece;
 }
 
-/* Remover setas do input number */
+/* Remove arrows from input number */
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/** Quill Editor DARK MODE */
+/* Border colors */
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing,
+html.dark .ql-container.ql-snow,
+html.dark .ql-toolbar.ql-snow,
+html.dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options,
+html.dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing input {
+  border-color: var(--neutral-800);
+}
+
+/* Text format and button colors */
+html.dark .ql-snow .ql-stroke,
+html.dark .ql-header.ql-picker,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing::before {
+  stroke: var(--neutral-500);
+  color: var(--neutral-500);
+}
+
+/* Text format dropdown background color and removed shadow */
+html.dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing input {
+  background-color: var(--neutral-915);
+  box-shadow: none;
+}
+
+/* Adjust borders */
+/* Toolbar */
+.ql-toolbar.ql-snow {
+  border-top-left-radius: var(--rounded);
+  border-top-right-radius: var(--rounded);
+}
+
+/* Text editor */
+.ql-container.ql-snow {
+  border-bottom-left-radius: var(--rounded);
+  border-bottom-right-radius: var(--rounded);
+}
+
+/* Anchor input */
+.ql-container.ql-snow .ql-tooltip.ql-editing,
+.ql-container.ql-snow .ql-tooltip.ql-editing input {
+  border-radius: var(--rounded);
+}
+
+/* Remove anchor input outline and change border color */
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing input:focus {
+  outline: none;
+  border-color: #06c;
+}
+
+/* Change text editor font */
+.ql-container {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+}
+
+/* Text editor color */
+html.dark .ql-container.ql-snow,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing input {
+  color: var(--neutral-300);
+}
+
+/* Placeholder text color and removed italic */
+.ql-editor.ql-blank::before,
+html.dark .ql-container.ql-snow .ql-tooltip.ql-editing input::placeholder {
+  color: var(--neutral-600);
+  font-style: normal;
+}
+
+/* Anchor modal over everything else */
+.ql-container.ql-snow .ql-tooltip.ql-editing {
+  z-index: 50;
 }
