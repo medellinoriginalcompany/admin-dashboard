@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext, ChangeEvent } from 'react';
+import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -22,7 +22,7 @@ const Login = () => {
   }, [email, password]);
 
   const navigate = useNavigate();
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -33,7 +33,7 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (error: any) {
-      
+
       if (error.message === 'Network Error') {
         setErrMsg('Erro de conexão. Tente novamente mais tarde.');
         return;
