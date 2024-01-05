@@ -68,20 +68,19 @@ const Products = () => {
     <DefaultPage >
       <div>
         <div className="flex items-center justify-between mb-5">
-          <Link to='cadastrar' className="bg-accent text-primary rounded-md w-fit py-2 font-semibold flex justify-between items-center">
-            <span className="mx-10">
+          <Link to='cadastrar' className="bg-accent rounded-md w-fit py-2 font-semibold flex justify-between items-center hover:bg-neutral-700 dark:bg-accent-dark dark:hover:bg-neutral-200">
+            <span className="mx-10 text-neutral-50 dark:text-neutral-950">
               Cadastrar Produto
             </span>
-            <img src={externalicon} alt="" className="brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75" draggable='false' />
+            <img src={externalicon} alt="" className="brightness-[6] -ml-5 mr-3 w-4 -scale-x-100 duration-75 dark:brightness-0 hover:" draggable='false' />
           </Link>
           <span className="text-neutral-500 px-2 py-1 float-right">
             {products.length} produtos
           </span>
-
         </div>
 
         <div className="w-full">
-          <div className="bg-accent text-sm text-white font-semibold rounded-lg grid grid-cols-7 py-3 mb-3">
+          <div className="bg-accent text-sm text-white font-semibold rounded-lg grid grid-cols-7 py-3 mb-3 dark:bg-neutral-900 dark:text-neutral-500">
             <h3 className="px-5 col-span-2">
               Informações do Produto
             </h3>

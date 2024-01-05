@@ -7,7 +7,7 @@ import { useState } from "react";
 import editicon from '/icons/edit.svg';
 import deleteicon from '/icons/trash.svg';
 import Confirmation from "../Confirmation";
-import tickicon from '/icons/tick-circle-green.svg';
+import tickicon from '/icons/check.svg';
 import closeicon from '/icons/close-circle-red.svg';
 import { useApi } from "../../hooks/useApi";
 
@@ -24,7 +24,6 @@ const ProductCard = (props: Props) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-
   const handleDelete = async (id: number, name: string) => {
     if (window.confirm(`Tem certeza que deseja excluir "${name}"?`)) {
       const response = await api.deleteProduct(id);
@@ -40,16 +39,12 @@ const ProductCard = (props: Props) => {
         setConfirmationMessage("Ocorreu um erro ao excluir o produto");
         setShowConfirmation(true);
       }
-
-
     }
   }
 
-
-
   return (
     <>
-      <li className="grid grid-cols-7 items-center border rounded-md bg-neutral-50 hover:bg-neutral-100">
+      <li className="grid grid-cols-7 items-center border rounded-md bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-925 dark:border-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-915">
         <div className='px-4 flex gap-4 col-span-2 rounded-l-md p-2'>
           <div className="cursor-pointer hover:brightness-[.7]" onClick={() => setShowImage(true)}>
             <AdvancedImage cldImg={props.imageURL} className="w-14 min-w-[56px] h-14 rounded-lg object-cover" alt={'Imagem ' + props.product.Name} loading="lazy" />
@@ -58,7 +53,7 @@ const ProductCard = (props: Props) => {
             <span className='font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis md:w-44 2xl:w-80' title={props.product.Name}>
               {props.product.Name}
             </span>
-            <span className="text-xs font-semibold text-neutral-400">
+            <span className="text-xs font-semibold text-neutral-400 dark:text-neutral-500">
               R$ {props.product.Price}
             </span>
           </Link>
@@ -87,21 +82,21 @@ const ProductCard = (props: Props) => {
         <div className='p-2'>
           <div className="py-4 px-4">
             {props.product.Active ? (
-              <img src={tickicon} alt="" className="bg-green-100 rounded-full" draggable="false" />
+              <img src={tickicon} alt="" className="w-6" draggable="false" />
             ) : (
-              <img src={closeicon} alt="" className="bg-red-100 rounded-full" draggable="false" />
+              <img src={closeicon} alt="" className="-m-1 w-8" draggable="false" />
             )}
           </div>
         </div>
         <div className=" relative  rounded-r">
           <div className="py-4 space-x-4 w-fit mx-auto flex">
-            <Link to={'/produtos/editar?id=' + props.product.ID} className="bg-sky-200/80 p-3 rounded-full hover:bg-sky-300/80">
+            <Link to={'/produtos/editar?id=' + props.product.ID} className="bg-sky-100 p-3 rounded-full hover:bg-sky-200 dark:bg-sky-400 dark:hover:bg-sky-300">
               <div>
-                <img src={editicon} alt='edit' className='min-w-[16px] w-4' draggable='false' />
+                <img src={editicon} alt='edit' className='min-w-[16px] w-4 dark:brightness-0' draggable='false' />
               </div>
             </Link>
-            <div onClick={async () => { await handleDelete(props.product.ID, props.product.Name); }} className="bg-red-200/80 p-3 rounded-full cursor-pointer hover:bg-red-300/80">
-              <img src={deleteicon} alt='delete' className='min-w-[16px] w-4' draggable='false' />
+            <div onClick={async () => { await handleDelete(props.product.ID, props.product.Name); }} className="bg-red-100 p-3 rounded-full cursor-pointer hover:bg-red-200 dark:bg-red-500 dark:hover:bg-red-400">
+              <img src={deleteicon} alt='delete' className='min-w-[16px] w-4 dark:brightness-0' draggable='false' />
             </div>
           </div>
         </div>

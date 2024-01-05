@@ -10,7 +10,7 @@ const DefaultPage = ({ children }: DefaultPageProps) => {
     <RequireAuth>
       <div className="flex">
         <Sidebar />
-        <div className="py-7 w-full space-y-8 lg:px-5 2xl:px-14 font-source-sans">
+        <div className="py-7 w-full space-y-8 lg:px-5 2xl:px-14 font-source-sans dark:bg-neutral-950">
           {children}
         </div>
       </div>
